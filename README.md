@@ -172,7 +172,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/softdiscover) - info@softdiscover.com
+Laranginha - [@softdiscover](https://twitter.com/softdiscover) - info@softdiscover.com
 
 Project Link: [https://github.com/Softdiscover/softdiscover-db-file-manager](https://github.com/Softdiscover/softdiscover-db-file-manager)
 
