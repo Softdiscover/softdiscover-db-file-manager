@@ -55,7 +55,7 @@
 ### User roles manager
 [![User roles manager][product-screenshot3]](https://softdiscover.com)
 
-File Management made easy. Forget using FTP or cPanel! Use our file manager plugin to take full control of your Wordpress website. Managefy provides you the ability to edit, delete, upload, download, copy and paste files and folders. Also Managefy allows to backup your files and database, and restore them too. 
+Managefy Plugin for wordpress, allow user to access folders and download files. Managefy will help you upload files, create folders, sub folders. You can set the access level of any of the folders or files from your Wordpress site. Also Managefy allows to backup your files and database, and restore them as well.  
 
 Features:
 * Drag and Drop File Management.
