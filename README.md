@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Softdiscover/softdiscover-db-file-manager">
-    <img src="docs/logo.jpg" alt="Logo" width="80" height="80">
+    <img src="_images/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Managefy</h3>
@@ -47,7 +47,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About Managefy
 
 [![File Manager][product-screenshot1]](https://softdiscover.com)
 [![Backup Manager][product-screenshot2]](https://softdiscover.com)
