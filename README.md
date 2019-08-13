@@ -15,7 +15,7 @@
   <h3 align="center">Managefy</h3>
 
   <p align="center">
-    ADVANCED FILE MANAGER FOR WORDPRESS
+    ADVANCED DATABASE , BACKUP AND FILE MANAGER FOR WORDPRESS
     <br />
     <a href="https://github.com/Softdiscover/softdiscover-db-file-manager"><strong>Explore the docs »</strong></a>
     <br />
@@ -75,9 +75,7 @@ Features:
 
 Email-me: info@softdiscover.com
 
-Also, you can use this Project as you wish, be for study, be for make improvements or earn money with it!
-
-It's free!
+Also, you can use this Project as you wish, be for study, be for make improvements! It's free!
 
 ### Built With
 Managefy is built with:
