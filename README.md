@@ -48,9 +48,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About Managefy
-
+### File manager
 [![File Manager][product-screenshot1]](https://softdiscover.com)
+### Backup manager
 [![Backup Manager][product-screenshot2]](https://softdiscover.com)
+### User roles manager
 [![User roles manager][product-screenshot3]](https://softdiscover.com)
 
 File Management made easy. Forget using FTP or cPanel! Use our file manager plugin to take full control of your Wordpress website. Managefy provides you the ability to edit, delete, upload, download, copy and paste files and folders. Also Managefy allows to backup your files and database, and restore them too. 
@@ -92,43 +94,34 @@ For getting started, you just need to download the software from here, then you 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
+* Mysql 5+
+* php 5.6+
+* Wordpress 5+
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-```sh
-git clone https:://github.com/your_username_/Project-Name.git
-```
-3. Install NPM packages
-```sh
-npm install
-```
-4. Enter your API in `config.js`
-```JS
-const API_KEY = 'ENTER YOUR API';
-```
 
+There are 2 ways to install. Please follow the steps below: 
 
+= Via FTP =
+1. After your download unzip `softdiscover-db-file-manager` from your download .zip
+2. Open your FTP client
+3. Upload the `softdiscover-db-file-manager` folder to /wp-content/plugins/ directory on your hosting server
+4. Activate the softdiscover-db-file-manager plugin through the 'Plugins' menu in WordPress
+5. Configure the plugin by going to the `Managefy` menu that appears in your admin menu
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
+= Via backend of WordPress =
+1. After your download, log into backend of your WordPress 
+2. Go to Plugins > Add New
+3. Click the Upload link
+4. Click Browse and locate the file that you downloaded and click *Install Now*
+5. After Wordpress has finished unpacking the file click on *Activate Plugin*
+6. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled Managefy
+ 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Softdiscover/softdiscover-db-file-manager/issues) for a list of proposed features (and known issues).
 
 
 <!-- DEVELOPERS -->
@@ -179,25 +172,20 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@your_twitter](https://twitter.com/softdiscover) - info@softdiscover.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/Softdiscover/softdiscover-db-file-manager](https://github.com/Softdiscover/softdiscover-db-file-manager)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
 * [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
 * [Font Awesome](https://fontawesome.com)
+* [El Finder](https://github.com/Studio-42/elFinder)
+* [CodeMirror](https://github.com/codemirror/CodeMirror)
 
 
 
