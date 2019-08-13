@@ -143,7 +143,7 @@ $this->define('FLMBKP_DEBUG', 1);
 ```
  
 then using powershell, go to next directory:
-*(wordpress dir root)/wp-content/plugins/softdiscover-db-file-manager/
+* (wordpress dir root)/wp-content/plugins/softdiscover-db-file-manager/
 
 and install npm packages
 ```sh
