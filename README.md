@@ -1,2 +1,2 @@
 # softdiscover-db-file-manager
-software that allows you to manage your files and database in Wordpress ...
+software that allows you to manage your files and database in Wordpress ... hola
