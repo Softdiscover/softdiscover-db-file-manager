@@ -1,4 +1,4 @@
-=== Backup, File Manager, and Code Editor by Managefy ===
+=== File Manager, Code Editor, and Backup by Managefy ===
 Contributors: softdiscover
 Donate link: https://www.softdiscover.com
 License: GPLv3
@@ -9,7 +9,7 @@ Tested up to: 5.2.1
 Requires PHP: 5.6
 Stable tag: 1.2
 
-Manage your wordpress files , backup, user roles and database easily
+Manage your folder and files , backup, user roles and database easily
 
 == Description ==
 
