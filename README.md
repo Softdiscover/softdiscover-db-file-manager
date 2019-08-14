@@ -300,7 +300,7 @@ Project Link: [https://github.com/Softdiscover/softdiscover-db-file-manager](htt
 [license-url]: https://github.com/Softdiscover/softdiscover-db-file-manager/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/softdiscover
-[product-screenshot]: _images/managefy-editing-files2.gif
+[product-screenshot]: _images/managefy-editcode-max.gif
 [product-screenshot1]: _images/screenshot1.png
 [product-screenshot2]: _images/screenshot2.png
 [product-screenshot3]: _images/screenshot3.png
