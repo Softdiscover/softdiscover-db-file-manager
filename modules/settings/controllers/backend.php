@@ -30,7 +30,7 @@ if (class_exists('flmbkp_settings_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_settings_Controller_Back extends Uiform_Base_Module {
+class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
 
     const VERSION = '1.2';
 
@@ -56,13 +56,13 @@ class flmbkp_settings_Controller_Back extends Uiform_Base_Module {
      */
     public function ajax_save_options() {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_data = (isset($_POST['options'])) ? urldecode(Uiform_Form_Helper::sanitizeInput_html($_POST['options'])) : '';
+        $tmp_data = (isset($_POST['options'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['options'])) : '';
         $data = array();
         if(!empty($tmp_data))
         foreach (explode('&', $tmp_data) as $value) {
             $value1 = explode('=', $value);
             if(!empty($value1[1]))
-            $data[] = Uiform_Form_Helper::sanitizeInput($value1[1]);
+            $data[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
         }
 
         update_site_option('dbflm_fmanager_roles', $data);
@@ -84,7 +84,7 @@ class flmbkp_settings_Controller_Back extends Uiform_Base_Module {
 
     public function list_options() {
         $data = array();
-        $roles = Uiform_Form_Helper::get_user_roles();
+        $roles = Flmbkp_Form_Helper::get_user_roles();
         $wp_default_role = get_option('default_role');
 
         $saved_roles = get_option('dbflm_fmanager_roles', array());

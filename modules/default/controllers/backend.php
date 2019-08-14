@@ -29,7 +29,7 @@ if (class_exists('flmbkp_Default_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_Default_Controller_Back extends Uiform_Base_Module {
+class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
 
     const VERSION = '1.2';
 

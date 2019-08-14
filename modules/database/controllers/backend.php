@@ -29,7 +29,7 @@ if (class_exists('flmbkp_database_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_database_Controller_Back extends Uiform_Base_Module {
+class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
 
     const VERSION = '1.2';
 
@@ -70,9 +70,9 @@ class flmbkp_database_Controller_Back extends Uiform_Base_Module {
                $table_inner['number']=number_format_i18n($no);
                $table_inner['table']=$tablestatus->Name;
                $table_inner['Records']=number_format_i18n($tablestatus->Rows);
-               $table_inner['datausage']=Uiform_Form_Helper::format_size($tablestatus->Data_length);
-               $table_inner['indexusage']=Uiform_Form_Helper::format_size($tablestatus->Index_length);
-               $table_inner['overhead']=Uiform_Form_Helper::format_size($tablestatus->Data_free);
+               $table_inner['datausage']=Flmbkp_Form_Helper::format_size($tablestatus->Data_length);
+               $table_inner['indexusage']=Flmbkp_Form_Helper::format_size($tablestatus->Index_length);
+               $table_inner['overhead']=Flmbkp_Form_Helper::format_size($tablestatus->Data_free);
                 
                 $row_usage += $tablestatus->Rows;
                 $data_usage += $tablestatus->Data_length;
@@ -84,9 +84,9 @@ class flmbkp_database_Controller_Back extends Uiform_Base_Module {
         $table_inner['number']=__('Total', 'FRocket_admin');
                $table_inner['table']=sprintf(_n('%s Table', '%s Tables', $no, 'FRocket_admin'), number_format_i18n($no));
                $table_inner['Records']=sprintf(_n('%s Record', '%s Records', $row_usage, 'FRocket_admin'), number_format_i18n($row_usage));
-               $table_inner['datausage']=Uiform_Form_Helper::format_size($data_usage);
-               $table_inner['indexusage']=Uiform_Form_Helper::format_size($index_usage);
-               $table_inner['overhead']=Uiform_Form_Helper::format_size($overhead_usage);
+               $table_inner['datausage']=Flmbkp_Form_Helper::format_size($data_usage);
+               $table_inner['indexusage']=Flmbkp_Form_Helper::format_size($index_usage);
+               $table_inner['overhead']=Flmbkp_Form_Helper::format_size($overhead_usage);
         $tables[]=$table_inner;
         $data['tables']=$tables;
         

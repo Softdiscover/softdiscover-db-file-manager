@@ -30,7 +30,7 @@ if (class_exists('flmbkp_Filemanager_Controller_Backup')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
+class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module {
     private $tables = array();
     private $suffix = 'd-M-Y_H-i-s';
     const VERSION = '1.2';
@@ -98,19 +98,19 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
         
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
         
-        $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Uiform_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
+        $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
         
         
         $log = array();
         $files_dest = WP_CONTENT_DIR.'/';
         if(intval($bkp_id)>0){
             $rec_info=$this->model_backup->getinfo($bkp_id);
-            $backup_directory = Uiform_Form_Helper::backup_directory();
+            $backup_directory = Flmbkp_Form_Helper::backup_directory();
             
             //database
             if(file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_database.zip')) {              
                     require_once( FLMBKP_DIR . '/classes/uiform_backup.php');
-                    $objClass = new Uiform_Backup($rec_info->bkp_slug,$backup_directory);
+                    $objClass = new Flmbkp_Backup($rec_info->bkp_slug,$backup_directory);
                     if($objClass->restoreBackup($log)) {
                       $log[] = __('<b>Database backup restored.</b>', 'FRocket_admin');
                     } else {
@@ -120,7 +120,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
             
             // Plugins
             if(file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip')) {
-                $tmp_res = Uiform_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip',$files_dest);
+                $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip',$files_dest);
                 if($tmp_res) {
                   $log[] = __('<b>Plugins backup restored.</b>', 'FRocket_admin');  
                 } else {
@@ -130,7 +130,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
             
             // themes
             if(file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip')) {
-                $tmp_res = Uiform_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip',$files_dest);
+                $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip',$files_dest);
                 if($tmp_res) {
                   $log[] = __('<b>Themes backup restored.</b>', 'FRocket_admin'); 
                 } else {
@@ -140,7 +140,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
 
             // Uploads
             if(file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_uploads.zip')) {
-                $tmp_res = Uiform_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_uploads.zip',$files_dest);
+                $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_uploads.zip',$files_dest);
                 if($tmp_res) {
                   $log[] = __('<b>Uploads backup restored.</b>', 'FRocket_admin');
                 } else {
@@ -150,7 +150,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
             
             // Others
             if(file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip')) {
-                $tmp_res = Uiform_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip',$files_dest);
+                $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip',$files_dest);
                 if($tmp_res) {
                   $log[] = __('<b>Others backup restored.</b>', 'FRocket_admin');
                 } else {
@@ -180,11 +180,11 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
         
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
         
-        $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Uiform_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
+        $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
             
         $rec_info=$this->model_backup->getinfo($bkp_id);
             
-        $backup_directory = Uiform_Form_Helper::backup_directory();
+        $backup_directory = Flmbkp_Form_Helper::backup_directory();
         
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip');
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip');
@@ -203,9 +203,9 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
     public function ajax_downloadfile(){
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
         @set_time_limit(900);
-        $flm_file = (isset($_GET['flm_file'])) ? Uiform_Form_Helper::sanitizeInput_html($_GET['flm_file']) : '';
+        $flm_file = (isset($_GET['flm_file'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_GET['flm_file']) : '';
         
-        $backup_directory=Uiform_Form_Helper::backup_directory();
+        $backup_directory=Flmbkp_Form_Helper::backup_directory();
         $fullpath = $backup_directory.'/'.$flm_file;
         
         header("Content-Length: ".filesize($fullpath));
@@ -223,7 +223,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
     public function list_backups() {
         require_once( FLMBKP_DIR . '/classes/Pagination.php');
         $this->pagination = new CI_Pagination();
-        $offset = (isset($_GET['offset']) && $_GET['offset']) ? Uiform_Form_Helper::sanitizeInput($_GET['offset']) : 0;
+        $offset = (isset($_GET['offset']) && $_GET['offset']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['offset']) : 0;
         //list all forms
         $data = $config = array();
         $config['base_url'] = admin_url() . '?page=flmbkp_file_manager&zgfm_mod=filemanager&zgfm_contr=backup&zgfm_action=list_backups';
@@ -265,12 +265,12 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
     public function ajax_create_records() {
 
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_nexstep = (isset($_POST['nexstep'])) ? urldecode(Uiform_Form_Helper::sanitizeInput_html($_POST['nexstep'])) : '';
-         $tmp_data = (isset($_POST['options'])) ? Uiform_Form_Helper::sanitizeInput_html($_POST['options']) : '';
+        $tmp_nexstep = (isset($_POST['nexstep'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['nexstep'])) : '';
+         $tmp_data = (isset($_POST['options'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['options']) : '';
         $data2 = array();
         foreach (explode('&', $tmp_data) as $value) {
             $value1 = explode('=', $value);
-            $data2[] = Uiform_Form_Helper::sanitizeInput($value1[1]);
+            $data2[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
         }
         
         
@@ -299,7 +299,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
     */
     public function ajax_submit_options_switch() {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_nexstep = (isset($_POST['nexstep'])) ? Uiform_Form_Helper::sanitizeInput_html($_POST['nexstep']) : '';
+        $tmp_nexstep = (isset($_POST['nexstep'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['nexstep']) : '';
             
         switch(strval($tmp_nexstep)){
             case 'plugins':
@@ -364,11 +364,11 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
      * backup database
      */
     public function ajax_submit_backupdb() {
-        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Uiform_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
+        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
         $this->is_initial_run = !empty($_POST['is_initial_run']);
         require_once FLMBKP_DIR . '/modules/filemanager/helpers/iprogress.php';
         
-        $backup_directory = Uiform_Form_Helper::backup_directory();
+        $backup_directory = Flmbkp_Form_Helper::backup_directory();
         
         $this->progress  = new iProgress('zip', 200);
          $this->oFile = ($this->is_initial_run || !$this->progress->getData('oFile')) ? $backup_directory . '/' . $tmp_flmbkp_slug .'_database.zip' : $this->progress->getData('oFile');
@@ -503,10 +503,10 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
 
         try {
         
-        $is_initial_run = (isset($_POST['is_initial_run'])) ? Uiform_Form_Helper::sanitizeInput_html($_POST['is_initial_run']) : 0;
-        $flush_to_disk = (isset($_POST['flush_to_disk'])) ? Uiform_Form_Helper::sanitizeInput_html($_POST['flush_to_disk']) : 50;
-        $max_execution_time = (isset($_POST['max_execution_time'])) ? Uiform_Form_Helper::sanitizeInput_html($_POST['max_execution_time']) : 20;
-        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Uiform_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
+        $is_initial_run = (isset($_POST['is_initial_run'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['is_initial_run']) : 0;
+        $flush_to_disk = (isset($_POST['flush_to_disk'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['flush_to_disk']) : 50;
+        $max_execution_time = (isset($_POST['max_execution_time'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['max_execution_time']) : 20;
+        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
 
         $this->startTime = microtime(true);
             
@@ -573,7 +573,7 @@ class flmbkp_Filemanager_Controller_Backup extends Uiform_Base_Module {
             $this->progress->setMax($this->total_targets);
         }
 
-        $backup_directory = Uiform_Form_Helper::backup_directory();
+        $backup_directory = Flmbkp_Form_Helper::backup_directory();
         
         $this->oFile = ($this->is_initial_run || !$this->progress->getData('oFile')) ? $backup_directory.'/'. $tmp_flmbkp_slug .'_'.$tmp_nexstep. '.zip' : $this->progress->getData('oFile');
         

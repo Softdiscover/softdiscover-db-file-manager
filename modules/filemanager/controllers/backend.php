@@ -29,7 +29,7 @@ if (class_exists('flmbkp_Filemanager_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_Filemanager_Controller_Back extends Uiform_Base_Module {
+class flmbkp_Filemanager_Controller_Back extends Flmbkp_Base_Module {
 
     const VERSION = '1.2';
 
@@ -64,14 +64,14 @@ class flmbkp_Filemanager_Controller_Back extends Uiform_Base_Module {
      public function ajax_header_options() {
          
          check_ajax_referer( 'flmbkp_ajax_nonce', 'flmbkp_security' );
-         $tmp_data = (isset($_POST['options']))?urldecode(Uiform_Form_Helper::sanitizeInput_html($_POST['options'])):'';
+         $tmp_data = (isset($_POST['options']))?urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['options'])):'';
          
          
          $data = array();
         foreach(explode('&',$tmp_data) as $value)
         {
             $value1 = explode('=', $value);
-            $data[$value1[0]] = Uiform_Form_Helper::sanitizeInput($value1[1]);
+            $data[$value1[0]] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
         }
         
         //language

@@ -15,11 +15,11 @@
 if (!defined('ABSPATH')) {
     exit('No direct script access allowed');
 }
-if (class_exists('Uiform_Bootstrap')) {
+if (class_exists('Flmbkp_Bootstrap')) {
     return;
 }
 
-class Uiform_Bootstrap extends Uiform_Base_Module {
+class Flmbkp_Bootstrap extends Flmbkp_Base_Module {
 
     protected $modules;
     protected $addons;
@@ -61,7 +61,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
        
             
         //load admin
-        if (is_admin() && Uiform_Form_Helper::is_flmbkp_page() ) {
+        if (is_admin() && Flmbkp_Form_Helper::is_flmbkp_page() ) {
             
             //add class to body
              add_filter( 'body_class', array(&$this, 'filter_body_class') ); 
@@ -207,11 +207,11 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
     
     private function route_api_handler() {
       
-        $mode=isset($_GET['uifm_mode']) ? Uiform_Form_Helper::sanitizeInput($_GET['uifm_mode']) :'';
+        $mode=isset($_GET['uifm_mode']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_mode']) :'';
         $return='';
         switch ($mode) {
             case 'lmode':
-                $type_mode=isset($_GET['uifm_action']) ? Uiform_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $type_mode=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
                 switch ($type_mode) {
                     case 1:
                         $return='lmode_iframe_handler';
@@ -221,7 +221,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
                 }
                 break;
             case 'pdf':
-                $process=isset($_GET['uifm_action']) ? Uiform_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $process=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
                 switch ($process) {
                     case 'show_record':
                         $return='pdf_show_record';
@@ -231,7 +231,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
                 };
                 break;
             case 'csv':
-                $process=isset($_GET['uifm_action']) ? Uiform_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $process=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
                 switch ($process) {
                     case 'show_allrecords':
                         $return='csv_show_allrecords';
@@ -254,7 +254,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
     
     public function action_csv_show_allrecords() {
        
-       $form_id=isset($_GET['id']) ? Uiform_Form_Helper::sanitizeInput($_GET['id']) :'';
+       $form_id=isset($_GET['id']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['id']) :'';
        
        self::$_modules['formbuilder']['records']->csv_showAllForms($form_id);
        
@@ -263,7 +263,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
     
     
     public function lmode_iframe_handler() {
-        $form_id=isset($_GET['id']) ? Uiform_Form_Helper::sanitizeInput($_GET['id']) :'';
+        $form_id=isset($_GET['id']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['id']) :'';
         //removing actions
         remove_all_actions('wp_footer');
         remove_all_actions('wp_head');
@@ -291,7 +291,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
      
                     
     public function rockfm_lang_dir_filter($lang_dir) {
-        if (is_admin() && Uiform_Form_Helper::is_flmbkp_page()) {
+        if (is_admin() && Flmbkp_Form_Helper::is_flmbkp_page()) {
             $lang_dir = FLMBKP_DIR . '/i18n/languages/backend/';
         } else {
                     
@@ -305,7 +305,7 @@ class Uiform_Bootstrap extends Uiform_Base_Module {
     }
 
     public function rockfm_lang_domain_filter($domain) {
-        if (is_admin() && Uiform_Form_Helper::is_flmbkp_page()) {
+        if (is_admin() && Flmbkp_Form_Helper::is_flmbkp_page()) {
             $domain = 'FRocket_admin';
         } else {
             //load frontend
@@ -500,7 +500,7 @@ JS;
      */
     public function loadMenu() {
         
-        if(!Uiform_Form_Helper::check_User_Access())return;
+        if(!Flmbkp_Form_Helper::check_User_Access())return;
                 
         add_menu_page('Managefy', 'Managefy', "edit_posts", "flmbkp_file_manager", array(&$this, "get_menu"), FLMBKP_URL . "/assets/backend/image/codemirror-icon.png");
                 
@@ -560,7 +560,7 @@ $meta[] = "<a href='https://wordpress.org/support/plugin/softdiscover-db-file-ma
     * Adds styles to admin head to allow for stars animation and coloring
     */
     public function add_star_styles() {
-        if (Uiform_Form_Helper::zigaform_user_is_on_admin_page('plugins.php')) {?>
+        if (Flmbkp_Form_Helper::zigaform_user_is_on_admin_page('plugins.php')) {?>
             <style>
                 .ml-stars{display:inline-block;color:#ffb900;position:relative;top:3px}
                 .ml-stars svg{fill:#ffb900}
@@ -572,7 +572,7 @@ $meta[] = "<a href='https://wordpress.org/support/plugin/softdiscover-db-file-ma
 
     public function route_page() {
            
-        $route = Uiform_Form_Helper::getroute();
+        $route = Flmbkp_Form_Helper::getroute();
         if (!empty($route['module']) && !empty($route['controller']) && !empty($route['action'])) {
             if (method_exists($this->modules[$route['module']][$route['controller']], $route['action'])) {
                // $this->modules[$route['module']][$route['controller']]->$route['action']();
@@ -761,7 +761,7 @@ $meta[] = "<a href='https://wordpress.org/support/plugin/softdiscover-db-file-ma
      */
     public function activate($network_wide = false) {
         require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
-        $installdb = new Uiform_InstallDB();
+        $installdb = new Flmbkp_InstallDB();
         $installdb->install($network_wide);
         return true;
     }

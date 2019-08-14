@@ -30,7 +30,7 @@ if (class_exists('Zgpb_optb_Controller_Backend')) {
  * @version   Release: 1.00
  * @link      https://landera.softdiscover.com
  */
-class Zgpb_Optb_Controller_Backend extends Uiform_Base_Module {
+class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
 
     const VERSION = '0.1';
 

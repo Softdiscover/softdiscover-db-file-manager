@@ -15,11 +15,11 @@
 if (!defined('ABSPATH')) {
     exit('No direct script access allowed');
 }
-if (class_exists('Uiform_Form_Helper')) {
+if (class_exists('Flmbkp_Form_Helper')) {
     return;
 }
 
-class Uiform_Form_Helper {
+class Flmbkp_Form_Helper {
 
      public static function human_filesize($bytes, $decimals = 2) {
         $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
@@ -31,19 +31,19 @@ class Uiform_Form_Helper {
         $return = array();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //post
-            $return['module'] = isset($_POST['flmbkp_mod']) ? Uiform_Form_Helper::sanitizeInput($_POST['flmbkp_mod']) : '';
-            $return['controller'] = isset($_POST['flmbkp_contr']) ? Uiform_Form_Helper::sanitizeInput($_POST['flmbkp_contr']) : '';
-            $return['action'] = isset($_POST['flmbkp_action']) ? Uiform_Form_Helper::sanitizeInput($_POST['flmbkp_action']) : '';
+            $return['module'] = isset($_POST['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_mod']) : '';
+            $return['controller'] = isset($_POST['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_contr']) : '';
+            $return['action'] = isset($_POST['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_action']) : '';
         } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
             //get
-            $return['module'] = isset($_GET['flmbkp_mod']) ? Uiform_Form_Helper::sanitizeInput($_GET['flmbkp_mod']) : '';
-            $return['controller'] = isset($_GET['flmbkp_contr']) ? Uiform_Form_Helper::sanitizeInput($_GET['flmbkp_contr']) : '';
-            $return['action'] = isset($_GET['flmbkp_action']) ? Uiform_Form_Helper::sanitizeInput($_GET['flmbkp_action']) : '';
+            $return['module'] = isset($_GET['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_mod']) : '';
+            $return['controller'] = isset($_GET['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_contr']) : '';
+            $return['action'] = isset($_GET['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_action']) : '';
         } else {
             //request
-            $return['module'] = isset($_REQUEST['flmbkp_mod']) ? Uiform_Form_Helper::sanitizeInput($_REQUEST['flmbkp_mod']) : '';
-            $return['controller'] = isset($_REQUEST['flmbkp_contr']) ? Uiform_Form_Helper::sanitizeInput($_REQUEST['flmbkp_contr']) : '';
-            $return['action'] = isset($_REQUEST['flmbkp_action']) ? Uiform_Form_Helper::sanitizeInput($_REQUEST['flmbkp_action']) : '';
+            $return['module'] = isset($_REQUEST['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_mod']) : '';
+            $return['controller'] = isset($_REQUEST['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_contr']) : '';
+            $return['action'] = isset($_REQUEST['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_action']) : '';
         }
         return $return;
     }
@@ -52,13 +52,13 @@ class Uiform_Form_Helper {
         $var=  strval($var);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //post
-            $value = isset($_POST[$var]) ? Uiform_Form_Helper::sanitizeInput($_POST[$var]) :'';
+            $value = isset($_POST[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_POST[$var]) :'';
         } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
             //get
-            $value = isset($_GET[$var]) ? Uiform_Form_Helper::sanitizeInput($_GET[$var]) :'';
+            $value = isset($_GET[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_GET[$var]) :'';
         } else {
             //request
-            $value = isset($_REQUEST[$var]) ? Uiform_Form_Helper::sanitizeInput($_REQUEST[$var]) :'';
+            $value = isset($_REQUEST[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST[$var]) :'';
         }
         
         return $value;
@@ -71,7 +71,7 @@ class Uiform_Form_Helper {
         }
         foreach ($array as $key => $value) {
             if (is_array($value) || is_object($value)) {
-                Uiform_Form_Helper::array2xml($value, $xml);
+                Flmbkp_Form_Helper::array2xml($value, $xml);
             } else {
                 if (is_numeric($key)) {
                     if (is_string($value)) {
@@ -188,9 +188,9 @@ class Uiform_Form_Helper {
      */
     public static function sanitizeRecursive($data) {
         if (is_array($data)) {
-            return array_map(array('Uiform_Form_Helper', 'sanitizeRecursive'), $data);
+            return array_map(array('Flmbkp_Form_Helper', 'sanitizeRecursive'), $data);
         } else {
-            return Uiform_Form_Helper::sanitizeInput($data);
+            return Flmbkp_Form_Helper::sanitizeInput($data);
         }
     }
     
@@ -203,9 +203,9 @@ class Uiform_Form_Helper {
      */
     public static function sanitizeRecursive_html($data) {
         if (is_array($data)) {
-            return array_map(array('Uiform_Form_Helper', 'sanitizeRecursive_html'), $data);
+            return array_map(array('Flmbkp_Form_Helper', 'sanitizeRecursive_html'), $data);
         } else {
-            return Uiform_Form_Helper::sanitizeInput_html($data);
+            return Flmbkp_Form_Helper::sanitizeInput_html($data);
         }
     }
     
@@ -313,9 +313,9 @@ class Uiform_Form_Helper {
     { 
         $search=array();
         if((isset($_GET['page']))){
-            $search=Uiform_Form_Helper::sanitizeInput($_GET['page']);
+            $search=Flmbkp_Form_Helper::sanitizeInput($_GET['page']);
         } elseif((isset($_POST['page']))){
-            $search=Uiform_Form_Helper::sanitizeInput($_POST['page']);
+            $search=Flmbkp_Form_Helper::sanitizeInput($_POST['page']);
         }
         
         $allow=array('flmbkp_file_manager','flmbkp_page_backups','flmbkp_page_database','flmbkp_page_settings');
@@ -492,16 +492,16 @@ class Uiform_Form_Helper {
         
        public static function json_encode_advanced(array $arr, $sequential_keys = false, $quotes = false, $beautiful_json = false) {
 
-           $output = Uiform_Form_Helper::isAssoc($arr) ? "{" : "[";
+           $output = Flmbkp_Form_Helper::isAssoc($arr) ? "{" : "[";
             $count = 0;
             foreach ($arr as $key => $value) {
 
-                if (Uiform_Form_Helper::isAssoc($arr) || (!Uiform_Form_Helper::isAssoc($arr) && $sequential_keys == true )) {
+                if (Flmbkp_Form_Helper::isAssoc($arr) || (!Flmbkp_Form_Helper::isAssoc($arr) && $sequential_keys == true )) {
                     $output .= ($quotes ? '"' : '') . $key . ($quotes ? '"' : '') . ' : ';
                 }
 
                 if (is_array($value)) {
-                    $output .= Uiform_Form_Helper::json_encode_advanced($value, $sequential_keys, $quotes, $beautiful_json);
+                    $output .= Flmbkp_Form_Helper::json_encode_advanced($value, $sequential_keys, $quotes, $beautiful_json);
                 }
                 else if (is_bool($value)) {
                     $output .= ($value ? 'true' : 'false');
@@ -521,7 +521,7 @@ class Uiform_Form_Helper {
                 }
             }
 
-            $output .= Uiform_Form_Helper::isAssoc($arr) ? "}" : "]";
+            $output .= Flmbkp_Form_Helper::isAssoc($arr) ? "}" : "]";
 
             return $output;
         } 

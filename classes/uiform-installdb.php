@@ -12,9 +12,9 @@
  * @link      https://wordpress-form-builder.zigaform.com/
  */
 if (!defined('ABSPATH')) {exit('No direct script access allowed');}
-if(class_exists('Uiform_InstallDB')){return;}
+if(class_exists('Flmbkp_InstallDB')){return;}
 
-class Uiform_InstallDB {
+class Flmbkp_InstallDB {
     function __construct(){
         global $wpdb;
        $this->backup         = $wpdb->prefix . "flmbkp_backup";

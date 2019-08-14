@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: Database, Backup, and File Manager by Managefy
+ * Plugin Name: File Manager, Code editor, backup by Managefy
  * Plugin URI: https://www.softdiscover.com/
  * Description: Managefy Plugin for wordpress, allow user to access folders, download files, upload files, create folders, sub folders. Also Managefy allows to backup your files and database, and restore them as well.
  * Version: 1.2
@@ -100,8 +100,8 @@ if (!class_exists('WpFileManagerBkp')) {
             $this->check_updateChanges();
             try {
 
-                if (class_exists('Uiform_Bootstrap')) {
-                    $GLOBALS['wprockf'] = Uiform_Bootstrap::get_instance();
+                if (class_exists('Flmbkp_Bootstrap')) {
+                    $GLOBALS['wprockf'] = Flmbkp_Bootstrap::get_instance();
                     register_activation_hook(__FILE__, array($GLOBALS['wprockf'], 'activate'));
                     register_deactivation_hook(__FILE__, array($GLOBALS['wprockf'], 'deactivate'));
                 }
@@ -226,7 +226,7 @@ function flmbkp_uninstall()
 {
     
    require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
-   $installdb = new Uiform_InstallDB();
+   $installdb = new Flmbkp_InstallDB();
    $installdb->uninstall();
    //removing options
     delete_option('flmbkpbuild_version' );

@@ -3,11 +3,11 @@
 if (!defined('ABSPATH')) {
     exit('No direct script access allowed');
 }
-if (class_exists('Uiform_Backup')) {
+if (class_exists('Flmbkp_Backup')) {
     return;
 }
 
-class Uiform_Backup {
+class Flmbkp_Backup {
 
     private $tables = array();
     private $suffix = 'd-M-Y_H-i-s';
@@ -102,7 +102,7 @@ class Uiform_Backup {
             /**
              * unzip file
              */
-            $tmp_res = Uiform_Form_Helper::unzipFiles($backup_dir . '/' . $backup_slug . '_database.zip', $backup_dir);
+            $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_dir . '/' . $backup_slug . '_database.zip', $backup_dir);
             if (!$tmp_res) {
                 throw new Exception("ERROR: couldn't unzip backup file " . $backup_dir . '/' . $backup_slug);
             }
@@ -192,7 +192,7 @@ class Uiform_Backup {
                 /* BEGIN: Remove All Tables from the Database */
 
                 require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
-                $installdb = new Uiform_InstallDB();
+                $installdb = new Flmbkp_InstallDB();
                 $dbTables = array();
 
 
@@ -234,7 +234,7 @@ class Uiform_Backup {
 
     function makeDbBackup($name = '') {
         require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
-        $installdb = new Uiform_InstallDB();
+        $installdb = new Flmbkp_InstallDB();
         $dbTables = array();
         $dbTables[] = $installdb->form;
         $dbTables[] = $installdb->form_history;
@@ -258,7 +258,7 @@ class Uiform_Backup {
         $dump .= '-- Host: ' . $server . nl;
         $dump .= '-- Database: ' . $database . nl;
         $dump .= '-- Time: ' . date('M j, Y') . '-' . date('H:i') . nl;
-        $dump .= '-- MySQL version: ' . Uiform_Form_Helper::mysql_version() . nl;
+        $dump .= '-- MySQL version: ' . Flmbkp_Form_Helper::mysql_version() . nl;
         $dump .= '-- PHP version: ' . phpversion() . nl;
         $dump .= '-- --------------------------------------------------------------------------------' . nl . nl;
 

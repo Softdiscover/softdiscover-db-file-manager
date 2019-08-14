@@ -29,7 +29,7 @@ if (class_exists('Zgpb_Optb_Controller_Fields')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class Zgpb_Optb_Controller_Fields extends Uiform_Base_Module {
+class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
     
     private $wpdb = "";
     

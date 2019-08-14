@@ -15,14 +15,14 @@
 if (!defined('ABSPATH')) {
     exit('No direct script access allowed');
 }
-if (class_exists('Uiform_Base_Module')) {
+if (class_exists('Flmbkp_Base_Module')) {
     return;
 }
 
 /**
  * Abstract class to define/implement base methods for all module classes
  */
-abstract class Uiform_Base_Module {
+abstract class Flmbkp_Base_Module {
 
     private static $instances = array();
     public static $_modules = array();
