@@ -13,7 +13,7 @@ Manage your wordpress files , backup, user roles and database easily
 
 == Description ==
 
-Managefy Plugin for wordpress, allow user to access folders, download files, upload files, create folders, sub folders. Also Managefy allows to backup your files and database, and restore them as well.
+Managefy Plugin for wordpress, allow you to access folders, download files, upload files, create folders, sub folders. Also Managefy allows to backup your files and database, and restore them as well.
 
 Use your mouse (or touch) to drag and drop your files. Create, rename, delete or reorder your folders If you want to select a image from the “Select a image”-dialog (e. g. featured image) you can filter when inserting media. Just install this plugin and it works fine with all your image and media files. It also supports multisite.
 
