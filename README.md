@@ -52,6 +52,7 @@
 [![File Manager][product-screenshot]](https://softdiscover.com)
 [![File Manager][product-screenshot1]](https://softdiscover.com)
 ### Backup manager
+[![Backup Manager][product-screenshot4]](https://softdiscover.com)
 [![Backup Manager][product-screenshot2]](https://softdiscover.com)
 ### User roles manager
 [![User roles manager][product-screenshot3]](https://softdiscover.com)
@@ -303,3 +304,4 @@ Project Link: [https://github.com/Softdiscover/softdiscover-db-file-manager](htt
 [product-screenshot1]: _images/screenshot1.png
 [product-screenshot2]: _images/screenshot2.png
 [product-screenshot3]: _images/screenshot3.png
+[product-screenshot4]: _images/managefy-backup-files.gif
