@@ -49,7 +49,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About Managefy
 ### File manager
-[![File Manager][product-screenshot1]](https://softdiscover.com)
+[![File Manager][product-screenshot]](https://softdiscover.com)
+[product-screenshot1]](https://softdiscover.com)
 ### Backup manager
 [![Backup Manager][product-screenshot2]](https://softdiscover.com)
 ### User roles manager
@@ -298,6 +299,7 @@ Project Link: [https://github.com/Softdiscover/softdiscover-db-file-manager](htt
 [license-url]: https://github.com/Softdiscover/softdiscover-db-file-manager/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/softdiscover
+[product-screenshot]: _images/managefy-editing-files.gif
 [product-screenshot1]: _images/screenshot1.png
 [product-screenshot2]: _images/screenshot2.png
 [product-screenshot3]: _images/screenshot3.png
