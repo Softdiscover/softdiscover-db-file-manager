@@ -191,8 +191,8 @@ For getting started, you just need to download the software from here, then you 
 ### Prerequisites
 
 * Mysql 5+
-* php 5.6+
-* Wordpress 5+
+* php 5.3+
+* Wordpress 3.6+
 
 ### Installation
 
