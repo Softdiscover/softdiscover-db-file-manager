@@ -1,12 +1,12 @@
 <div class="error">
-	<p>Uiform error: Your environment doesn't meet all of the system requirements listed below.</p>
+	<p>Managefy error: Your environment doesn't meet all of the system requirements listed below.</p>
 
 	<ul class="ul-disc">
             <?php 
             if (is_plugin_active( 'rocket-forms-express/rocket-forms-express.php' ) ) {
                ?>
             <li>
-			<strong>Rocket Form express activated </strong>
+			<strong>Managefy activated </strong>
 			<em>(You need to deactivate this plugin)</em>
 		</li>
 <?php

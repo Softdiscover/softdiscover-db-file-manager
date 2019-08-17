@@ -4,10 +4,10 @@ Donate link: https://www.softdiscover.com
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: database, file manager, backup, user roles, mysql, elfinder, ftp, folders, files
-Requires at least: 5.2
-Tested up to: 5.2.1
-Requires PHP: 5.6
-Stable tag: 1.2
+Requires at least: 3.6
+Tested up to: 5.2.2
+Requires PHP: 5.3
+Stable tag: 1.3
 
 Manage your folder and files , backup, user roles and database easily
 
@@ -165,9 +165,12 @@ There are 2 ways to install. Please follow the steps below:
 
 = 1.2 =
 * First release
-
+= 1.3 =
+* support wp v3.6
 
 == Upgrade Notice ==
 
 = 1.2 =
 * First release
+= 1.3 =
+* support wp v3.6

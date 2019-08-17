@@ -45,7 +45,7 @@ if (!class_exists('WpFileManagerBkp')) {
          * @var string
          * @since 1.0
          */
-        public $php_version = '5.6';
+        public $php_version = '5.3';
 
         /**
          * Class name
