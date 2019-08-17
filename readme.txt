@@ -3,7 +3,7 @@ Contributors: softdiscover
 Donate link: https://www.softdiscover.com
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: database, file manager, backup, user roles, mysql, elfinder, ftp, folders, files
+Tags: database, file manager, backup, user roles, elfinder, ftp, folders, files, wp file manager, code editor, wp-file manager, editor
 Requires at least: 3.6
 Tested up to: 5.2.2
 Requires PHP: 5.3
