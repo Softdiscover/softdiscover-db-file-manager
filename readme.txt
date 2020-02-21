@@ -1,13 +1,13 @@
 === File Manager, Code Editor, and Backup by Managefy ===
 Contributors: softdiscover
-Donate link: https://www.softdiscover.com
+Donate link: https://softdiscover.com
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: database, file manager, backup, user roles, elfinder, ftp, folders, files, wp file manager, code editor, wp-file manager, editor
 Requires at least: 3.6
-Tested up to: 5.2.2
+Tested up to: 5.3.2
 Requires PHP: 5.3
-Stable tag: 1.3
+Stable tag: 1.3.1
 
 Manage your folder and files , backup, user roles and database easily
 
@@ -165,12 +165,12 @@ There are 2 ways to install. Please follow the steps below:
 
 = 1.2 =
 * First release
-= 1.3 =
-* support wp v3.6
+= 1.3.1 =
+* support wp v5.3.2
 
 == Upgrade Notice ==
 
 = 1.2 =
 * First release
-= 1.3 =
-* support wp v3.6
+= 1.3.1 =
+* support wp v5.3.2
