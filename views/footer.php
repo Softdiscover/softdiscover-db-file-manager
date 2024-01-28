@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?> 
 ​  <!-- The Modal -->
   <div class="modal" id="flmbkp_Modal">

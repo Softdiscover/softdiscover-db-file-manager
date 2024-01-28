@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 /**
  * elFinder - file manager for web.
  * Session Wrapper Interface.

@@ -29,7 +29,8 @@ if (class_exists('Zgpb_Optb_Controller_Fields')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
+class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module
+{
     
     private $wpdb = "";
     
@@ -42,12 +43,11 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    protected function __construct() {
+    protected function __construct()
+    {
  
         global $wpdb;
         $this->wpdb = $wpdb;
-            
-            
     }
     
     /**
@@ -55,7 +55,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_textbox($options) {
+    public function parsehtml_textbox($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_textbox.php', $data, 'always');
@@ -66,7 +67,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_textarea($options) {
+    public function parsehtml_textarea($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_textarea.php', $data, 'always');
@@ -77,7 +79,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_select($options) {
+    public function parsehtml_select($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_select.php', $data, 'always');
@@ -88,7 +91,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_radiobutton($options) {
+    public function parsehtml_radiobutton($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_radiobutton.php', $data, 'always');
@@ -99,7 +103,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_boolean($options) {
+    public function parsehtml_boolean($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_boolean.php', $data, 'always');
@@ -110,7 +115,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_image($options) {
+    public function parsehtml_image($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_image.php', $data, 'always');
@@ -121,7 +127,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_numeric($options) {
+    public function parsehtml_numeric($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_numeric.php', $data, 'always');
@@ -132,7 +139,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_multiselect($options) {
+    public function parsehtml_multiselect($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_multiselect.php', $data, 'always');
@@ -143,7 +151,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parsehtml_button($options) {
+    public function parsehtml_button($options)
+    {
         $data = array();
         $data = array_merge($data, $options);
         return self::render_template('optbuilder/views/fields/parsehtml_button.php', $data, 'always');
@@ -154,8 +163,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function register_hook_callbacks() {
-        
+    public function register_hook_callbacks()
+    {
     }
 
     /**
@@ -163,7 +172,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function init() {
+    public function init()
+    {
 
         try {
             //$instance_example = new WPPS_Instance_Class( 'Instance example', '42' );
@@ -184,7 +194,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @param bool $network_wide
      */
-    public function activate($network_wide) {
+    public function activate($network_wide)
+    {
 
         return true;
     }
@@ -194,7 +205,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         return true;
     }
 
@@ -205,7 +217,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      *
      * @param string $db_version
      */
-    public function upgrade($db_version = 0) {
+    public function upgrade($db_version = 0)
+    {
         return true;
     }
 
@@ -217,7 +230,8 @@ class Zgpb_Optb_Controller_Fields extends Flmbkp_Base_Module {
      * @param string $property An individual property to check, or 'all' to check all of them
      * @return bool
      */
-    protected function is_valid($property = 'all') {
+    protected function is_valid($property = 'all')
+    {
         return true;
     }
 }

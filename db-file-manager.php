@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: File Manager, Code editor, backup by Managefy
- * Plugin URI: https://www.softdiscover.com/
+ * Plugin URI: https://softdiscover.com/managefy/
  * Description: Managefy Plugin for wordpress, allow user to access folders, download files, upload files, create folders, sub folders. Also Managefy allows to backup your files and database, and restore them as well.
- * Version: 1.3.1
+ * Version: 1.4.0
  * Author: SoftDiscover.Com
  * Author URI: https://github.com/Softdiscover
  */
@@ -29,7 +29,7 @@ if (!class_exists('WpFileManagerBkp')) {
          * @var string
          * @since 1.0
          */
-        public $version = '1.3.1';
+        public $version = '1.4.0';
 
         /**
          * The minimal required version of WordPress for this plug-in to function correctly.
@@ -72,7 +72,7 @@ if (!class_exists('WpFileManagerBkp')) {
          */
         public static function instance() 
         {
-            $class_name = get_class();
+            $class_name = __CLASS__;
             if (!isset(self::$instance) && !( self::$instance instanceof $class_name )) {
                 self::$instance = new $class_name;
             }
@@ -83,7 +83,7 @@ if (!class_exists('WpFileManagerBkp')) {
         public function __construct() 
         {
             // Save the class name for later use
-            $this->class_name = get_class();
+            $this->class_name = __CLASS__;
              //
             //  Plug-in requirements
             //
@@ -192,15 +192,10 @@ if (!class_exists('WpFileManagerBkp')) {
                 require_once FLMBKP_DIR . '/classes/uiform-base-module.php';
                 require_once FLMBKP_DIR . '/classes/uiform-form-helper.php';
                 require_once FLMBKP_DIR . '/classes/uiform-bootstrap.php';
-                
             }
-
-            // Front-End Site
-            /*if (!is_admin()) {
-                require_once FLMBKP_DIR . '/classes/uiform-base-module.php';
-                require_once FLMBKP_DIR . '/classes/uiform-form-helper.php';
-                require_once FLMBKP_DIR . '/classes/uiform-bootstrap.php';
-            }*/
+            
+            // shortcode show version info
+            add_action('wp_head', array( &$this, 'shortcode_show_version' ));
         }
         
         /**
@@ -211,11 +206,25 @@ if (!class_exists('WpFileManagerBkp')) {
             $version=FLMBKP_VERSION;
             $install_ver = get_option("flmbkpbuild_version");
             
-                
             update_option("flmbkpbuild_version", $version);
-             
-            
-            
+        }
+        
+        
+        /**
+         * shortcode show version.
+         *
+         * @author	Unknown
+         * @since	v0.0.1
+         * @version	v1.0.0	Saturday, January 27th, 2024.
+         * @access	public
+         * @return	void
+         */
+        public function shortcode_show_version()
+        {
+            $output  = '<noscript>';
+            $output .= '<a href="https://softdiscover.com/?mngfy_v=' . UIFORM_VERSION . '" title="WordPress File Manager" >Managefy </a> version ' . FLMBKP_VERSION;
+            $output .= '</noscript>';
+            echo $output;
         }
 
     }

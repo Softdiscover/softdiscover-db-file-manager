@@ -52,7 +52,7 @@ if (!defined('ABSPATH')) {
                                     <input type="checkbox" class="form-check-input" name="flm_roles[]" value="<?php echo $value['role'];?>" <?php echo ($value['ischecked'])?'checked':''; ?>  <?php echo ($value['primaryrole'])?'disabled':''; ?>  > <?php echo $value['role'];?>
                                 </label>
                               </div>
-                        <?php } ?> 
+                       <?php } ?> 
                         
               
                     </div>
@@ -67,7 +67,7 @@ if (!defined('ABSPATH')) {
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
                       <input class="btn btn-secondary" type="reset" value="Cancel"> 
-			<input class="btn btn-primary" type="button" value="Save Changes">
+            <input class="btn btn-primary" type="button" value="Save Changes">
                     </div>
                   </div>
                 

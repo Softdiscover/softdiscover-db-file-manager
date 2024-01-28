@@ -1,0 +1,434 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Managefy\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-01-27 18:52-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: classes/uiform-bootstrap.php:141 classes/uiform-bootstrap.php:147
+#: classes/uiform-bootstrap.php:518
+#: modules/settings/views/backend/list_options.php:33
+msgid "Settings"
+msgstr "Settings"
+
+#: classes/uiform-bootstrap.php:143
+msgid "Add-Ons / Pro Support"
+msgstr "Add-Ons / Pro Support"
+
+#: classes/uiform-bootstrap.php:149 classes/uiform-bootstrap.php:557
+msgid "Support"
+msgstr "Support"
+
+#: classes/uiform-bootstrap.php:515
+msgid "File Manager"
+msgstr "File Manager"
+
+#: classes/uiform-bootstrap.php:516
+msgid "Backups"
+msgstr "Backups"
+
+#: classes/uiform-bootstrap.php:517
+#: modules/filemanager/views/backup/list_backups.php:47
+#: modules/filemanager/views/backup/list_backups.php:157
+#: modules/filemanager/views/backup/list_backups.php:210
+msgid "Database"
+msgstr "Database"
+
+#: classes/uiform-bootstrap.php:559
+msgid "Get Premium"
+msgstr "Get Premium"
+
+#: classes/uiform-bootstrap.php:563
+msgid "Live Demo"
+msgstr "Live Demo"
+
+#: classes/uiform-bootstrap.php:564
+msgid "Documentation"
+msgstr "Documentation"
+
+#: classes/uiform-bootstrap.php:567 classes/uiform-bootstrap.php:569
+msgid "Leave a review"
+msgstr "Leave a review"
+
+#: classes/uiform-installdb.php:26
+msgid ""
+"The plugin can not be network activated. You need to activate the plugin per "
+"site."
+msgstr ""
+"The plugin can not be network activated. You need to activate the plugin per "
+"site."
+
+#: modules/database/controllers/backend.php:84
+msgid "Total"
+msgstr "Total"
+
+#: modules/database/controllers/backend.php:96
+msgid "Database Host"
+msgstr "Database Host"
+
+#: modules/database/controllers/backend.php:97
+msgid "Database Name"
+msgstr "Database Name"
+
+#: modules/database/controllers/backend.php:98
+msgid "Database User"
+msgstr "Database User"
+
+#: modules/database/controllers/backend.php:99
+msgid "Database Type"
+msgstr "Database Type"
+
+#: modules/database/controllers/backend.php:100
+msgid "Database Version"
+msgstr "Database Version"
+
+#: modules/database/controllers/backend.php:101
+msgid "PHP Version"
+msgstr "PHP Version"
+
+#: modules/database/views/backend/list_tables.php:27
+msgid "Database manager."
+msgstr "Database manager."
+
+#: modules/database/views/backend/list_tables.php:34
+msgid "Tables Information"
+msgstr "Tables Information"
+
+#: modules/database/views/backend/list_tables.php:40
+msgid "Tables"
+msgstr "Tables"
+
+#: modules/database/views/backend/list_tables.php:41
+msgid "Records"
+msgstr "Records"
+
+#: modules/database/views/backend/list_tables.php:42
+msgid "Data Usage"
+msgstr "Data Usage"
+
+#: modules/database/views/backend/list_tables.php:43
+msgid "Index Usage"
+msgstr "Index Usage"
+
+#: modules/database/views/backend/list_tables.php:44
+msgid "Overhead"
+msgstr "Overhead"
+
+#: modules/database/views/backend/list_tables.php:65
+msgid "Database Information"
+msgstr "Database Information"
+
+#: modules/database/views/backend/list_tables.php:70
+msgid "Setting"
+msgstr "Setting"
+
+#: modules/database/views/backend/list_tables.php:71
+msgid "Value"
+msgstr "Value"
+
+#: modules/filemanager/views/backend/load_file_manager.php:14
+msgid "Toggle navigation"
+msgstr "Toggle navigation"
+
+#: modules/filemanager/views/backend/load_file_manager.php:19
+msgid "File manager"
+msgstr "File manager"
+
+#: modules/filemanager/views/backend/load_file_manager.php:27
+msgid "Language: "
+msgstr "Language: "
+
+#: modules/filemanager/views/backend/load_file_manager.php:29
+msgid "English"
+msgstr "English"
+
+#: modules/filemanager/views/backend/load_file_manager.php:30
+msgid "Bulgarian"
+msgstr "Bulgarian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:31
+msgid "Arabic"
+msgstr "Arabic"
+
+#: modules/filemanager/views/backend/load_file_manager.php:32
+msgid "Catalan"
+msgstr "Catalan"
+
+#: modules/filemanager/views/backend/load_file_manager.php:33
+msgid "Czech"
+msgstr "Czech"
+
+#: modules/filemanager/views/backend/load_file_manager.php:34
+msgid "Danish"
+msgstr "Danish"
+
+#: modules/filemanager/views/backend/load_file_manager.php:35
+msgid "German"
+msgstr "German"
+
+#: modules/filemanager/views/backend/load_file_manager.php:36
+msgid "Greek"
+msgstr "Greek"
+
+#: modules/filemanager/views/backend/load_file_manager.php:37
+msgid "Spanish"
+msgstr "Spanish"
+
+#: modules/filemanager/views/backend/load_file_manager.php:38
+msgid "Farsi"
+msgstr "Farsi"
+
+#: modules/filemanager/views/backend/load_file_manager.php:39
+msgid "Faeroese"
+msgstr "Faeroese"
+
+#: modules/filemanager/views/backend/load_file_manager.php:40
+msgid "French"
+msgstr "French"
+
+#: modules/filemanager/views/backend/load_file_manager.php:41
+msgid "Hebrew"
+msgstr "Hebrew"
+
+#: modules/filemanager/views/backend/load_file_manager.php:42
+msgid "Croatian"
+msgstr "Croatian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:43
+msgid "Hungarian"
+msgstr "Hungarian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:44
+msgid "Indonesian"
+msgstr "Indonesian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:45
+msgid "Italian"
+msgstr "Italian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:46
+msgid "Japanese"
+msgstr "Japanese"
+
+#: modules/filemanager/views/backend/load_file_manager.php:47
+msgid "Korean"
+msgstr "Korean"
+
+#: modules/filemanager/views/backend/load_file_manager.php:48
+msgid "Dutch"
+msgstr "Dutch"
+
+#: modules/filemanager/views/backend/load_file_manager.php:49
+msgid "Norwegian"
+msgstr "Norwegian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:50
+msgid "Polish"
+msgstr "Polish"
+
+#: modules/filemanager/views/backend/load_file_manager.php:51
+msgid "Romanian"
+msgstr "Romanian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:52
+msgid "Russian"
+msgstr "Russian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:53
+msgid "Slovenian"
+msgstr "Slovenian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:54
+msgid "Slovak"
+msgstr "Slovak"
+
+#: modules/filemanager/views/backend/load_file_manager.php:55
+msgid "Serbian"
+msgstr "Serbian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:56
+msgid "Swedish"
+msgstr "Swedish"
+
+#: modules/filemanager/views/backend/load_file_manager.php:57
+msgid "Turkish"
+msgstr "Turkish"
+
+#: modules/filemanager/views/backend/load_file_manager.php:58
+msgid "Chinese"
+msgstr "Chinese"
+
+#: modules/filemanager/views/backend/load_file_manager.php:59
+msgid "Ukrainian"
+msgstr "Ukrainian"
+
+#: modules/filemanager/views/backend/load_file_manager.php:60
+msgid "Vietnamese"
+msgstr "Vietnamese"
+
+#: modules/filemanager/views/backend/load_file_manager.php:61
+msgid "Taiwan"
+msgstr "Taiwan"
+
+#: modules/filemanager/views/backend/load_file_manager.php:69
+msgid "Theme: "
+msgstr "Theme: "
+
+#: modules/filemanager/views/backend/load_file_manager.php:71
+msgid "Default"
+msgstr "Default"
+
+#: modules/filemanager/views/backend/load_file_manager.php:72
+msgid "Gray"
+msgstr "Gray"
+
+#: modules/filemanager/views/backend/load_file_manager.php:73
+msgid "Light"
+msgstr "Light"
+
+#: modules/filemanager/views/backend/load_file_manager.php:74
+msgid "dark"
+msgstr "dark"
+
+#: modules/filemanager/views/backup/list_backups.php:27
+msgid "Backup manager."
+msgstr "Backup manager."
+
+#: modules/filemanager/views/backup/list_backups.php:41
+msgid "Backup options"
+msgstr "Backup options"
+
+#: modules/filemanager/views/backup/list_backups.php:53
+msgid "Include your database in the backup"
+msgstr "Include your database in the backup"
+
+#: modules/filemanager/views/backup/list_backups.php:56
+msgid "All WordPress tables will be backed up."
+msgstr "All WordPress tables will be backed up."
+
+#: modules/filemanager/views/backup/list_backups.php:68
+msgid "Files"
+msgstr "Files"
+
+#: modules/filemanager/views/backup/list_backups.php:74
+msgid "Include your files in the backup"
+msgstr "Include your files in the backup"
+
+#: modules/filemanager/views/backup/list_backups.php:80
+#: modules/filemanager/views/backup/list_backups.php:125
+#: modules/filemanager/views/backup/list_backups.php:190
+msgid "Plugins"
+msgstr "Plugins"
+
+#: modules/filemanager/views/backup/list_backups.php:86
+#: modules/filemanager/views/backup/list_backups.php:133
+#: modules/filemanager/views/backup/list_backups.php:195
+msgid "Themes"
+msgstr "Themes"
+
+#: modules/filemanager/views/backup/list_backups.php:92
+#: modules/filemanager/views/backup/list_backups.php:141
+#: modules/filemanager/views/backup/list_backups.php:200
+msgid "Uploads"
+msgstr "Uploads"
+
+#: modules/filemanager/views/backup/list_backups.php:98
+msgid "Any other directories found inside wp-content"
+msgstr "Any other directories found inside wp-content"
+
+#: modules/filemanager/views/backup/list_backups.php:109
+msgid "Backup Now"
+msgstr "Backup Now"
+
+#: modules/filemanager/views/backup/list_backups.php:119
+msgid "Backuping Now"
+msgstr "Backuping Now"
+
+#: modules/filemanager/views/backup/list_backups.php:119
+msgid "Wait until backup is finished"
+msgstr "Wait until backup is finished"
+
+#: modules/filemanager/views/backup/list_backups.php:149
+#: modules/filemanager/views/backup/list_backups.php:205
+msgid "Others"
+msgstr "Others"
+
+#: modules/filemanager/views/backup/list_backups.php:175
+msgid "File name"
+msgstr "File name"
+
+#: modules/filemanager/views/backup/list_backups.php:176
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: modules/filemanager/views/backup/list_backups.php:177
+msgid "Backup Data"
+msgstr "Backup Data"
+
+#: modules/filemanager/views/backup/list_backups.php:178
+msgid "Options"
+msgstr "Options"
+
+#: modules/filemanager/views/backup/list_backups.php:221
+#: modules/filemanager/views/backup/list_backups.php:224
+msgid "Delete"
+msgstr "Delete"
+
+#: modules/filemanager/views/backup/list_backups.php:235
+msgid "there is not Backups"
+msgstr "there is not Backups"
+
+#: modules/filemanager/views/backup/list_backups.php:254
+msgid "Are you sure about this?"
+msgstr "Are you sure about this?"
+
+#: modules/optbuilder/views/backend/modal_one_footer.php:19
+msgid "Close"
+msgstr "Close"
+
+#: modules/optbuilder/views/fields/parsehtml_image.php:25
+msgid "Choose an Image"
+msgstr "Choose an Image"
+
+#: modules/optbuilder/views/fields/parsehtml_image.php:26
+msgid "Choose"
+msgstr "Choose"
+
+#: modules/optbuilder/views/fields/parsehtml_image.php:40
+msgid "Select image"
+msgstr "Select image"
+
+#: modules/optbuilder/views/fields/parsehtml_image.php:46
+msgid "Remove"
+msgstr "Remove"
+
+#: modules/settings/views/backend/list_options.php:41
+msgid "General"
+msgstr "General"
+
+#: modules/settings/views/backend/list_options.php:46
+msgid "Select User Roles to access this plugin"
+msgstr "Select User Roles to access this plugin"
+
+#: modules/settings/views/backend/list_options.php:61
+msgid "Note"
+msgstr "Note"
+
+#: modules/settings/views/backend/list_options.php:61
+msgid ""
+"Allow user roles to access this plugin. Once User Role is added, you need to "
+"give 'manage_options' capability to those selected User Roles. there are "
+"many plugins out there to give 'manage_options' capability. "
+msgstr ""
+"Allow user roles to access this plugin. Once User Role is added, you need to "
+"give 'manage_options' capability to those selected User Roles. there are "
+"many plugins out there to give 'manage_options' capability. "

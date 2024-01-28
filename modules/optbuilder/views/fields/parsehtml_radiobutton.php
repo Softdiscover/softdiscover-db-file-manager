@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}  
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 <?php
 ob_start();
@@ -23,15 +25,15 @@ ob_start();
                  
                  <div id="<?php echo $id; ?>">
                      
-                      <?php foreach ($options as $key2=>$value2) {
-                         ?>
+                      <?php foreach ($options as $key2 => $value2) {
+                            ?>
                      
                       <div class="radio">
                             <label><input type="radio" name="<?php echo $id; ?>" value="<?php echo $key2;?>" <?php echo ((string)$key2===(string)$value)?'checked="checked"':''; ?> ><?php echo $value2;?></label>
                           </div>
                        
-                         <?php
-                     }?> 
+                            <?php
+                      }?> 
                      
                        
                  </div>
@@ -47,7 +49,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 
 <div class="sfdclauncher uiform-wrap" id="rocketform-bk-dashboard">

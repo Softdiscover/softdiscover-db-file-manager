@@ -43,7 +43,7 @@ if (!defined('ABSPATH')) {
                                     <div class="row">
                                       
                                         <div class="col-sm-4">
-                                            <fieldset class="col-md-12">    	
+                                            <fieldset class="col-md-12">        
                                                 <legend><?php echo __('Files', 'FRocket_admin'); ?></legend>
 
                                                 <div class="panel panel-default">
@@ -54,25 +54,25 @@ if (!defined('ABSPATH')) {
                                                             </label>
                                                         <div class="alert alert-secondary" role="alert">
                                                             <div class="form-check">
-                                                                <input name="flpbkp_opt_plugins" class="form-check-input" type="checkbox" value="plugins" id="defaultCheck1" checked  >
+                                                                <input name="flpbkp_opt_plugins" class="" type="checkbox" value="plugins" id="defaultCheck1" checked  >
                                                                 <label class="form-check-label" for="defaultCheck1">
                                                                     <?php echo __('Plugins', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input name="flpbkp_opt_themes" class="form-check-input" type="checkbox" value="themes" id="defaultCheck2" checked >
+                                                                <input name="flpbkp_opt_themes" class="" type="checkbox" value="themes" id="defaultCheck2" checked >
                                                                 <label class="form-check-label" for="defaultCheck2">
                                                                     <?php echo __('Themes', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input name="flpbkp_opt_uploads" class="form-check-input" type="checkbox" value="uploads" id="defaultCheck3" checked >
+                                                                <input name="flpbkp_opt_uploads" class="" type="checkbox" value="uploads" id="defaultCheck3" checked >
                                                                 <label class="form-check-label" for="defaultCheck2">
                                                                     <?php echo __('Uploads', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input name="flpbkp_opt_others" class="form-check-input" type="checkbox" value="others" id="defaultCheck4" checked >
+                                                                <input name="flpbkp_opt_others" class="" type="checkbox" value="others" id="defaultCheck4" checked >
                                                                 <label class="form-check-label" for="defaultCheck2">
                                                                     <?php echo __('Any other directories found inside wp-content', 'FRocket_admin'); ?>
                                                                 </label>
@@ -86,7 +86,7 @@ if (!defined('ABSPATH')) {
                                         </div>
                                           <div class="col-sm-4">
 
-                                            <fieldset class="col-md-12">    	
+                                            <fieldset class="col-md-12">        
                                                 <legend><?php echo __('Database', 'FRocket_admin'); ?></legend>
 
                                                 <div class="panel panel-default">
@@ -181,7 +181,7 @@ if (!defined('ABSPATH')) {
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($query)) { ?>
-                                        <?php foreach ($query as $row): ?>
+                                        <?php foreach ($query as $row) : ?>
                                             <tr>
                                                 <td><?php echo $row->bkp_slug; ?></td>
                                                 <td><?php echo $row->created_date; ?></td>
@@ -200,17 +200,17 @@ if (!defined('ABSPATH')) {
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_uploads.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Uploads', 'FRocket_admin'); ?>
                                                     </button>
-                                                <?php } ?>
+                                                    <?php } ?>
                                                     <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_others.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_others.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Others', 'FRocket_admin'); ?>
                                                     </button>
-                                                <?php } ?>
+                                                    <?php } ?>
                                                     <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_database.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_database.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Database', 'FRocket_admin'); ?>
                                                     </button>
-                                                <?php } ?>
+                                                    <?php } ?>
                                                 
                                                 </td>
                                                 <td>
@@ -258,5 +258,5 @@ if (!defined('ABSPATH')) {
     </div>
 </div>
 <div id="uiform-confirmation-func-action-dialog" style="display: none;">
-    <?php echo __('Are you sure about this?','FRocket_admin'); ?>
+    <?php echo __('Are you sure about this?', 'FRocket_admin'); ?>
 </div>

@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}  
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 <?php
 ob_start();
@@ -22,8 +24,8 @@ ob_start();
              <div class="sfdc-col-sm-8">
                  
                  <div 
-                     data-dialog-title="<?php echo __('Choose an Image','zgpbd_admin');?>"
-                     data-dialog-btn="<?php echo __('Choose','zgpbd_admin');?>"
+                     data-dialog-title="<?php echo __('Choose an Image', 'zgpbd_admin');?>"
+                     data-dialog-btn="<?php echo __('Choose', 'zgpbd_admin');?>"
                      class="zgth-opt-img-wrap">
                       
                      
@@ -37,13 +39,13 @@ ob_start();
                                        name="<?php echo $id; ?>">
                          
                                 <span class="sfdc-input-group-addon sfdc-btn sfdc-btn-default sfdc-btn-file">
-                                    <span class=""><?php echo __('Select image','zgpbd_admin');?></span>
+                                    <span class=""><?php echo __('Select image', 'zgpbd_admin');?></span>
                                     <!--<span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="...">-->
                                 </span>
                                 
                                   <a  style="display:none;" class=" sfdc-btn sfdc-btn-danger sfdc-input-group-addon" href="javascript:void(0);">
                                       
-                                      <i class="fa fa-trash-o"></i> <?php echo __('Remove','zgpbd_admin');?>
+                                      <i class="fa fa-trash-o"></i> <?php echo __('Remove', 'zgpbd_admin');?>
                                       
                                   </a>
                          
@@ -67,7 +69,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

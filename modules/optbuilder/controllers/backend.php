@@ -30,7 +30,8 @@ if (class_exists('Zgpb_optb_Controller_Backend')) {
  * @version   Release: 1.00
  * @link      https://landera.softdiscover.com
  */
-class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
+class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module
+{
 
     const VERSION = '0.1';
 
@@ -43,24 +44,24 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
-       
-      
     }
     
     
     /**
      * render_options_one()
-     * generate options  
-     * 
+     * generate options
+     *
      * @return json
      */
     
-    public function render_options_one($data) {
+    public function render_options_one($data)
+    {
         
-        if(empty($data)){
+        if (empty($data)) {
             return;
         }
         
@@ -73,13 +74,13 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
         $tmp_fields=array();
         
         //creating sections
-        foreach ($data['sections'] as  $key=>$value) {
+        foreach ($data['sections'] as $key => $value) {
                 $tmp_var1['section'.$key]['title'] = $value;
         }
         
         $tmp_groups_title=$data['groups'];
         
-        foreach ($tmp_opts as  $value) {
+        foreach ($tmp_opts as $value) {
             //check section
             switch (intval($value['sec_order'])) {
                 case 1:
@@ -106,7 +107,7 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
                 $tmp_groups[$value2['group_order']]['title'] = $tmp_groups_title[$value2['group_order']];
             }
                 
-             $tmp_var1[$key]['opts'] = $tmp_groups;    
+             $tmp_var1[$key]['opts'] = $tmp_groups;
         }
         
         //parse all options
@@ -118,20 +119,19 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
             //starting the section content
             $tmp_output='';
             
-            if (!empty($value['opts'])) 
-            foreach ($value['opts'] as $key2 => $value2) {
-                //creating separator of group
-                $tmp_output.='<div class="zgth-sect-opt-divider"><h3>'.$value2['title'].'</h3></div>';
+            if (!empty($value['opts'])) {
+                foreach ($value['opts'] as $key2 => $value2) {
+                    //creating separator of group
+                    $tmp_output.='<div class="zgth-sect-opt-divider"><h3>'.$value2['title'].'</h3></div>';
                 
-                $tmp_inner_opt=array();
-                foreach ($value2['opts'] as $key3 => $value3) {
-                   $tmp_inner_opt[] = $this->parse_field_html_byType($value3['type'],$value3);
-                   
+                    $tmp_inner_opt=array();
+                    foreach ($value2['opts'] as $key3 => $value3) {
+                        $tmp_inner_opt[] = $this->parse_field_html_byType($value3['type'], $value3);
+                    }
+                
+                    //adding delimiter between options
+                    $tmp_output.= implode($html_delimiter, $tmp_inner_opt);
                 }
-                
-                //adding delimiter between options
-                $tmp_output.= implode($html_delimiter, $tmp_inner_opt);
-                
             }
             
             $output[$key] = $tmp_output;
@@ -140,9 +140,9 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
         
         //buttons
         $tmp_render=array();
-        if(!empty($data['buttons'])){
+        if (!empty($data['buttons'])) {
             foreach ($data['buttons'] as $key => $value) {
-               $tmp_render[] = $this->parse_field_html_byType($value['type'],$value);
+                $tmp_render[] = $this->parse_field_html_byType($value['type'], $value);
             }
         }
         
@@ -153,8 +153,6 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
       
         
         return $output;
-        
-        
     }
     
     /**
@@ -162,7 +160,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function parse_field_html_byType($type,$options){
+    public function parse_field_html_byType($type, $options)
+    {
         $str_output='';
         switch ((string)$type) {
             case 'textbox':
@@ -197,7 +196,6 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
         }
         
         return $str_output;
-        
     }
     
     /**
@@ -205,8 +203,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function register_hook_callbacks() {
-        
+    public function register_hook_callbacks()
+    {
     }
 
     /**
@@ -214,7 +212,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function init() {
+    public function init()
+    {
 
         try {
             //$instance_example = new WPPS_Instance_Class( 'Instance example', '42' );
@@ -235,7 +234,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @param bool $network_wide
      */
-    public function activate($network_wide) {
+    public function activate($network_wide)
+    {
 
         return true;
     }
@@ -245,7 +245,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         return true;
     }
 
@@ -256,7 +257,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      *
      * @param string $db_version
      */
-    public function upgrade($db_version = 0) {
+    public function upgrade($db_version = 0)
+    {
         return true;
     }
 
@@ -268,11 +270,8 @@ class Zgpb_Optb_Controller_Backend extends Flmbkp_Base_Module {
      * @param string $property An individual property to check, or 'all' to check all of them
      * @return bool
      */
-    protected function is_valid($property = 'all') {
+    protected function is_valid($property = 'all')
+    {
         return true;
     }
-
 }
-
-
-?>

@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 define('ELFINDER_PHP_ROOT_PATH', dirname(__FILE__));
 
 function elFinderAutoloader($name)
@@ -26,6 +28,7 @@ function elFinderAutoloader($name)
         'elFinderVolumeGroup' => 'elFinderVolumeGroup.class.php',
         'elFinderVolumeLocalFileSystem' => 'elFinderVolumeLocalFileSystem.class.php',
         'elFinderVolumeMySQL' => 'elFinderVolumeMySQL.class.php',
+        'elFinderVolumeSFTPphpseclib' => 'elFinderVolumeSFTPphpseclib.class.php',
         'elFinderVolumeTrash' => 'elFinderVolumeTrash.class.php',
     );
     if (isset($map[$name])) {

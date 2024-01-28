@@ -29,7 +29,8 @@ if (class_exists('flmbkp_database_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
+class flmbkp_database_Controller_Back extends Flmbkp_Base_Module
+{
 
     const VERSION = '1.2';
 
@@ -38,7 +39,7 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
     private $pagination = "";
     
     protected $modules;
-    var $per_page = 10;
+    private $per_page = 10;
  
 
     /**
@@ -46,7 +47,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
     }
@@ -54,7 +56,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
     /*
      * list tables
      */
-    public function list_tables(){
+    public function list_tables()
+    {
         $data=array();
         
         $tables=array();
@@ -64,9 +67,9 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
         $index_usage = 0;
         $overhead_usage = 0;
         $tablesstatus = $this->wpdb->get_results("SHOW TABLE STATUS");
-        foreach($tablesstatus as  $tablestatus) {
+        foreach ($tablesstatus as $tablestatus) {
              $table_inner = array();
-              $no++;  
+              $no++;
                $table_inner['number']=number_format_i18n($no);
                $table_inner['table']=$tablestatus->Name;
                $table_inner['Records']=number_format_i18n($tablestatus->Rows);
@@ -110,8 +113,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function register_hook_callbacks() {
-        
+    public function register_hook_callbacks()
+    {
     }
 
     /**
@@ -119,7 +122,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function init() {
+    public function init()
+    {
 
         try {
             //$instance_example = new WPPS_Instance_Class( 'Instance example', '42' );
@@ -140,7 +144,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param bool $network_wide
      */
-    public function activate($network_wide) {
+    public function activate($network_wide)
+    {
 
         return true;
     }
@@ -150,7 +155,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         return true;
     }
 
@@ -161,7 +167,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param string $db_version
      */
-    public function upgrade($db_version = 0) {
+    public function upgrade($db_version = 0)
+    {
         return true;
     }
 
@@ -173,9 +180,8 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module {
      * @param string $property An individual property to check, or 'all' to check all of them
      * @return bool
      */
-    protected function is_valid($property = 'all') {
+    protected function is_valid($property = 'all')
+    {
         return true;
     }
 }
-
-?>

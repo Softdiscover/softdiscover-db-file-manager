@@ -26,7 +26,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

@@ -22,7 +22,8 @@ if (class_exists('Flmbkp_Base_Module')) {
 /**
  * Abstract class to define/implement base methods for all module classes
  */
-abstract class Flmbkp_Base_Module {
+abstract class Flmbkp_Base_Module
+{
 
     private static $instances = array();
     public static $_modules = array();
@@ -41,7 +42,8 @@ abstract class Flmbkp_Base_Module {
      * @param string $variable
      * @return mixed
      */
-    public function __get($variable) {
+    public function __get($variable)
+    {
         $module = get_called_class();
 
         if (in_array($variable, $module::$readable_properties)) {
@@ -59,7 +61,8 @@ abstract class Flmbkp_Base_Module {
      * @param string $variable
      * @param mixed  $value
      */
-    public function __set($variable, $value) {
+    public function __set($variable, $value)
+    {
         $module = get_called_class();
 
         if (in_array($variable, $module::$writeable_properties)) {
@@ -84,7 +87,8 @@ abstract class Flmbkp_Base_Module {
      *
      * @return object
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         $module = get_called_class();
 
         if (!isset(self::$instances[$module])) {
@@ -109,7 +113,8 @@ abstract class Flmbkp_Base_Module {
      * @param  string $require               'once' to use require_once() | 'always' to use require()
      * @return string
      */
-    protected static function render_template($default_template_path = false, $variables = array(), $require = 'once') {
+    protected static function render_template($default_template_path = false, $variables = array(), $require = 'once')
+    {
                
         $template_path = locate_template(basename($default_template_path));
         
@@ -123,9 +128,9 @@ abstract class Flmbkp_Base_Module {
             ob_start();
 
             if ('always' == $require) {
-                require( $template_path );
+                require($template_path);
             } else {
-                require_once( $template_path );
+                require_once($template_path);
             }
 
             $template_content = apply_filters('flmbkp_rocket_template_content', ob_get_clean(), $default_template_path, $template_path, $variables);
@@ -151,7 +156,8 @@ abstract class Flmbkp_Base_Module {
      * @param  string $require               'once' to use require_once() | 'always' to use require()
      * @return string
      */
-    protected static function render_layout($default_template_path = false, $variables = array(), $require = 'once') {
+    protected static function render_layout($default_template_path = false, $variables = array(), $require = 'once')
+    {
         $template_path = locate_template(basename($default_template_path));
         if (!$template_path) {
             $template_path = dirname(__DIR__) . '/views/' . $default_template_path;
@@ -163,9 +169,9 @@ abstract class Flmbkp_Base_Module {
             ob_start();
 
             if ('always' == $require) {
-                require( $template_path );
+                require($template_path);
             } else {
-                require_once( $template_path );
+                require_once($template_path);
             }
 
             $template_content = apply_filters('flmbkp_rocket_template_content', ob_get_clean(), $default_template_path, $template_path, $variables);
@@ -183,10 +189,11 @@ abstract class Flmbkp_Base_Module {
      * @param string  $view      view
      * @param string  $view_data view_data
      * @param boolean $return    return
-     * 
-     * @return	array
+     *
+     * @return  array
      */
-    protected static function loadPartial($template = '', $view = '', $view_data = array(), $return = false) {
+    protected static function loadPartial($template = '', $view = '', $view_data = array(), $return = false)
+    {
         $data = array();
         $data['content'] = self::render_template($view, $view_data);
         //$this->set('content', $this->template_data['controller']->load->view($view, $view_data, true));
@@ -256,4 +263,3 @@ abstract class Flmbkp_Base_Module {
      */
     abstract protected function is_valid($property = 'all');
 }
-

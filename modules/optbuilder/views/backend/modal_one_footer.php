@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 ob_start();
 ?>
-  <button data-dismiss="modal" class="sfdc-btn sfdc-btn-primary" type="button"><?php echo __('Close','zgpbd_admin')?></button> 
+  <button data-dismiss="modal" class="sfdc-btn sfdc-btn-primary" type="button"><?php echo __('Close', 'zgpbd_admin')?></button> 
   
   <?php echo $buttons;?>
   
@@ -27,7 +27,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

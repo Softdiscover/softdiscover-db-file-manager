@@ -29,7 +29,8 @@ if (class_exists('flmbkp_Default_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
+class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module
+{
 
     const VERSION = '1.2';
 
@@ -38,7 +39,7 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
     private $pagination = "";
     
     protected $modules;
-    var $per_page = 10;
+    private $per_page = 10;
 
     const PREFIX = 'wprofmr_';
 
@@ -47,10 +48,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    protected function __construct() {
-       
-      
-    
+    protected function __construct()
+    {
     }
     
     
@@ -59,9 +58,10 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function main() {
+    public function main()
+    {
         //load file manager module
-       self::$_modules['filemanager']['backend']->load_file_manager();
+        self::$_modules['filemanager']['backend']->load_file_manager();
     }
    
     
@@ -70,8 +70,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function register_hook_callbacks() {
-        
+    public function register_hook_callbacks()
+    {
     }
 
     /**
@@ -79,7 +79,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function init() {
+    public function init()
+    {
 
         try {
             //$instance_example = new WPPS_Instance_Class( 'Instance example', '42' );
@@ -100,7 +101,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param bool $network_wide
      */
-    public function activate($network_wide) {
+    public function activate($network_wide)
+    {
 
         return true;
     }
@@ -110,7 +112,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         return true;
     }
 
@@ -121,7 +124,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param string $db_version
      */
-    public function upgrade($db_version = 0) {
+    public function upgrade($db_version = 0)
+    {
         return true;
     }
 
@@ -133,9 +137,8 @@ class flmbkp_Default_Controller_Back extends Flmbkp_Base_Module {
      * @param string $property An individual property to check, or 'all' to check all of them
      * @return bool
      */
-    protected function is_valid($property = 'all') {
+    protected function is_valid($property = 'all')
+    {
         return true;
     }
-
 }
-?>

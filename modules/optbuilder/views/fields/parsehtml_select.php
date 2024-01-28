@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}  
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 <?php
 ob_start();
@@ -24,11 +26,11 @@ ob_start();
                  <select name="<?php echo $id; ?>"
                          id="<?php echo $id; ?>"
                          class="sfdc-form-control">
-                    <?php foreach ($options as $key2=>$value2) {
-                         ?>
+                    <?php foreach ($options as $key2 => $value2) {
+                        ?>
                          <option value="<?php echo $key2;?>" <?php echo ((string)$key2===(string)$value)?'selected="selected"':''; ?> ><?php echo $value2;?></option>    
                          <?php
-                     }?> 
+                    }?> 
                 </select>
                  
                     
@@ -44,7 +46,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

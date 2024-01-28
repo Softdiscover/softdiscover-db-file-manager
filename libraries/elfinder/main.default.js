@@ -1,6 +1,3 @@
-  require(["jquery"], 
-        function($) {
-         
 /**
  * elFinder client options and main script for RequireJS
  *
@@ -9,46 +6,53 @@
  **/
 (function(){
 	"use strict";
-   
-    window.$ = window.jQuery = require("jquery");
-    
 	var // jQuery and jQueryUI version
-		jqver = '3.3.1',
-		uiver = '1.12.1',
+		jqver = '3.7.1',
+		uiver = '1.13.2',
 		
 		// Detect language (optional)
 		lang = (function() {
 			var locq = window.location.search,
+				map = {
+					'pt' : 'pt_BR',
+					'ug' : 'ug_CN',
+					'zh' : 'zh_CN'
+				},
+				full = {
+					'zh_tw' : 'zh_TW',
+					'zh_cn' : 'zh_CN',
+					'fr_ca' : 'fr_CA'
+				},
 				fullLang, locm, lang;
 			if (locq && (locm = locq.match(/lang=([a-zA-Z_-]+)/))) {
 				// detection by url query (?lang=xx)
 				fullLang = locm[1];
 			} else {
 				// detection by browser language
-				fullLang = (navigator.browserLanguage || navigator.language || navigator.userLanguage);
+				fullLang = (navigator.browserLanguage || navigator.language || navigator.userLanguage || '');
 			}
-			lang = fullLang.substr(0,2);
-			if (lang === 'pt') lang = 'pt_BR';
-			else if (lang === 'ug') lang = 'ug_CN';
-			else if (lang === 'zh') lang = (fullLang.substr(0,5).toLowerCase() === 'zh-tw')? 'zh_TW' : 'zh_CN';
+			fullLang = fullLang.replace('-', '_').substr(0,5).toLowerCase();
+			if (full[fullLang]) {
+				lang = full[fullLang];
+			} else {
+				lang = (fullLang || 'en').substr(0,2);
+				if (map[lang]) {
+					lang = map[lang];
+				}
+			}
 			return lang;
 		})(),
 		
 		// Start elFinder (REQUIRED)
 		start = function(elFinder, editors, config) {
-
-			//console.log(JSON.stringify(editors));
-			//console.log(editors[7]);
 			// load jQueryUI CSS
-			elFinder.prototype.loadCss(flmbkp_vars.plugin_url+'/assets/common/css/jqueryui/1.12.1/themes/smoothness/jquery-ui.css');
-			//elFinder.prototype.loadCss('//cdnjs.cloudflare.com/ajax/libs/jqueryui/'+uiver+'/themes/smoothness/jquery-ui.css');
+			elFinder.prototype.loadCss('//cdnjs.cloudflare.com/ajax/libs/jqueryui/'+uiver+'/themes/smoothness/jquery-ui.css');
 			
-			$(function() {
+			jQuery(function($) {
 				var optEditors = {
 						commandsOptions: {
 							edit: {
 								editors: Array.isArray(editors)? editors : []
-
 							}
 						}
 					},
@@ -61,7 +65,6 @@
 						// editors marges to opts.commandOptions.edit
 						try {
 							mOpts.commandsOptions.edit.editors = mOpts.commandsOptions.edit.editors.concat(editors || []);
-							//mOpts.commandsOptions.edit.editors = mOpts.commandsOptions.edit.editors.concat([]);
 						} catch(e) {
 							Object.assign(mOpts, optEditors);
 						}
@@ -95,13 +98,13 @@
 				}
 			});
 		},
-		 
+		
 		// JavaScript loader (REQUIRED)
 		load = function() {
 			require(
 				[
 					'elfinder'
-					, 'editorsdefault'               // load text, image editors
+					, 'libraries/elfinder/js/extras/editors.default.min'               // load text, image editors
 					, 'elFinderConfig'
 				//	, 'extras/quicklook.googledocs.min'          // optional preview for GoogleApps contents on the GoogleDrive volume
 				],
@@ -121,28 +124,23 @@
 	require.config({
 		baseUrl : flmbkp_vars.plugin_url,
 		paths : {
-			 
 			'jquery-ui': 'libraries/elfinder/js/jquery-ui.min',
-			'elfinder' : 'libraries/elfinder/js/elfinder.full',
-			'encoding-japanese': 'libraries/elfinder/js/encoding.min',
-                        'editorsdefault': 'libraries/elfinder/js/extras/editors.default'
+			'elfinder' : 'libraries/elfinder/js/elfinder.min',
+			'encoding-japanese': '//cdn.rawgit.com/polygonplanet/encoding.js/1.0.26/encoding.min',
+			'editorsdefault': 'libraries/elfinder/js/extras/editors.default.min'
 		},
-                
-		waitSeconds : 10, // optional
-                
+		waitSeconds : 10 // optional
 	});
-        
-        
 
 	// check elFinderConfig and fallback
 	// This part don't used if you are using elfinder.html, see elfinder.html
-	if (false && ! require.defined('elFinderConfig')) {
+	if (! require.defined('elFinderConfig')) {
 		define('elFinderConfig', {
 			// elFinder options (REQUIRED)
 			// Documentation for client options:
 			// https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
 			defaultOpts : {
-				url : ajaxurl// connector URL (REQUIRED)
+				url : ajaxurl // connector URL (REQUIRED)
 				,commandsOptions : {
 					edit : {
 						extraOptions : {
@@ -175,9 +173,3 @@
 	load();
 
 })();
-
-          
-          
-          
-      
-  }); 

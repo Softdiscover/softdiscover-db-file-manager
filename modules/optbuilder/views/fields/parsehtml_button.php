@@ -1,12 +1,14 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}  
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 <?php
 ob_start();
 ?>
 
 <button  
-        <?php if(!empty($onclick)){?>
+        <?php if (!empty($onclick)) {?>
         onclick="<?php echo $onclick; ?>"
         <?php }?>
         class="sfdc-btn sfdc-btn-primary"
@@ -20,7 +22,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>

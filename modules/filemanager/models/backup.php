@@ -30,31 +30,35 @@ if (class_exists('flmbkp_Model_Backup')) {
  * @version   Release: 1.00
  * @link      https://wordpress-form-builder.zigaform.com/
  */
-class flmbkp_Model_Backup {
+class flmbkp_Model_Backup
+{
 
     private $wpdb = "";
     public $table = "";
 
-    function __construct() {
+    public function __construct()
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->table = $wpdb->prefix . "flmbkp_backup";
     }
     
     
-     function getinfo($id) {
+    public function getinfo($id)
+    {
         $query = sprintf('
             select bkp_slug
             from %s c
             where c.bkp_id=%s
-            ', $this->table,$id);
+            ', $this->table, $id);
         return $this->wpdb->get_row($query);
     }
     
     /**
      * formsmodel::getListBackups()
      */
-    function getListBackups($per_page = '', $segment = '') {
+    public function getListBackups($per_page = '', $segment = '')
+    {
         $query = sprintf('
             select *
             from %s uf
@@ -63,12 +67,13 @@ class flmbkp_Model_Backup {
 
         if ($per_page != '' || $segment != '') {
             $segment=(!empty($segment))?$segment:0;
-        $query.=sprintf(' limit %s,%s', (int)$segment, (int)$per_page);
+            $query.=sprintf(' limit %s,%s', (int)$segment, (int)$per_page);
         }
         return $this->wpdb->get_results($query);
     }
     
-    function CountRecords() {
+    public function CountRecords()
+    {
         $query = sprintf('
             select COUNT(*) AS counted
             from %s c
@@ -81,7 +86,4 @@ class flmbkp_Model_Backup {
             return 0;
         }
     }
-
 }
-
-?>

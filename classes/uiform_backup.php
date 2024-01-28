@@ -7,7 +7,8 @@ if (class_exists('Flmbkp_Backup')) {
     return;
 }
 
-class Flmbkp_Backup {
+class Flmbkp_Backup
+{
 
     private $tables = array();
     private $suffix = 'd-M-Y_H-i-s';
@@ -17,7 +18,8 @@ class Flmbkp_Backup {
      *
      * @mvc Controller
      */
-    public function __construct($filename, $backup_directory) {
+    public function __construct($filename, $backup_directory)
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->backup_dir = $backup_directory;
@@ -28,10 +30,10 @@ class Flmbkp_Backup {
         $this->dbName = DB_NAME;
         $this->charset = DB_CHARSET;
         $this->conn = $this->getConnectionObj();
-        
     }
 
-    protected function getConnectionObj() {
+    protected function getConnectionObj()
+    {
         try {
             $conn = mysqli_connect($this->host, $this->username, $this->passwd, $this->dbName);
             if (mysqli_connect_errno()) {
@@ -43,9 +45,8 @@ class Flmbkp_Backup {
             }
 
            
-             // Disable foreign key checks 
+             // Disable foreign key checks
             mysqli_query($conn, 'SET foreign_key_checks = 0');
-            
         } catch (Exception $e) {
             var_dump($e->getMessage());
             die();
@@ -54,7 +55,8 @@ class Flmbkp_Backup {
         return $conn;
     }
 
-    public function uploadBackupFile() {
+    public function uploadBackupFile()
+    {
         $target_dir = FLMBKP_DIR . '/backups/';
         $target_file = $target_dir . basename($_FILES["uifm_bkp_fileupload"]["name"]);
         $uploadOk = 1;
@@ -62,17 +64,14 @@ class Flmbkp_Backup {
 
         // Check if file already exists
         if (file_exists($target_file)) {
-
             $uploadOk = 0;
         }
         // Check file size
         if ($_FILES["uifm_bkp_fileupload"]["size"] > 5048576) {
-
             $uploadOk = 0;
         }
         // Allow certain file formats
         if ($imageFileType != "sql") {
-
             $uploadOk = 0;
         }
         // Check if $uploadOk is set to 0 by an error
@@ -80,9 +79,7 @@ class Flmbkp_Backup {
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["uifm_bkp_fileupload"]["tmp_name"], $target_file)) {
-                
             } else {
-                
             }
         }
     }
@@ -91,7 +88,8 @@ class Flmbkp_Backup {
      * Restore backup
      */
 
-    public function restoreBackup(&$log) {
+    public function restoreBackup(&$log)
+    {
         try {
             $sql = '';
             $multiLine_comment = false;
@@ -107,15 +105,14 @@ class Flmbkp_Backup {
                 throw new Exception("ERROR: couldn't unzip backup file " . $backup_dir . '/' . $backup_slug);
             }
 
-            //start importing sql file 
+            //start importing sql file
             if (file_exists($backup_dir . '/' . $backup_slug . '_database.sql')) {
-  
                  $handle = fopen($backup_dir . '/' . $backup_slug . '_database.sql', "r");
                 if ($handle) {
                     while (($line = fgets($handle)) !== false) {
                         $line = ltrim(rtrim($line));
                         // avoid blank lines
-                        if (strlen($line) > 1) { 
+                        if (strlen($line) > 1) {
                             $lineIsComment = false;
                             if (preg_match('/^\/\*/', $line)) {
                                 $multiLine_comment = true;
@@ -127,7 +124,6 @@ class Flmbkp_Backup {
                             if (!$lineIsComment) {
                                 $sql .= $line;
                                 if (preg_match('/;$/', $line)) {
-                                    
                                     if (mysqli_query($this->conn, $sql)) {
                                         if (preg_match('/^CREATE TABLE `([^`]+)`/i', $sql, $tableName)) {
                                             $log[] = "Table created: `" . $tableName[1] . "`";
@@ -146,7 +142,6 @@ class Flmbkp_Backup {
                 } else {
                     throw new Exception("Error on opening backup file " . $backup_dir . '/' . $backup_slug);
                 }
-               
             }
         } catch (Exception $e) {
             var_dump($e->getMessage());
@@ -159,10 +154,9 @@ class Flmbkp_Backup {
         return true;
     }
 
-    public function restoreBackupAlt($file) {
+    public function restoreBackupAlt($file)
+    {
         try {
-
-
             /* Begin restore */
 
             $dir = FLMBKP_DIR . '/backups/';
@@ -191,14 +185,13 @@ class Flmbkp_Backup {
 
                 /* BEGIN: Remove All Tables from the Database */
 
-                require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
+                require_once(FLMBKP_DIR . '/classes/uiform-installdb.php');
                 $installdb = new Flmbkp_InstallDB();
                 $dbTables = array();
 
 
                 if (count($dbTables) > 0) {
                     foreach ($dbTables as $table_name) {
-
                         mysql_query("DROP TABLE `" . (string) $database_name . "`.{$table_name}", $conn);
                     }
                 }
@@ -208,7 +201,6 @@ class Flmbkp_Backup {
 
                 /* BEGIN: Restore Database Content */
                 if (isset($database_file)) {
-
                     $sql_file = file_get_contents($database_file, true);
 
                     $sql_file = strtr($sql_file, array(
@@ -218,7 +210,6 @@ class Flmbkp_Backup {
                     $sql_queries = explode(";\n", $sql_file);
 
                     for ($i = 0; $i < count($sql_queries); $i++) {
-
                         @mysql_query($sql_queries[$i], $conn);
                     }
                 }
@@ -232,8 +223,9 @@ class Flmbkp_Backup {
         }
     }
 
-    function makeDbBackup($name = '') {
-        require_once( FLMBKP_DIR . '/classes/uiform-installdb.php');
+    public function makeDbBackup($name = '')
+    {
+        require_once(FLMBKP_DIR . '/classes/uiform-installdb.php');
         $installdb = new Flmbkp_InstallDB();
         $dbTables = array();
         $dbTables[] = $installdb->form;
@@ -247,33 +239,33 @@ class Flmbkp_Backup {
         $dump = '';
         $database = DB_NAME;
         $server = DB_HOST;
-        $dump .= '-- --------------------------------------------------------------------------------' . nl;
-        $dump .= '-- ' . nl;
-        $dump .= '-- @version: ' . $database . '.sql ' . date('M j, Y') . ' ' . date('H:i') . ' Softdiscover' . nl;
-        $dump .= '-- @package Uiform - Wordpress Form Builder' . nl;
-        $dump .= '-- @author softdiscover.com.' . nl;
-        $dump .= '-- @copyright 2015' . nl;
-        $dump .= '-- ' . nl;
-        $dump .= '-- --------------------------------------------------------------------------------' . nl;
-        $dump .= '-- Host: ' . $server . nl;
-        $dump .= '-- Database: ' . $database . nl;
-        $dump .= '-- Time: ' . date('M j, Y') . '-' . date('H:i') . nl;
-        $dump .= '-- MySQL version: ' . Flmbkp_Form_Helper::mysql_version() . nl;
-        $dump .= '-- PHP version: ' . phpversion() . nl;
-        $dump .= '-- --------------------------------------------------------------------------------' . nl . nl;
+        $dump .= '-- --------------------------------------------------------------------------------' . NL;
+        $dump .= '-- ' . NL;
+        $dump .= '-- @version: ' . $database . '.sql ' . date('M j, Y') . ' ' . date('H:i') . ' Softdiscover' . NL;
+        $dump .= '-- @package Uiform - Wordpress Form Builder' . NL;
+        $dump .= '-- @author softdiscover.com.' . NL;
+        $dump .= '-- @copyright 2015' . NL;
+        $dump .= '-- ' . NL;
+        $dump .= '-- --------------------------------------------------------------------------------' . NL;
+        $dump .= '-- Host: ' . $server . NL;
+        $dump .= '-- Database: ' . $database . NL;
+        $dump .= '-- Time: ' . date('M j, Y') . '-' . date('H:i') . NL;
+        $dump .= '-- MySQL version: ' . Flmbkp_Form_Helper::mysql_version() . NL;
+        $dump .= '-- PHP version: ' . phpversion() . NL;
+        $dump .= '-- --------------------------------------------------------------------------------' . NL . NL;
 
-        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_history . '`;' . nl;
-        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_fields . '`;' . nl;
-        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_fields_type . '`;' . nl;
-        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form . '`;' . nl;
-        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->settings . '`;' . nl;
+        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_history . '`;' . NL;
+        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_fields . '`;' . NL;
+        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form_fields_type . '`;' . NL;
+        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->form . '`;' . NL;
+        $dump .= 'DROP TABLE IF EXISTS `' . $installdb->settings . '`;' . NL;
 
         $database = DB_NAME;
         if (!empty($database)) {
-            $dump .= '#' . nl;
-            $dump .= '# Database: `' . $database . '`' . nl;
+            $dump .= '#' . NL;
+            $dump .= '# Database: `' . $database . '`' . NL;
         }
-        $dump .= '#' . nl . nl . nl;
+        $dump .= '#' . NL . NL . NL;
         $tables = $this->getTables();
         if (!empty($tables)) {
             foreach ($this->tables as $key => $table) {
@@ -301,7 +293,8 @@ class Flmbkp_Backup {
         fclose($f);
     }
 
-    function getTables() {
+    public function getTables()
+    {
         $value = array();
         if (!($result = $this->wpdb->get_results("SHOW TABLES"))) {
             return false;
@@ -320,7 +313,8 @@ class Flmbkp_Backup {
         return $value;
     }
 
-    function dumpTable($table, $flag = false) {
+    public function dumpTable($table, $flag = false)
+    {
 
         // $dump = '';
         $this->wpdb->query('LOCK TABLES ' . $table . ' WRITE');
@@ -330,17 +324,16 @@ class Flmbkp_Backup {
         //foreach($tables as $table) {
         $result = $this->wpdb->get_results("SELECT * FROM {$table}", ARRAY_N);
         if ($flag === true) {
-
             //verifying the first table has content
             $row = isset($result[0]) ? $result[0] : '';
             if (empty($row[0])) {
                 return false;
             }
         }
-        $output .= '-- --------------------------------------------------' . nl;
-        $output .= '# -- Table structure for table `' . $table . '`' . nl;
-        $output .= '-- --------------------------------------------------' . nl;
-        $output .= 'DROP TABLE IF EXISTS `' . $table . '`;' . nl;
+        $output .= '-- --------------------------------------------------' . NL;
+        $output .= '# -- Table structure for table `' . $table . '`' . NL;
+        $output .= '-- --------------------------------------------------' . NL;
+        $output .= 'DROP TABLE IF EXISTS `' . $table . '`;' . NL;
         $row2 = $this->wpdb->get_row('SHOW CREATE TABLE ' . $table, ARRAY_N);
         $output .= "\n\n" . $row2[1] . ";\n\n";
         for ($i = 0; $i < count($result); $i++) {
@@ -362,7 +355,8 @@ class Flmbkp_Backup {
         return $output;
     }
 
-    function insert($table) {
+    public function insert($table)
+    {
         $output = '';
         if (!$query = $this->wpdb->get_results("SELECT * FROM `" . $table . "`")) {
             return false;
@@ -377,14 +371,6 @@ class Flmbkp_Backup {
 
 
             foreach (array_values((array) $result) as $value) {
-                /* $value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
-                  $value = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $value);
-                  $value = str_replace('\\', '\\\\', $value);
-                  $value = str_replace('\'', '\\\'', $value);
-                  $value = str_replace('\\\n', '\n', $value);
-                  $value = str_replace('\\\r', '\r', $value);
-                  $value = str_replace('\\\t', '\t', $value); */
-
                 $values .= '\'' . $value . '\', ';
             }
 
@@ -392,7 +378,4 @@ class Flmbkp_Backup {
         }
         return $output;
     }
-
 }
-
-?>

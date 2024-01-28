@@ -30,21 +30,23 @@ if (class_exists('flmbkp_settings_Controller_Back')) {
  * @version   Release: 1.00
  * @link      http://wordpress-cost-estimator.zigaform.com
  */
-class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
+class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module
+{
 
     const VERSION = '1.2';
 
     private $wpdb = "";
     private $pagination = "";
     protected $modules;
-    var $per_page = 10;
+    private $per_page = 10;
 
     /**
      * Constructor
      *
      * @mvc Controller
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         //save record
         add_action('wp_ajax_flmbkp_settings_saveoptions', array(&$this, 'ajax_save_options'));
     }
@@ -54,15 +56,18 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function ajax_save_options() {
+    public function ajax_save_options()
+    {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
         $tmp_data = (isset($_POST['options'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['options'])) : '';
         $data = array();
-        if(!empty($tmp_data))
-        foreach (explode('&', $tmp_data) as $value) {
-            $value1 = explode('=', $value);
-            if(!empty($value1[1]))
-            $data[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
+        if (!empty($tmp_data)) {
+            foreach (explode('&', $tmp_data) as $value) {
+                $value1 = explode('=', $value);
+                if (!empty($value1[1])) {
+                    $data[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
+                }
+            }
         }
 
         update_site_option('dbflm_fmanager_roles', $data);
@@ -82,7 +87,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      * list tables
      */
 
-    public function list_options() {
+    public function list_options()
+    {
         $data = array();
         $roles = Flmbkp_Form_Helper::get_user_roles();
         $wp_default_role = get_option('default_role');
@@ -115,8 +121,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function register_hook_callbacks() {
-        
+    public function register_hook_callbacks()
+    {
     }
 
     /**
@@ -124,7 +130,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function init() {
+    public function init()
+    {
 
         try {
             //$instance_example = new WPPS_Instance_Class( 'Instance example', '42' );
@@ -145,7 +152,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param bool $network_wide
      */
-    public function activate($network_wide) {
+    public function activate($network_wide)
+    {
 
         return true;
     }
@@ -155,7 +163,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @mvc Controller
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         return true;
     }
 
@@ -166,7 +175,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      *
      * @param string $db_version
      */
-    public function upgrade($db_version = 0) {
+    public function upgrade($db_version = 0)
+    {
         return true;
     }
 
@@ -178,10 +188,8 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module {
      * @param string $property An individual property to check, or 'all' to check all of them
      * @return bool
      */
-    protected function is_valid($property = 'all') {
+    protected function is_valid($property = 'all')
+    {
         return true;
     }
-
 }
-
-?>

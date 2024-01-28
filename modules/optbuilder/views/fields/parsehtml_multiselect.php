@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) {exit('No direct script access allowed');}  
+if (!defined('ABSPATH')) {
+    exit('No direct script access allowed');
+}
 ?>
 <?php
 ob_start();
@@ -23,9 +25,9 @@ ob_start();
                  
                
                   <?php $cats = get_categories('hide_empty=0'); ?>
-                    <?php 
+                    <?php
                      // $cat_sel=backend_get_option('blog','blog_exclude_category',$this->options);
-                      $cat_sel=zgth_get_option('blog','zgth_blog_exclude_category');
+                      $cat_sel=zgth_get_option('blog', 'zgth_blog_exclude_category');
                     ?>  
                     <!-- Build your select: -->
                     <select 
@@ -34,7 +36,9 @@ ob_start();
                         class="zgth-option-inp-multisel"
                         multiple="true">
                     <?php foreach ($cats as $value) { ?>
-                    <option value="<?php echo $value->cat_ID; ?>" <?php if(is_array($cat_sel) && in_array($value->cat_ID, $cat_sel)){ echo 'selected="selected"';}?> ><?php echo $value->name;?></option>
+                    <option value="<?php echo $value->cat_ID; ?>" <?php if (is_array($cat_sel) && in_array($value->cat_ID, $cat_sel)) {
+                        echo 'selected="selected"';
+                                   }?> ><?php echo $value->name;?></option>
                     <?php } ?> 
                     </select>
                     
@@ -49,7 +53,7 @@ $cntACmp = str_replace("\t", '', $cntACmp);
 $cntACmp = str_replace("\r", '', $cntACmp);
 $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
-$cntACmp = preg_replace("/\s+/"," ", $cntACmp);
+$cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
 echo $cntACmp;
 ?>
