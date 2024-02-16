@@ -102,7 +102,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
         
         
         $log = array();
-        $files_dest = WP_CONTENT_DIR.'/';
+        $files_dest = WP_CONTENT_DIR.'/uploads/';
         if (intval($bkp_id)>0) {
             $rec_info=$this->model_backup->getinfo($bkp_id);
             $backup_directory = Flmbkp_Form_Helper::backup_directory();

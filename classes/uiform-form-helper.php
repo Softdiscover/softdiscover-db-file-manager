@@ -586,21 +586,8 @@ class Flmbkp_Form_Helper
     public static function backup_directory()
     {
 
-        $backup_dir = WP_CONTENT_DIR.'/softdiscover';
-        if ('/' != substr($backup_dir, 0, 1)
-                && "\\" != substr($backup_dir, 0, 1)
-                && !preg_match('/^[a-zA-Z]:/', $backup_dir)) {
-            if (is_dir(ABSPATH.$backup_dir)
-                        && is_file(ABSPATH.$backup_dir.'/index.html')
-                        && is_file(ABSPATH.$backup_dir.'/.htaccess')
-                        && !is_file(ABSPATH.$backup_dir.'/index.php')
-                        && false !== strpos(file_get_contents(ABSPATH.$backup_dir.'/.htaccess', false, null, 0, 20), 'deny from all')) {
-                    $backup_dir = ABSPATH.$backup_dir;
-            } else {
-                    $backup_dir = trailingslashit(WP_CONTENT_DIR).$backup_dir;
-            }
-        }
-            
+        $backup_dir = WP_CONTENT_DIR.'/uploads/softdiscover';
+        
         if ((!is_dir($backup_dir) ||
                 !is_file($backup_dir.'/index.html') ||
                 !is_file($backup_dir.'/.htaccess')) &&

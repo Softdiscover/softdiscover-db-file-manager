@@ -523,7 +523,7 @@ JS;
             return;
         }
                 
-        add_menu_page('Managefy', 'Managefy', "edit_posts", "flmbkp_file_manager", array(&$this, "get_menu"), FLMBKP_URL . "/assets/backend/image/codemirror-icon.png");
+        add_menu_page('Managefy', 'File Manager & Backup', "edit_posts", "flmbkp_file_manager", array(&$this, "get_menu"), FLMBKP_URL . "/assets/backend/image/codemirror-icon.png");
                 
         $perms = 'manage_options';
         add_submenu_page("flmbkp_file_manager", __('File Manager', 'FRocket_admin'), __('File Manager', 'FRocket_admin'), $perms, "flmbkp_file_manager", array(&$this, "get_menu"));

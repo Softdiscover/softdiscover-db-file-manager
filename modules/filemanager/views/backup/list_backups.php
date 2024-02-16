@@ -186,27 +186,27 @@ if (!defined('ABSPATH')) {
                                                 <td><?php echo $row->bkp_slug; ?></td>
                                                 <td><?php echo $row->created_date; ?></td>
                                                 <td> 
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_plugins.zip')) {   ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR.'/uploads/softdiscover/'.$row->bkp_slug.'_plugins.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_plugins.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Plugins', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_themes.zip')) {   ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR.'/uploads/softdiscover/'.$row->bkp_slug.'_themes.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_themes.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Themes', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                    <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_uploads.zip')) {   ?>
+                                                    <?php if (file_exists(WP_CONTENT_DIR.'/uploads/softdiscover/'.$row->bkp_slug.'_uploads.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_uploads.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Uploads', 'FRocket_admin'); ?>
                                                     </button>
                                                     <?php } ?>
-                                                    <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_others.zip')) {   ?>
+                                                    <?php if (file_exists(WP_CONTENT_DIR.'/uploads/softdiscover/'.$row->bkp_slug.'_others.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_others.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Others', 'FRocket_admin'); ?>
                                                     </button>
                                                     <?php } ?>
-                                                    <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/'.$row->bkp_slug.'_database.zip')) {   ?>
+                                                    <?php if (file_exists(WP_CONTENT_DIR.'/uploads/softdiscover/'.$row->bkp_slug.'_database.zip')) {   ?>
                                                     <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug;?>_database.zip')"  class="btn btn-warning">
                                                     <i class="fa fa-download"></i> <?php echo __('Database', 'FRocket_admin'); ?>
                                                     </button>

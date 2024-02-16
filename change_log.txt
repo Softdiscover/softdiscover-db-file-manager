@@ -1,3 +1,5 @@
+Version 1.4.3
+    [fix] - minor issue
 Version 1.4.1
     [fix] - minor issue
 Version 1.4.0
