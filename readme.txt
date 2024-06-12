@@ -5,9 +5,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: database, file manager, backup, user roles, elfinder, ftp, folders, files, wp file manager, code editor, wp-file manager, editor
 Requires at least: 3.6
-Tested up to: 6.4.3
+Tested up to: 6.5.4
 Requires PHP: 5.3
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 
 Manage your folder and files , backup, user roles and database easily
 
@@ -17,7 +17,7 @@ Managefy Plugin for wordpress, allow you to access folders, download files, uplo
 
 Use your mouse (or touch) to drag and drop your files. Create, rename, delete or reorder your folders If you want to select a image from the “Select a image”-dialog (e. g. featured image) you can filter when inserting media. Just install this plugin and it works fine with all your image and media files. It also supports multisite.
 
-[youtube https://www.youtube.com/watch?v=Lumld8OheRA]
+[youtube https://www.youtube.com/watch?v=YoQk3C53BB0]
 
 
 Managefy is a WordPress plugin that allows you to easily manage your media library in your blog. Using this plugin, you’ll be able to organize the thousands of images, audio, video, and PDF files in your media library in folders. Basically, it’s like WordPress categories for your media library.
@@ -167,7 +167,7 @@ There are 2 ways to install. Please follow the steps below:
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.4.3 = 
+= 1.4.4 = 
  * minor changes
  
 == Upgrade Notice ==
@@ -176,5 +176,5 @@ There are 2 ways to install. Please follow the steps below:
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.4.3 = 
+= 1.4.4 = 
  * minor changes
