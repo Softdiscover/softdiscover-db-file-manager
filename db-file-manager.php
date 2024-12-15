@@ -3,7 +3,7 @@
  * Plugin Name: File Manager, Code editor, backup by Managefy
  * Plugin URI: https://softdiscover.com/managefy/
  * Description: Managefy Plugin for wordpress, allow user to access folders, download files, upload files, create folders, sub folders. Also Managefy allows to backup your files and database, and restore them as well.
- * Version: 1.4.5
+ * Version: 1.4.7
  * Author: SoftDiscover.Com
  * Author URI: https://github.com/Softdiscover
  */
@@ -29,7 +29,7 @@ if (!class_exists('WpFileManagerBkp')) {
          * @var string
          * @since 1.0
          */
-        public $version = '1.4.5';
+        public $version = '1.4.7';
 
         /**
          * The minimal required version of WordPress for this plug-in to function correctly.
