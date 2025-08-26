@@ -1,12 +1,12 @@
-# Copyright (C) 2024 Managefy 1.4.7
-# This file is distributed under the same license as the Managefy 1.4.7 package.
+# Copyright (C) 2025 Managefy 1.5.0
+# This file is distributed under the same license as the Managefy 1.5.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Managefy 1.4.7\n"
+"Project-Id-Version: Managefy 1.5.0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-15 15:58+0000\n"
+"POT-Creation-Date: 2025-08-26 05:26+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -84,6 +84,34 @@ msgstr ""
 
 #: modules/filemanager/controllers/backup.php:165
 msgid "Restored successfully"
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:210
+msgid "Insufficient permissions."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:223, modules/filemanager/controllers/backup.php:230, modules/filemanager/controllers/backup.php:241, modules/filemanager/controllers/backup.php:247
+msgid "Invalid file requested."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:254
+msgid "Invalid file name."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:262
+msgid "Invalid file type."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:271
+msgid "Backup directory unavailable."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:281
+msgid "Invalid path."
+msgstr ""
+
+#: modules/filemanager/controllers/backup.php:286
+msgid "File not found."
 msgstr ""
 
 #: modules/database/views/backend/list_tables.php:27

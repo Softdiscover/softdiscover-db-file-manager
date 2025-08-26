@@ -39,12 +39,12 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
     private $wpdb = "";
     private $pagination = "";
     private $model_backup = "";
-    
+
     public $progress;
     public $zip_obj;
     public $last_abort_check;
-    
-    
+
+
     public $total_targets;
     public $startTime;
     public $max_execution_time;
@@ -52,7 +52,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
     public $iteration_number;
     public $oFile;
     public $excludes;
-            
+
     protected $modules;
     private $per_page = 10;
 
@@ -70,54 +70,54 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
 
         //create records
         add_action('wp_ajax_flmbkp_backup_createrec', array(&$this, 'ajax_create_records'));
-        
+
         //submit header options
         add_action('wp_ajax_flmbkp_backup_sendoptions', array(&$this, 'ajax_submit_options_switch'));
 
         //backup process
         add_action('wp_ajax_flmbkp_backup_watchprogress', array(&$this, 'ajax_watchprogress'));
-        
+
         //download file
         add_action('wp_ajax_flmbkp_backup_downloadfile', array(&$this, 'ajax_downloadfile'));
-        
+
         //delete record
         add_action('wp_ajax_flmbkp_backup_delete_records', array(&$this, 'ajax_delete_record'));
-        
+
         //restore record
         add_action('wp_ajax_flmbkp_backup_restore_records', array(&$this, 'ajax_restore_record'));
-        
+
         define('NL', "\r\n");
     }
-    
- 
-     /*
-     * restore record
-     */
+
+
+    /*
+    * restore record
+    */
     public function ajax_restore_record()
     {
-        
+
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        
+
         $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
-        
-        
+
+
         $log = array();
         $files_dest = WP_CONTENT_DIR.'/uploads/';
         if (intval($bkp_id)>0) {
             $rec_info=$this->model_backup->getinfo($bkp_id);
             $backup_directory = Flmbkp_Form_Helper::backup_directory();
-            
+
             //database
             if (file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_database.zip')) {
-                    require_once(FLMBKP_DIR . '/classes/uiform_backup.php');
-                    $objClass = new Flmbkp_Backup($rec_info->bkp_slug, $backup_directory);
+                require_once(FLMBKP_DIR . '/classes/uiform_backup.php');
+                $objClass = new Flmbkp_Backup($rec_info->bkp_slug, $backup_directory);
                 if ($objClass->restoreBackup($log)) {
                     $log[] = __('<b>Database backup restored.</b>', 'FRocket_admin');
                 } else {
                     $log[] = __('<b>Unable to restore DB backup.</b>', 'FRocket_admin');
                 }
             }
-            
+
             // Plugins
             if (file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip')) {
                 $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip', $files_dest);
@@ -127,7 +127,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                     $log[] = __('<b>Unable to restore plugins.</b>', 'FRocket_admin');
                 }
             }
-            
+
             // themes
             if (file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip')) {
                 $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip', $files_dest);
@@ -147,7 +147,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                     $log[] = __('<b>Unable to restore plugins.</b>', 'FRocket_admin');
                 }
             }
-            
+
             // Others
             if (file_exists($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip')) {
                 $tmp_res = Flmbkp_Form_Helper::unzipFiles($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip', $files_dest);
@@ -158,62 +158,149 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                 }
             }
         }
-        
+
         $json = array(
             'log' => $log,
             'success' => true,
             'modal_title'=>__('Restored successfully', 'FRocket_admin'),
             'modal_body'=>self::render_template('filemanager/views/backup/restore_message.php', array('log'=>$log))
         );
-        
+
         header('Content-Type: application/json');
         echo json_encode($json);
         wp_die();
     }
-    
-     /*
-     * Delete record
-     */
+
+    /*
+    * Delete record
+    */
     public function ajax_delete_record()
     {
-        
+
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        
+
         $bkp_id = (isset($_POST['rec_id']) && $_POST['rec_id']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['rec_id']) : 0;
-            
+
         $rec_info=$this->model_backup->getinfo($bkp_id);
-            
+
         $backup_directory = Flmbkp_Form_Helper::backup_directory();
-        
+
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_plugins.zip');
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_themes.zip');
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_database.zip');
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_others.zip');
         @unlink($backup_directory . '/' . $rec_info->bkp_slug .'_uploads.zip');
-        
+
         //de;ete recprd
         $this->wpdb->delete($this->model_backup->table, array( 'bkp_id' => $bkp_id));
     }
-    
+
     /*
      * Download file
+     *
+     * FIXED: Prevent path traversal and enforce capability checks.
      */
     public function ajax_downloadfile()
     {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
+
+        // Only privileged users may download backups.
+        if ( ! current_user_can('manage_options') ) {
+            status_header(403);
+            wp_die(__('Insufficient permissions.', 'FRocket_admin'));
+        }
+
         @set_time_limit(900);
-        $flm_file = (isset($_GET['flm_file'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_GET['flm_file']) : '';
-        
-        $backup_directory=Flmbkp_Form_Helper::backup_directory();
-        $fullpath = $backup_directory.'/'.$flm_file;
-        
-        header("Content-Length: ".filesize($fullpath));
-        header("Content-type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=\"".basename($fullpath)."\";");
+
+        // Raw input (no HTML decoding) then minimal normalization
+        $flm_file_raw = isset($_GET['flm_file']) ? wp_unslash($_GET['flm_file']) : '';
+        // Use your existing helper for generic cleanup, but rely on strict validation below.
+        $flm_file     = Flmbkp_Form_Helper::sanitizeInput($flm_file_raw);
+
+        // Basic presence
+        if ( ! is_string($flm_file) || $flm_file === '' ) {
+            status_header(400);
+            wp_die(__('Invalid file requested.', 'FRocket_admin'));
+        }
+
+        // Must be a basename only (no slashes/backslashes)
+        $norm = str_replace('\\', '/', $flm_file);
+        if ( strpos($norm, '/') !== false || basename($norm) !== $norm ) {
+            status_header(400);
+            wp_die(__('Invalid file requested.', 'FRocket_admin'));
+        }
+
+        // No control chars / null bytes / traversal tokens / hidden dotfiles
+        if (
+            strpos($flm_file, "\0") !== false ||
+            preg_match('/[[:cntrl:]]/u', $flm_file) ||
+            preg_match('#(^|[\\/])\.{1,2}([\\/]|$)#', $flm_file) ||
+            $flm_file[0] === '.'
+        ) {
+            status_header(400);
+            wp_die(__('Invalid file requested.', 'FRocket_admin'));
+        }
+
+        // Reasonable length + strict allowed characters
+        if ( strlen($flm_file) > 200 || ! preg_match('/^[A-Za-z0-9._-]+$/', $flm_file) ) {
+            status_header(400);
+            wp_die(__('Invalid file requested.', 'FRocket_admin'));
+        }
+
+        // (Optional but recommended) enforce expected backup naming pattern
+        // e.g., flmbkp_YYYYMMDDHHIISS_(plugins|themes|uploads|others|database).zip
+        if ( ! preg_match('/^flmbkp_\d{14,}_(plugins|themes|uploads|others|database)\.zip$/', $flm_file) ) {
+            status_header(400);
+            wp_die(__('Invalid file name.', 'FRocket_admin'));
+        }
+
+        // Allow only specific extensions (backups are produced as .zip)
+        $allowed_exts = apply_filters('flmbkp_allowed_download_exts', array('zip'));
+        $ext = strtolower(pathinfo($flm_file, PATHINFO_EXTENSION));
+        if ( ! in_array($ext, $allowed_exts, true) ) {
+            status_header(400);
+            wp_die(__('Invalid file type.', 'FRocket_admin'));
+        }
+
+        // Resolve paths safely
+        $backup_directory      = Flmbkp_Form_Helper::backup_directory();
+        $backup_directory_real = realpath($backup_directory);
+
+        if ( ! $backup_directory_real || ! is_dir($backup_directory_real) ) {
+            status_header(500);
+            wp_die(__('Backup directory unavailable.', 'FRocket_admin'));
+        }
+
+        // Build candidate path within backup directory and resolve
+        $candidate = $backup_directory_real . DIRECTORY_SEPARATOR . $flm_file;
+        $fullpath  = realpath($candidate);
+
+        // Ensure the resolved path is inside the backup directory
+        if ( ! $fullpath || strpos($fullpath, $backup_directory_real . DIRECTORY_SEPARATOR) !== 0 ) {
+            status_header(400);
+            wp_die(__('Invalid path.', 'FRocket_admin'));
+        }
+
+        if ( ! is_file($fullpath) || ! is_readable($fullpath) ) {
+            status_header(404);
+            wp_die(__('File not found.', 'FRocket_admin'));
+        }
+
+        // Stream file to client with safe headers
+        nocache_headers();
+        header('Content-Type: application/octet-stream');
+        header('X-Content-Type-Options: nosniff');
+        header('Content-Disposition: attachment; filename="' . basename($fullpath) . '";');
+        header('Content-Length: ' . (string) filesize($fullpath));
+
+        if (ob_get_length()) {
+            @ob_end_clean();
+        }
+
         readfile($fullpath);
-        exit;
+        exit; // prevent any extra output from corrupting the file
     }
-    
+
     /**
      * list backups
      *
@@ -266,15 +353,15 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
     {
 
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_nexstep = (isset($_POST['nexstep'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['nexstep'])) : '';
-         $tmp_data = (isset($_POST['options'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['options']) : '';
+
+        $tmp_data = (isset($_POST['options'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['options']) : '';
         $data2 = array();
         foreach (explode('&', $tmp_data) as $value) {
             $value1 = explode('=', $value);
             $data2[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
         }
-        
-        
+
+
         $data=array();
         $data['bkp_slug']='flmbkp_'.date("YmdHis");
         $this->wpdb->insert($this->model_backup->table, $data);
@@ -286,45 +373,45 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
         $json['next_task']=$data2[0];
         $json['url_redirect']=admin_url('admin.php?page=flmbkp_page_backups');
         $json['pending']=$data2;
-        
+
         header('Content-Type: application/json');
         echo json_encode($json);
         wp_die();
     }
-    
-    
+
+
     /**
-    * receiving header options
-    *
-    * @mvc Controller
-    */
+     * receiving header options
+     *
+     * @mvc Controller
+     */
     public function ajax_submit_options_switch()
     {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_nexstep = (isset($_POST['nexstep'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['nexstep']) : '';
-            
+        $tmp_nexstep = (isset($_POST['nexstep'])) ? Flmbkp_Form_Helper::sanitizeInput($_POST['nexstep']) : '';
+
         switch (strval($tmp_nexstep)) {
             case 'plugins':
-             //assigning targets
+                //assigning targets
                 $tmp_targets=array(ABSPATH.'/wp-content/plugins');
-                
+
                 $this->ajax_submit_options($tmp_targets, $tmp_nexstep);
                 break;
             case 'themes':
-             //assigning targets
+                //assigning targets
                 $tmp_targets=array(ABSPATH.'/wp-content/themes');
-                
+
                 $this->ajax_submit_options($tmp_targets, $tmp_nexstep);
                 break;
             case 'uploads':
                 $tmp_targets=array(ABSPATH.'/wp-content/uploads');
-                
+
                 $this->ajax_submit_options($tmp_targets, $tmp_nexstep);
                 break;
             case 'others':
                 $tmp_targets=array();
                 $tmp_targets=$this->listAndExcludeDIr(ABSPATH.'wp-content', array('uploads','themes','plugins','softdiscover','debug.log'));
-                
+
                 $this->ajax_submit_options($tmp_targets, $tmp_nexstep);
                 break;
             case 'database':
@@ -335,93 +422,93 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                 break;
         }
     }
-    
+
     public function mysql_version()
     {
-            
+
         if (!version_compare('5.5', phpversion(), '>=')) {
-             $database_name=DB_NAME;
+            $database_name=DB_NAME;
             $database_user=DB_USER;
             $datadase_password=DB_PASSWORD;
             $database_host=DB_HOST;
-                
-                $con=mysqli_connect($database_host, $database_user, $datadase_password, $database_name);
-                // Check connection
+
+            $con=mysqli_connect($database_host, $database_user, $datadase_password, $database_name);
+            // Check connection
             if (mysqli_connect_errno()) {
-               // echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                // echo "Failed to connect to MySQL: " . mysqli_connect_error();
             }
 
-               $str = mysqli_get_server_info($con);
+            $str = mysqli_get_server_info($con);
         }else {
             $str = mysql_get_server_info();
         }
 
         return $str;
     }
-    
+
     /*
      * backup database
      */
     public function ajax_submit_backupdb()
     {
-        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
+        $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
         $this->is_initial_run = !empty($_POST['is_initial_run']);
         require_once FLMBKP_DIR . '/modules/filemanager/helpers/iprogress.php';
-        
+
         $backup_directory = Flmbkp_Form_Helper::backup_directory();
-        
+
         $this->progress  = new iProgress('zip', 200);
-         $this->oFile = ($this->is_initial_run || !$this->progress->getData('oFile')) ? $backup_directory . '/' . $tmp_flmbkp_slug .'_database.zip' : $this->progress->getData('oFile');
+        $this->oFile = ($this->is_initial_run || !$this->progress->getData('oFile')) ? $backup_directory . '/' . $tmp_flmbkp_slug .'_database.zip' : $this->progress->getData('oFile');
         $this->progress->setData('oFile', $this->oFile);
-        
-          $dump = '';
-            $database = DB_NAME;
-            $server = DB_HOST;
-          $dump .= '-- --------------------------------------------------------------------------------' . NL;
-          $dump .= '-- ' . NL;
-          $dump .= '-- @version: ' . $database . '.sql ' . date('M j, Y') . ' ' . date('H:i') . ' Softdiscover' . NL;
-          $dump .= '-- @package Database & File Manager' . NL;
-          $dump .= '-- @author softdiscover.com.' . NL;
-          $dump .= '-- @copyright 2015' . NL;
-          $dump .= '-- ' . NL;
-          $dump .= '-- --------------------------------------------------------------------------------' . NL;
-          $dump .= '-- Host: ' . $server . NL;
-          $dump .= '-- Database: ' . $database . NL;
-          $dump .= '-- Time: ' . date('M j, Y') . '-' . date('H:i') . NL;
-          $dump .= '-- MySQL version: ' . $this->mysql_version() . NL;
-          $dump .= '-- PHP version: ' . phpversion() . NL;
-          $dump .= '-- --------------------------------------------------------------------------------;' . NL . NL;
-        
-          $tables = $this->getTables();
+
+        $dump = '';
+        $database = DB_NAME;
+        $server = DB_HOST;
+        $dump .= '-- --------------------------------------------------------------------------------' . NL;
+        $dump .= '-- ' . NL;
+        $dump .= '-- @version: ' . $database . '.sql ' . date('M j, Y') . ' ' . date('H:i') . ' Softdiscover' . NL;
+        $dump .= '-- @package Database & File Manager' . NL;
+        $dump .= '-- @author softdiscover.com.' . NL;
+        $dump .= '-- @copyright 2015' . NL;
+        $dump .= '-- ' . NL;
+        $dump .= '-- --------------------------------------------------------------------------------' . NL;
+        $dump .= '-- Host: ' . $server . NL;
+        $dump .= '-- Database: ' . $database . NL;
+        $dump .= '-- Time: ' . date('M j, Y') . '-' . date('H:i') . NL;
+        $dump .= '-- MySQL version: ' . $this->mysql_version() . NL;
+        $dump .= '-- PHP version: ' . phpversion() . NL;
+        $dump .= '-- --------------------------------------------------------------------------------;' . NL . NL;
+
+        $tables = $this->getTables();
         if (!empty($tables)) {
             foreach ($tables as $key => $table) {
                 $table_dump = $this->dumpTable($table);
-                 
+
                 if (!($table_dump)) {
                     return false;
                 }
                 $dump .= $table_dump;
             }
         }
-          
-        
-          $fname = $backup_directory;
-              $fname .= '/'.$tmp_flmbkp_slug .'_database';
-              $fname .= '.sql';
+
+
+        $fname = $backup_directory;
+        $fname .= '/'.$tmp_flmbkp_slug .'_database';
+        $fname .= '.sql';
         if (!($f = fopen($fname, 'w'))) {
             return false;
         }
-              fwrite($f, $dump);
-              fclose($f);
-       
+        fwrite($f, $dump);
+        fclose($f);
+
         $this->zip_obj = new ZipArchive();
         $this->zip_obj->open($this->oFile, ZipArchive::CREATE);
         $this->zip_obj->addFile($fname, basename($fname));
         $this->zip_obj->close();
-        
+
         //delete sql file
         unlink($fname);
-        
+
         $json = array(
             'error' => false,
             'continue' => false,
@@ -429,12 +516,12 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             'next_task'=>'',
             'is_finished'=>true
         );
-        
+
         header('Content-Type: application/json');
         echo json_encode($json);
         wp_die();
     }
-    
+
     public function getTables()
     {
         $value = array();
@@ -443,32 +530,32 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
         }
         foreach ($result as $mytable) {
             foreach ($mytable as $t) {
-                     $value[]= $t;
+                $value[]= $t;
             }
         }
         if (!sizeof($value)) {
             return false;
         }
-        
+
         return $value;
     }
-  
-    
+
+
     public function dumpTable($table)
     {
-         
-         // $dump = '';
-          $this->wpdb->query('LOCK TABLES ' . $table . ' WRITE');
-          
+
+        // $dump = '';
+        $this->wpdb->query('LOCK TABLES ' . $table . ' WRITE');
+
         // $tables = $this->wpdb->get_col('SHOW TABLES');
         $output = '';
-    //foreach($tables as $table) {
+        //foreach($tables as $table) {
         $result = $this->wpdb->get_results("SELECT * FROM {$table}", ARRAY_N);
-            
-                $output .= '-- --------------------------------------------------' . NL;
-          $output .= '-- Table structure for table `' . $table . '`' . NL;
-          $output .= '-- --------------------------------------------------;' . NL;
-          $output .= 'DROP TABLE IF EXISTS `' . $table . '`;' . NL;
+
+        $output .= '-- --------------------------------------------------' . NL;
+        $output .= '-- Table structure for table `' . $table . '`' . NL;
+        $output .= '-- --------------------------------------------------;' . NL;
+        $output .= 'DROP TABLE IF EXISTS `' . $table . '`;' . NL;
         $row2 = $this->wpdb->get_row('SHOW CREATE TABLE '.$table, ARRAY_N);
         $output .= "\n\n".$row2[1].";\n\n";
         for ($i = 0; $i < count($result); $i++) {
@@ -484,10 +571,10 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             $output .= ");\n";
         }
         $output .= "\n";
-    //}
-          
-          $this->wpdb->query('UNLOCK TABLES');
-          return $output;
+        //}
+
+        $this->wpdb->query('UNLOCK TABLES');
+        return $output;
     }
     /**
      * receiving header options
@@ -498,20 +585,20 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
     {
 
         try {
-            $is_initial_run = (isset($_POST['is_initial_run'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['is_initial_run']) : 0;
-            $flush_to_disk = (isset($_POST['flush_to_disk'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['flush_to_disk']) : 50;
-            $max_execution_time = (isset($_POST['max_execution_time'])) ? Flmbkp_Form_Helper::sanitizeInput_html($_POST['max_execution_time']) : 20;
-            $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
+            $is_initial_run = (isset($_POST['is_initial_run'])) ? Flmbkp_Form_Helper::sanitizeInput($_POST['is_initial_run']) : 0;
+            $flush_to_disk = (isset($_POST['flush_to_disk'])) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flush_to_disk']) : 50;
+            $max_execution_time = (isset($_POST['max_execution_time'])) ? Flmbkp_Form_Helper::sanitizeInput($_POST['max_execution_time']) : 20;
+            $tmp_flmbkp_slug = (isset($_POST['flmbkp_slug'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_slug'])) : 'flmbkp_err'.date("YmdHis");
 
             $this->startTime = microtime(true);
-            
-        //language
+
+            //language
             if (isset($data['flpbkp_opt_files']) && intval($data['flpbkp_opt_files']) === 1) {
                 // $this->generate_zip_files();
             }
-            
+
             require_once FLMBKP_DIR . '/modules/filemanager/helpers/iprogress.php';
-        
+
             $this->progress  = new iProgress('zip', 200);
 
             $json = array();
@@ -524,11 +611,11 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
 //        $use_system_calls = (!empty($_POST['use_system_calls']) && $_POST['use_system_calls'] == 'true') ? true : false;
             $use_system_calls =  false;
             $last_abort_check = microtime(true);
-        
-        
-        
+
+
+
             $targets = ($this->is_initial_run && !empty($tmp_targets)) ? $tmp_targets : $this->progress->getData('targets');
-        
+
             if (!$targets) {
                 $json['error'] = true;
                 $json['msg'] = 'Bad targets';
@@ -546,7 +633,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             $true_targets = array();
 
             clearstatcache(true);
-        
+
             foreach ($targets as $target) {
                 $path = realpath($target);
 
@@ -562,25 +649,25 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                     $true_targets[] = $path;
                 }
             }
-       
+
             if ($this->is_initial_run) {
                 $this->progress->addMsg('Found ' . $this->total_targets . ' items for zipping');
                 $this->progress->setMax($this->total_targets);
             }
 
             $backup_directory = Flmbkp_Form_Helper::backup_directory();
-        
+
             $this->oFile = ($this->is_initial_run || !$this->progress->getData('oFile')) ? $backup_directory.'/'. $tmp_flmbkp_slug .'_'.$tmp_nexstep. '.zip' : $this->progress->getData('oFile');
-        
-        
-        
+
+
+
             $this->progress->setData('oFile', $this->oFile);
-        
+
             chdir(sys_get_temp_dir()); // Zip always get's created in current working dir so move to tmp.
 
             $this->zip_obj = new ZipArchive();
             $this->zip_obj->open($this->oFile, ZipArchive::CREATE);
-            
+
             $this->iteration_number = 0;
 
             if ($this->total_targets && $true_targets) {
@@ -594,7 +681,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                     if ($execution_time >= $this->max_execution_time) {
                         $this->stop_iteration();
                     }
-             
+
                     set_time_limit(60);
                     if (is_dir($target)) {
                         if ($this->iteration_number > $this->progress->getProgress(false)) {
@@ -607,12 +694,12 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
                         $this->iteration_number++;
                         if ($this->iteration_number > $this->progress->getProgress(false)) {
                             $this->progress->addMsg('Adding file "' . $target . '"');
-                        
+
                             if (file_exists($target) && is_file($target)) {
                                 $this->zip_obj->addFile($target, basename($target));
                             }
-                        
-                        
+
+
                             $this->progress->iterateWith(1);
 
                             //if ($this->zip_obj->numFiles % 50 === 0)
@@ -628,12 +715,12 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
 
             $file_url = FLMBKP_URL . '/' . basename($this->oFile);
             $json = array(
-            'error' => false,
-            'continue' => false,
-            'fileURL' => $file_url,
-            'is_finished'=>false
+                'error' => false,
+                'continue' => false,
+                'fileURL' => $file_url,
+                'is_finished'=>false
             );
-        
+
             header('Content-Type: application/json');
             echo json_encode($json);
             wp_die();
@@ -658,21 +745,21 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
      */
     public function listAndExcludeDIr($dir, $exclude = array())
     {
-        
+
         if (!is_dir($dir)) {
-                 return array();
+            return array();
         }
-        
-           $acceptedfiles=array();
-            $entries = scandir($dir);
-            //reads the filenames, one by one
+
+        $acceptedfiles=array();
+        $entries = scandir($dir);
+        //reads the filenames, one by one
         foreach ($entries as $file) {
             if ($file == '.' || $file == '..') {
                 continue;
             }
-                
+
             $full_path = $dir.'/'.$file;
-            
+
             if (is_dir($full_path) && $file!="." && $file!=".." && !in_array($file, $exclude)) {
                 $acceptedfiles[]=$full_path;
             }elseif ($file!="." && $file!=".." && !in_array($file, $exclude)) {
@@ -680,8 +767,8 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             }else {
             }
         }
-            //closedir($handle);
-            return $acceptedfiles;
+        //closedir($handle);
+        return $acceptedfiles;
     }
     /**
      * backup process
@@ -701,7 +788,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             'msgs' => $this->array_flat($this->progress->getMessages()),
             'percent' => $this->progress->getProgressPercent()
         );
-        
+
         header('Content-Type: application/json');
         echo json_encode($json);
         wp_die();
@@ -754,19 +841,19 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
 
     public function flush_zip()
     {
-       //$zip=$this->zip_obj;
+        //$zip=$this->zip_obj;
         $this->zip_obj->close();
         $this->zip_obj->open($this->oFile);
-       //$this->zip_obj=$zip;
+        //$this->zip_obj=$zip;
     }
 
-    
+
     public function zip_dir($path, $base = '')
     {
-        
+
         $progress = $this->progress;
-            
-        
+
+
         $entries = scandir($path);
 
         foreach ($entries as $entry) {
@@ -808,7 +895,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
             }
         }
     }
-    
+
     public function stop_iteration()
     {
         //$zip=$this->zip_obj;
@@ -853,9 +940,9 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
     public function count_dir_files($path)
     {
         //global $use_system_calls;
-        
+
         $use_system_calls=false;
-        
+
         $path = rtrim($path, '/');
         if ($use_system_calls) {
             exec('find ' . $path . ' -follow -type f' . $this->build_exclude_find_params() . ' | wc -l', $output);
@@ -888,7 +975,7 @@ class flmbkp_Filemanager_Controller_Backup extends Flmbkp_Base_Module
 
     public function abort_if_requested()
     {
-        
+
         $progress = $this->progress;
         $last_abort_check = $this->last_abort_check;
         if ((microtime(true) - $last_abort_check) > 0.5) {

@@ -28,7 +28,7 @@ class Flmbkp_Form_Helper
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
-    
+
     public static function getroute()
     {
         $return = array();
@@ -50,7 +50,7 @@ class Flmbkp_Form_Helper
         }
         return $return;
     }
-    
+
     public static function getHttpRequest($var)
     {
         $var=  strval($var);
@@ -64,11 +64,11 @@ class Flmbkp_Form_Helper
             //request
             $value = isset($_REQUEST[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST[$var]) :'';
         }
-        
+
         return $value;
     }
-    
-    
+
+
     public static function array2xml($array, $xml = null)
     {
         if (!isset($xml)) {
@@ -133,9 +133,9 @@ class Flmbkp_Form_Helper
         $string = sanitize_text_field($string);
         return $string;
     }
-    
+
     /**
-     * Sanitize input 2
+     * Sanitize input, temporal. it will be removed in future
      *
      * @param string $string input
      *
@@ -150,7 +150,7 @@ class Flmbkp_Form_Helper
         $string = trim($string, "\x00..\x1F");
         return $string;
     }
-    
+
     /**
      * Sanitize input
      *
@@ -168,8 +168,8 @@ class Flmbkp_Form_Helper
         $string= strtolower($string);
         return $string;
     }
-    
-        
+
+
     /**
      * Sanitize input
      *
@@ -188,7 +188,7 @@ class Flmbkp_Form_Helper
         return $string;
     }
 
-    
+
     /**
      * Sanitize recursive
      *
@@ -204,7 +204,7 @@ class Flmbkp_Form_Helper
             return Flmbkp_Form_Helper::sanitizeInput($data);
         }
     }
-    
+
     /**
      * Sanitize recursive
      *
@@ -220,7 +220,7 @@ class Flmbkp_Form_Helper
             return Flmbkp_Form_Helper::sanitizeInput_html($data);
         }
     }
-    
+
 
     public static function data_encrypt($string, $key)
     {
@@ -317,23 +317,23 @@ class Flmbkp_Form_Helper
         }
         return $temp;
     }
-    
+
     public static function check_field_length($data, $length)
     {
         return (strlen($data) > intval($length))? substr($data, 0, intval($length)):'';
     }
-    
+
     public static function sql_quote($value)
     {
         if ( get_magic_quotes_gpc()) {
             $value = stripslashes($value);
         }
-        
+
         $value = addslashes($value);
-        
+
         return $value;
     }
-    
+
     public static function form_store_fonts($font_temp)
     {
         global $global_fonts_stored;
@@ -341,7 +341,7 @@ class Flmbkp_Form_Helper
             $global_fonts_stored[]= $font_temp['import_family'];
         }
     }
-    
+
     public static function is_flmbkp_page()
     {
         $search=array();
@@ -350,16 +350,16 @@ class Flmbkp_Form_Helper
         } elseif ((isset($_POST['page']))) {
             $search=Flmbkp_Form_Helper::sanitizeInput($_POST['page']);
         }
-        
+
         $allow=array('flmbkp_file_manager','flmbkp_page_backups','flmbkp_page_database','flmbkp_page_settings');
-            
+
         if (in_array($search, $allow)) {
             return true;
         }else {
             return false;
         }
     }
-    
+
     public static function remove_non_tag_space($text)
     {
         $len = strlen($text);
@@ -377,7 +377,7 @@ class Flmbkp_Form_Helper
         }
         return $out;
     }
-    
+
     public static function assign_alert_container($msg, $type)
     {
         $return_msg='';
@@ -403,7 +403,7 @@ class Flmbkp_Form_Helper
         }
         return $return_msg;
     }
-    
+
     /**
     * Verify if field is checked
     *
@@ -418,7 +418,7 @@ class Flmbkp_Form_Helper
             echo "checked=\"checked\"";
         }
     }
-    
+
     public static function sanitize_output($buffer)
     {
 
@@ -438,8 +438,8 @@ class Flmbkp_Form_Helper
 
         return $buffer;
     }
-    
-            
+
+
     /**
      * Escape String
      *
@@ -457,7 +457,7 @@ class Flmbkp_Form_Helper
 
             return $str;
         }
-                
+
         if (!version_compare('5.5', phpversion(), '>=')) {
             $str = addslashes($str);
         }else {
@@ -471,26 +471,26 @@ class Flmbkp_Form_Helper
                     $str = addslashes($str);
             }
         }
-                
-        
- 
+
+
+
 
         return $str;
     }
-        
-         
+
+
     public static function mysql_version()
     {
-                
-           
-            
-            
+
+
+
+
         if (!version_compare('5.5', phpversion(), '>=')) {
              $database_name=DB_NAME;
             $database_user=DB_USER;
             $datadase_password=DB_PASSWORD;
             $database_host=DB_HOST;
-                
+
                 $con=mysqli_connect($database_host, $database_user, $datadase_password, $database_name);
                 // Check connection
             if (mysqli_connect_errno()) {
@@ -504,7 +504,7 @@ class Flmbkp_Form_Helper
 
         return $str;
     }
-        
+
     public static function isValidUrl_structure($url)
     {
         // first do some quick sanity checks:
@@ -519,7 +519,7 @@ class Flmbkp_Form_Helper
         // all good!
         return true;
     }
-        
+
     public static function json_encode_advanced(array $arr, $sequential_keys = false, $quotes = false, $beautiful_json = false)
     {
 
@@ -555,7 +555,7 @@ class Flmbkp_Form_Helper
 
          return $output;
     }
-        
+
     public static function isAssoc(array $arr)
     {
         if (array() === $arr) {
@@ -563,23 +563,23 @@ class Flmbkp_Form_Helper
         }
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
-        
+
     public static function zigaform_user_is_on_admin_page($page_name = 'admin.php')
     {
         global $pagenow;
         return ($pagenow == $page_name);
     }
-        
+
     public static function get_font_library()
     {
         require_once(FLMBKP_DIR . '/libraries/styles-font-menu/plugin.php');
         $objsfm = new SFM_Plugin();
-            
+
         return $objsfm;
     }
-        
-            
-        
+
+
+
         /*
          * Create and get backup directoy
          */
@@ -587,7 +587,7 @@ class Flmbkp_Form_Helper
     {
 
         $backup_dir = WP_CONTENT_DIR.'/uploads/softdiscover';
-        
+
         if ((!is_dir($backup_dir) ||
                 !is_file($backup_dir.'/index.html') ||
                 !is_file($backup_dir.'/.htaccess')) &&
@@ -595,11 +595,11 @@ class Flmbkp_Form_Helper
                 !is_file($backup_dir.'/web.config')) {
             @mkdir($backup_dir, 0775, true);
             @file_put_contents($backup_dir.'/index.html', "<html><body><a href=\"https://softdiscover.com\" target=\"_blank\">WordPress backups by Softdiscover</a></body></html>");
-                        
+
             if (!is_file($backup_dir.'/.htaccess')) {
                             @file_put_contents($backup_dir.'/.htaccess', 'deny from all');
             }
-                        
+
             if (!is_file($backup_dir.'/web.config')) {
                             @file_put_contents($backup_dir.'/web.config', "<configuration>\n<system.webServer>\n<authorization>\n<deny users=\"*\" />\n</authorization>\n</system.webServer>\n</configuration>\n");
             }
@@ -607,7 +607,7 @@ class Flmbkp_Form_Helper
 
         return $backup_dir;
     }
-        
+
     public static function get_user_roles()
     {
 
@@ -615,37 +615,37 @@ class Flmbkp_Form_Helper
             $answer = array('result'=>'error', 'message'=>esc_html__('Not enough permissions', 'FRocket_admin'));
             return $answer;
         }
-        
-            
+
+
         $user_id = get_current_user_id();
-        
+
         if (empty($user_id)) {
             $answer = array('result'=>'error', 'message'=>esc_html__('Wrong request, valid user ID was missed', 'FRocket_admin'));
             return $answer;
         }
-    
+
         $user = get_user_by('id', $user_id);
         if (empty($user)) {
             $answer = array('result'=>'error', 'message'=>esc_html__('Requested user does not exist', 'FRocket_admin'));
             return $answer;
         }
-        
+
         $other_roles = array_values($user->roles);
         $primary_role = array_shift($other_roles);
-        
+
         global $wp_roles;
-    
+
         $roles = $wp_roles->roles;
         $roles_main=array();
         foreach ($roles as $key => $value) {
             $roles_main[]=$key;
         }
-            
+
         $answer = array('result'=>'success', 'primary_role'=>$primary_role, 'other_roles'=>$roles_main);
-       
+
         return $answer;
     }
-    
+
     /**
      * Check user access
      */
@@ -656,34 +656,34 @@ class Flmbkp_Form_Helper
         if (!is_user_logged_in()) {
             return false;
         }
-         
+
         if ( current_user_can('promote_users')) {
             return true;
         }
-        
+
          // make sure the user have manage options
         if (!current_user_can('manage_options')) {
             return false;
         }
-        
+
         $user = wp_get_current_user();
         $allowed_roles = get_option('dbflm_fmanager_roles', array());
         //var_dump($user->roles[0]);
         if (!in_array($user->roles[0], $allowed_roles)) {
             return false;
         }
-        
+
        /* if( !array_intersect($allowed_roles, $user->roles ) ) {
             return false;
         }*/
-        
-        
-        
-       
-        
+
+
+
+
+
         return true;
     }
-    
+
     public static function format_size($rawSize)
     {
         if ($rawSize / 1073741824 > 1) {
@@ -696,8 +696,8 @@ class Flmbkp_Form_Helper
             return number_format_i18n($rawSize, 0) . ' '.__('bytes', 'FRocket_admin');
         }
     }
-        
-    
+
+
     /*
      * Restore files
      */
