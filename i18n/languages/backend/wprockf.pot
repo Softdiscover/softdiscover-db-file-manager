@@ -1,12 +1,12 @@
-# Copyright (C) 2025 Managefy 1.5.0
-# This file is distributed under the same license as the Managefy 1.5.0 package.
+# Copyright (C) 2025 Managefy 1.6.2
+# This file is distributed under the same license as the Managefy 1.6.2 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Managefy 1.5.0\n"
+"Project-Id-Version: Managefy 1.6.2\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-26 05:26+0000\n"
+"POT-Creation-Date: 2025-09-28 07:00+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -54,63 +54,63 @@ msgstr ""
 msgid "PHP Version"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:117
+#: modules/filemanager/controllers/backup.php:182
 msgid "<b>Unable to restore DB backup.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:115
+#: modules/filemanager/controllers/backup.php:180
 msgid "<b>Database backup restored.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:127, modules/filemanager/controllers/backup.php:137, modules/filemanager/controllers/backup.php:147, modules/filemanager/controllers/backup.php:157
+#: modules/filemanager/controllers/backup.php:192, modules/filemanager/controllers/backup.php:202, modules/filemanager/controllers/backup.php:212, modules/filemanager/controllers/backup.php:222
 msgid "<b>Unable to restore plugins.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:125
+#: modules/filemanager/controllers/backup.php:190
 msgid "<b>Plugins backup restored.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:135
+#: modules/filemanager/controllers/backup.php:200
 msgid "<b>Themes backup restored.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:145
+#: modules/filemanager/controllers/backup.php:210
 msgid "<b>Uploads backup restored.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:155
+#: modules/filemanager/controllers/backup.php:220
 msgid "<b>Others backup restored.</b>"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:165
+#: modules/filemanager/controllers/backup.php:230
 msgid "Restored successfully"
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:210
+#: modules/filemanager/controllers/backup.php:275
 msgid "Insufficient permissions."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:223, modules/filemanager/controllers/backup.php:230, modules/filemanager/controllers/backup.php:241, modules/filemanager/controllers/backup.php:247
+#: modules/filemanager/controllers/backup.php:287, modules/filemanager/controllers/backup.php:294, modules/filemanager/controllers/backup.php:305, modules/filemanager/controllers/backup.php:311
 msgid "Invalid file requested."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:254
+#: modules/filemanager/controllers/backup.php:317
 msgid "Invalid file name."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:262
+#: modules/filemanager/controllers/backup.php:325
 msgid "Invalid file type."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:271
+#: modules/filemanager/controllers/backup.php:334
 msgid "Backup directory unavailable."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:281
+#: modules/filemanager/controllers/backup.php:344
 msgid "Invalid path."
 msgstr ""
 
-#: modules/filemanager/controllers/backup.php:286
+#: modules/filemanager/controllers/backup.php:349
 msgid "File not found."
 msgstr ""
 
@@ -330,15 +330,15 @@ msgstr ""
 msgid "Include your files in the backup"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:59, modules/filemanager/views/backup/list_backups.php:126, modules/filemanager/views/backup/list_backups.php:191
+#: modules/filemanager/views/backup/list_backups.php:59, modules/filemanager/views/backup/list_backups.php:134, modules/filemanager/views/backup/list_backups.php:199
 msgid "Plugins"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:65, modules/filemanager/views/backup/list_backups.php:134, modules/filemanager/views/backup/list_backups.php:196
+#: modules/filemanager/views/backup/list_backups.php:65, modules/filemanager/views/backup/list_backups.php:142, modules/filemanager/views/backup/list_backups.php:204
 msgid "Themes"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:71, modules/filemanager/views/backup/list_backups.php:142, modules/filemanager/views/backup/list_backups.php:201
+#: modules/filemanager/views/backup/list_backups.php:71, modules/filemanager/views/backup/list_backups.php:150, modules/filemanager/views/backup/list_backups.php:209
 msgid "Uploads"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgstr ""
 msgid "Any other directories found inside wp-content"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:90, modules/filemanager/views/backup/list_backups.php:158, modules/filemanager/views/backup/list_backups.php:211
+#: modules/filemanager/views/backup/list_backups.php:90, modules/filemanager/views/backup/list_backups.php:166, modules/filemanager/views/backup/list_backups.php:219
 msgid "Database"
 msgstr ""
 
@@ -362,51 +362,55 @@ msgstr ""
 msgid "Backup Now"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:120
-msgid "Backuping Now"
+#: modules/filemanager/views/backup/list_backups.php:113
+msgid "Cancel Backup"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:120
+#: modules/filemanager/views/backup/list_backups.php:125
+msgid "Backing up now"
+msgstr ""
+
+#: modules/filemanager/views/backup/list_backups.php:126
 msgid "Wait until backup is finished"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:150, modules/filemanager/views/backup/list_backups.php:206
+#: modules/filemanager/views/backup/list_backups.php:158, modules/filemanager/views/backup/list_backups.php:214
 msgid "Others"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:176
+#: modules/filemanager/views/backup/list_backups.php:184
 msgid "File name"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:177
+#: modules/filemanager/views/backup/list_backups.php:185
 msgid "Backup Created"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:178
+#: modules/filemanager/views/backup/list_backups.php:186
 msgid "Backup Data"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:179
+#: modules/filemanager/views/backup/list_backups.php:187
 msgid "Options"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:242
+#: modules/filemanager/views/backup/list_backups.php:253
 msgid "there is not Backups"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:222, modules/filemanager/views/backup/list_backups.php:225
+#: modules/filemanager/views/backup/list_backups.php:230, modules/filemanager/views/backup/list_backups.php:233
 msgid "Delete"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:228
+#: modules/filemanager/views/backup/list_backups.php:239
 msgid "Backup"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:231
+#: modules/filemanager/views/backup/list_backups.php:242
 msgid "Restore"
 msgstr ""
 
-#: modules/filemanager/views/backup/list_backups.php:261
+#: modules/filemanager/views/backup/list_backups.php:272
 msgid "Are you sure about this?"
 msgstr ""
 

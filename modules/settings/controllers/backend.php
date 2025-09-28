@@ -10,7 +10,7 @@
  * @author    Softdiscover <info@softdiscover.com>
  * @copyright 2015 Softdiscover
  * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
- * @link      http://wordpress-cost-estimator.zigaform.com
+ * @link      https://softdiscover.com
  */
 if (!defined('ABSPATH')) {
     exit('No direct script access allowed');
@@ -28,7 +28,7 @@ if (class_exists('flmbkp_settings_Controller_Back')) {
  * @copyright 2013 Softdiscover
  * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version   Release: 1.00
- * @link      http://wordpress-cost-estimator.zigaform.com
+ * @link      https://softdiscover.com
  */
 class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module
 {

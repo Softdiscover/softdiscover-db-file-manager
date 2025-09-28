@@ -7,7 +7,7 @@ Tags: database, file manager, backup, user roles, elfinder, ftp, folders, files,
 Requires at least: 3.6
 Tested up to: 6.8.2
 Requires PHP: 5.3
-Stable tag: 1.5.0
+Stable tag: 1.6.2
 
 Manage your folder and files , backup, user roles and database easily
 
@@ -167,7 +167,7 @@ There are 2 ways to install. Please follow the steps below:
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.5.0 = 
+= 1.6.2 = 
  * minor changes
  
 == Upgrade Notice ==
@@ -176,5 +176,5 @@ There are 2 ways to install. Please follow the steps below:
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.5.0 = 
+= 1.6.2 = 
  * minor changes
