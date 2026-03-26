@@ -104,7 +104,7 @@ class flmbkp_database_Controller_Back extends Flmbkp_Base_Module
         $tables2[]=array('option'=>__('PHP Version', 'FRocket_admin'),'value'=>phpversion());
         $data['tables2']=$tables2;
         
-        echo self::loadPartial('layout_blank.php', 'database/views/backend/list_tables.php', $data);
+        self::loadPartial('layout_blank.php', 'database/views/backend/list_tables.php', $data);
     }
     
     

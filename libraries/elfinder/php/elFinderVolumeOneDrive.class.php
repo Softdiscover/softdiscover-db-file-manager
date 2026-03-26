@@ -191,7 +191,7 @@ class elFinderVolumeOneDrive extends elFinderVolumeDriver
             if (!empty($decoded->error_description)) {
                 $error .= ': ' . $decoded->error_description;
             }
-            throw new \Exception($error);
+            throw new \Exception(esc_html($error));
         }
 
         $res = (object)array(
@@ -223,7 +223,7 @@ class elFinderVolumeOneDrive extends elFinderVolumeDriver
             }
 
             if (empty($this->token->data->refresh_token)) {
-                throw new \Exception(elFinder::ERROR_REAUTH_REQUIRE);
+                throw new \Exception(esc_html(elFinder::ERROR_REAUTH_REQUIRE));
             } else {
                 $refresh_token = $this->token->data->refresh_token;
                 $initialToken = $this->_od_getInitialToken();
@@ -261,7 +261,7 @@ class elFinderVolumeOneDrive extends elFinderVolumeDriver
                 }
                 $err = property_exists($decoded, 'error')? ' ' . $decoded->error : '';
                 $err .= property_exists($decoded, 'error_description')? ' ' . $decoded->error_description : '';
-                throw new \Exception($err? $err : elFinder::ERROR_REAUTH_REQUIRE);
+                throw new \Exception(esc_html($err ? $err : elFinder::ERROR_REAUTH_REQUIRE));
             }
 
             $token = (object)array(
@@ -293,7 +293,7 @@ class elFinderVolumeOneDrive extends elFinderVolumeDriver
                     elFinder::$instance->updateNetVolumeOption($this->options['netkey'], 'accessToken', $this->options['accessToken']);
                     $this->session->set('OneDriveTokens', $token);
                 } else {
-                    throw new \Exception(elFinder::ERROR_CREATING_TEMP_DIR);
+                    throw new \Exception(esc_html(elFinder::ERROR_CREATING_TEMP_DIR));
                 }
             }
         }

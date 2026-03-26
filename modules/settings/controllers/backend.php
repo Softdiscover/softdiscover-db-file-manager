@@ -52,6 +52,19 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module
     }
 
     /**
+     * Ensure only authorized users can execute admin AJAX actions.
+     */
+    private function verify_ajax_permissions()
+    {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(
+                array('message' => __('Insufficient permissions.', 'FRocket_admin')),
+                403
+            );
+        }
+    }
+
+    /**
      * save options
      *
      * @mvc Controller
@@ -59,28 +72,29 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module
     public function ajax_save_options()
     {
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_data = (isset($_POST['options'])) ? urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['options'])) : '';
+        $this->verify_ajax_permissions();
+        $tmp_data = (string) filter_input(INPUT_POST, 'options', FILTER_UNSAFE_RAW);
+
         $data = array();
-        if (!empty($tmp_data)) {
-            foreach (explode('&', $tmp_data) as $value) {
-                $value1 = explode('=', $value);
-                if (!empty($value1[1])) {
-                    $data[] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
+        if (is_string($tmp_data) && '' !== $tmp_data) {
+            $parsed_data = array();
+            parse_str($tmp_data, $parsed_data);
+            foreach ($parsed_data as $value) {
+                if (is_scalar($value) && '' !== (string) $value) {
+                    $data[] = Flmbkp_Form_Helper::sanitizeInput((string) $value);
                 }
             }
         }
 
         update_site_option('dbflm_fmanager_roles', $data);
 
-        $json = array(
-            'error' => false,
-            'success' => true,
-            'msg' => $data
+        wp_send_json(
+            array(
+                'error' => false,
+                'success' => true,
+                'msg' => $data
+            )
         );
-
-        header('Content-Type: application/json');
-        echo json_encode($json);
-        wp_die();
     }
 
     /*
@@ -113,7 +127,7 @@ class flmbkp_settings_Controller_Back extends Flmbkp_Base_Module
         $data['roles'] = $temp_roles;
 
         //$data['role']
-        echo self::loadPartial('layout_blank.php', 'settings/views/backend/list_options.php', $data);
+        self::loadPartial('layout_blank.php', 'settings/views/backend/list_options.php', $data);
     }
 
     /**

@@ -1,14 +1,19 @@
+<?php
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
 <div class="error">
     <p>Managefy error: Your environment doesn't meet all of the system requirements listed below.</p>
 
     <ul class="ul-disc">
         <li>
-            <strong>PHP <?php echo $this->php_version; ?>+</strong>
+            <strong>PHP <?php echo esc_html($this->php_version); ?>+</strong>
             <em>(You're running version <?php echo PHP_VERSION; ?>)</em>
         </li>
 
         <li>
-            <strong>WordPress <?php echo $this->wp_version; ?>+</strong>
+            <strong>WordPress <?php echo esc_html($this->wp_version); ?>+</strong>
             <em>(You're running version <?php echo esc_html($wp_version); ?>)</em>
         </li>
 

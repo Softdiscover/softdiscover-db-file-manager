@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  <div class="alert alert-success" role="alert">
      <ul>
          <?php foreach ($log as $key => $value) { ?>
-            <li><?php echo $value;?></li>
+            <li><?php echo wp_kses_post($value); ?></li>
          <?php } ?>
      </ul>
 </div>

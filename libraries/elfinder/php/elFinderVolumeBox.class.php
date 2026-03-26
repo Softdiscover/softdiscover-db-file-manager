@@ -229,7 +229,7 @@ class elFinderVolumeBox extends elFinderVolumeDriver
             }
 
             if (empty($this->token->data->refresh_token)) {
-                throw new \Exception(elFinder::ERROR_REAUTH_REQUIRE);
+                throw new \Exception(esc_html(elFinder::ERROR_REAUTH_REQUIRE));
             } else {
                 $refresh_token = $this->token->data->refresh_token;
                 $initialToken = $this->_bd_getInitialToken();
@@ -277,7 +277,7 @@ class elFinderVolumeBox extends elFinderVolumeDriver
             }
             if ($error) {
                 $lock && unlink($lock);
-                throw new \Exception('Box access token update failed. ('.$error.') If this message appears repeatedly, please notify the administrator.');
+                throw new \Exception('Box access token update failed. (' . esc_html($error) . ') If this message appears repeatedly, please notify the administrator.');
             }
 
             if (empty($decoded->access_token)) {
@@ -288,7 +288,7 @@ class elFinderVolumeBox extends elFinderVolumeDriver
                 }
                 $err = property_exists($decoded, 'error')? ' ' . $decoded->error : '';
                 $err .= property_exists($decoded, 'error_description')? ' ' . $decoded->error_description : '';
-                throw new \Exception($err? $err : elFinder::ERROR_REAUTH_REQUIRE);
+                throw new \Exception(esc_html($err ? $err : elFinder::ERROR_REAUTH_REQUIRE));
             }
 
             $token = (object)array(
@@ -319,7 +319,7 @@ class elFinderVolumeBox extends elFinderVolumeDriver
                     elFinder::$instance->updateNetVolumeOption($this->options['netkey'], 'accessToken', $json);
                     $this->session->set('BoxTokens', $token);
                 } else {
-                    throw new \Exception(ERROR_CREATING_TEMP_DIR);
+                    throw new \Exception(esc_html(elFinder::ERROR_CREATING_TEMP_DIR));
                 }
             }
             $lock && unlink($lock);
@@ -429,13 +429,13 @@ class elFinderVolumeBox extends elFinderVolumeDriver
             if (!empty($decoded->message)) {
                 $errmsg .= ': ' . $decoded->message;
             }
-            throw new \Exception($errmsg);
+            throw new \Exception(esc_html($errmsg));
         } else if ($error = !empty($decoded->error)) {
             $errmsg = $decoded->error;
             if (!empty($decoded->error_description)) {
                 $errmsg .= ': ' . $decoded->error_description;
             }
-            throw new \Exception($errmsg);
+            throw new \Exception(esc_html($errmsg));
         }
 
         // make catch

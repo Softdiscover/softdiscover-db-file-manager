@@ -12,12 +12,12 @@ ob_start();
             <div class="sfdc-col-sm-4">
                      <label 
                          class="zgth-form-label" 
-                         for=""><?php echo $label; ?></label>
+                         for=""><?php echo esc_html($label); ?></label>
                  <a href="javascript:void(0);" 
                             data-toggle="tooltip" 
                             class="zgth-tooltip"
                             data-placement="right" 
-                            data-original-title="<?php echo addslashes($help_note); ?>">
+                            data-original-title="<?php echo esc_attr($help_note); ?>">
                          <span class="fa fa-question-circle"></span>
                      </a>
               </div>
@@ -31,14 +31,12 @@ ob_start();
                     ?>  
                     <!-- Build your select: -->
                     <select 
-                        name="<?php echo $id; ?>[]"
-                         id="<?php echo $id; ?>"
+                        name="<?php echo esc_attr($id); ?>[]"
+                         id="<?php echo esc_attr($id); ?>"
                         class="zgth-option-inp-multisel"
                         multiple="true">
                     <?php foreach ($cats as $value) { ?>
-                    <option value="<?php echo $value->cat_ID; ?>" <?php if (is_array($cat_sel) && in_array($value->cat_ID, $cat_sel)) {
-                        echo 'selected="selected"';
-                                   }?> ><?php echo $value->name;?></option>
+                    <option value="<?php echo esc_attr($value->cat_ID); ?>" <?php echo (is_array($cat_sel) && in_array($value->cat_ID, $cat_sel, true)) ? 'selected="selected"' : ''; ?> ><?php echo esc_html($value->name); ?></option>
                     <?php } ?> 
                     </select>
                     
@@ -55,5 +53,5 @@ $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
 $cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
-echo $cntACmp;
+echo wp_kses_post($cntACmp);
 ?>

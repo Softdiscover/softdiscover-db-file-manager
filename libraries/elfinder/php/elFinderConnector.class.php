@@ -375,6 +375,7 @@ class elFinderConnector
 
         header('Content-Length: ' . strlen($out));
 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Raw JSON/string response required by connector protocol.
         echo $out;
 
         flush();

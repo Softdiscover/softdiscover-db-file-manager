@@ -12,23 +12,23 @@ ob_start();
             <div class="sfdc-col-sm-4">
                      <label 
                          class="zgth-form-label" 
-                         for=""><?php echo $label; ?></label>
+                         for=""><?php echo esc_html($label); ?></label>
                  <a href="javascript:void(0);" 
                             data-toggle="tooltip" 
                             class="zgth-tooltip"
                             data-placement="right" 
-                            data-original-title="<?php echo addslashes($help_note); ?>">
+                            data-original-title="<?php echo esc_attr($help_note); ?>">
                          <span class="fa fa-question-circle"></span>
                      </a>
               </div>
              <div class="sfdc-col-sm-8">
                  
-                 <select name="<?php echo $id; ?>"
-                         id="<?php echo $id; ?>"
+                 <select name="<?php echo esc_attr($id); ?>"
+                         id="<?php echo esc_attr($id); ?>"
                          class="sfdc-form-control">
                     <?php foreach ($options as $key2 => $value2) {
                         ?>
-                         <option value="<?php echo $key2;?>" <?php echo ((string)$key2===(string)$value)?'selected="selected"':''; ?> ><?php echo $value2;?></option>    
+                         <option value="<?php echo esc_attr($key2); ?>" <?php selected((string) $key2, (string) $value); ?> ><?php echo esc_html($value2); ?></option>    
                          <?php
                     }?> 
                 </select>
@@ -48,5 +48,5 @@ $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
 $cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
-echo $cntACmp;
+echo wp_kses_post($cntACmp);
 ?>

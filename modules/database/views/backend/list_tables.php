@@ -24,35 +24,35 @@ if (!defined('ABSPATH')) {
                 <div class="widget-header">
                     <i class="fa fa-list-alt"></i>
                     <h5>
-                        <?php echo __('Database manager.', 'FRocket_admin') ?>
+                        <?php esc_html_e('Database manager.', 'FRocket_admin'); ?>
                     </h5>
 
                 </div>  
                 <div class="widget-body">  
                     
                 
-                    <h2><?php echo __('Tables Information', 'FRocket_admin') ?></h2>
+                    <h2><?php esc_html_e('Tables Information', 'FRocket_admin'); ?></h2>
                     <table class="table table-hover table-striped">
 
                         <thead class="mdb-color darken-3">
                             <tr class="text-white">
                                 <th>#</th>
-                                <th><?php echo __('Tables', 'FRocket_admin'); ?></th>
-                                <th><?php echo __('Records', 'FRocket_admin'); ?></th>
-                                <th><?php echo __('Data Usage', 'FRocket_admin'); ?></th>
-                                <th><?php echo __('Index Usage', 'FRocket_admin'); ?></th>
-                                <th><?php echo __('Overhead', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Tables', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Records', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Data Usage', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Index Usage', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Overhead', 'FRocket_admin'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($tables as $key => $value) {?>
                                 <tr>
-                                    <th scope="row"><?php echo $value['number'];?></th>
-                                    <td><?php echo $value['table'];?></td>
-                                    <td><?php echo $value['Records'];?></td>
-                                    <td><?php echo $value['datausage'];?></td>
-                                    <td><?php echo $value['indexusage'];?></td>
-                                    <td><?php echo $value['overhead'];?></td>
+                                    <th scope="row"><?php echo esc_html($value['number']); ?></th>
+                                    <td><?php echo esc_html($value['table']); ?></td>
+                                    <td><?php echo esc_html($value['Records']); ?></td>
+                                    <td><?php echo esc_html($value['datausage']); ?></td>
+                                    <td><?php echo esc_html($value['indexusage']); ?></td>
+                                    <td><?php echo esc_html($value['overhead']); ?></td>
                                 </tr>
                             <?php } ?>
                          
@@ -62,20 +62,20 @@ if (!defined('ABSPATH')) {
                     <br>
                     <hr>
                     <br>
-                         <h2><?php echo __('Database Information', 'FRocket_admin') ?></h2>
+                         <h2><?php esc_html_e('Database Information', 'FRocket_admin'); ?></h2>
                     <table class="table table-hover table-striped">
 
                         <thead class="mdb-color darken-3">
                             <tr class="text-white">
-                                <th><?php echo __('Setting', 'FRocket_admin'); ?></th>
-                                <th><?php echo __('Value', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Setting', 'FRocket_admin'); ?></th>
+                                <th><?php esc_html_e('Value', 'FRocket_admin'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($tables2 as $key => $value) {?>
                                 <tr>
-                                    <td><?php echo $value['option'];?></td>
-                                    <td><?php echo $value['value'];?></td>
+                                    <td><?php echo esc_html($value['option']); ?></td>
+                                    <td><?php echo esc_html($value['value']); ?></td>
                                   
                                 </tr>
                             <?php } ?>

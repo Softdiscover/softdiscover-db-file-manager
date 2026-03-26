@@ -19,7 +19,7 @@ ob_start();
  
 
 <div id="zgpb-modal1-body-container">
-   <?php echo $content;?> 
+   <?php echo wp_kses_post($content); ?> 
 </div>
  
 
@@ -32,5 +32,5 @@ $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
 $cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
-echo $cntACmp;
+echo wp_kses_post($cntACmp);
 ?>

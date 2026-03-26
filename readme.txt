@@ -5,9 +5,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: database, file manager, backup, user roles, elfinder, ftp, folders, files, wp file manager, code editor, wp-file manager, editor
 Requires at least: 3.6
-Tested up to: 6.8.2
+Tested up to: 6.9.4
 Requires PHP: 5.3
-Stable tag: 1.6.2
+Stable tag: 1.6.5
 
 Manage your folder and files , backup, user roles and database easily
 
@@ -31,7 +31,7 @@ That’s where the Managefy plugin comes in. With this plugin, you can easily cr
 Organizing your blog media files with Managefy plugin is as easy as dragging and dropping the files into folders. Then you can rearrange the order of your files by dragging them around to bring the important files to the top of the list for quicker access.
 
 The Tree View of your folders will also make things easier for you to quickly find specific folders in a split-second.
- 
+
 Managefy is a must-have WordPress plugin that will help save you a ton of time that goes into managing your media files.
 
 ### Features:
@@ -58,10 +58,10 @@ Managefy is a must-have WordPress plugin that will help save you a ton of time t
 * Works with any standard hosting.
 * No coding only configuration
 * Set permissions for your user and user role.
-* Supports Image editing (crop, rotate, resize). 
+* Supports Image editing (crop, rotate, resize).
 * Create Archives (Zip, Tar, BZip, GZip).
 * Text File Editing.
-* Icons / List Views.  
+* Icons / List Views.
 * WordPress 5.x / Gutenberg ready
 * Folders for the WordPress media library
 * Full control for your folders in one toolbar (create, rename, delete)
@@ -128,10 +128,10 @@ Supports permission for user roles. Supports both custom and built in user roles
 
 == Installation ==
 
-There are 2 ways to install. Please follow the steps below: 
+There are 2 ways to install. Please follow the steps below:
 
 = Via backend of WordPress =
-1. After your download, log into backend of your WordPress 
+1. After your download, log into backend of your WordPress
 2. Go to Plugins > Add New
 3. Click the Upload link
 4. Click Browse and locate the file that you downloaded and click *Install Now*
@@ -163,18 +163,31 @@ There are 2 ways to install. Please follow the steps below:
 
 == Changelog ==
 
+= 1.6.5 =
+* Security: hardened backup AJAX handlers with strict input validation and nonce/capability enforcement.
+* Security: improved SQL safety in backup/database routines and validated dynamic table identifiers.
+* Security/Standards: fixed high-priority escaping and sanitization findings from focused PHP security scans.
+
+= 1.6.4 =
+* Security hardening: fixed authenticated SQL injection in backup delete/restore flow by strict `rec_id` validation and prepared queries.
+* Added capability checks for admin AJAX endpoints.
 = 1.2 =
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.6.2 = 
+= 1.6.5 =
  * minor changes
- 
+
 == Upgrade Notice ==
 
+= 1.6.5 =
+* Security update recommended.
+
+= 1.6.4 =
+* Security update recommended.
 = 1.2 =
 * First release
 = 1.3.1 =
 * support wp v5.3.2
-= 1.6.2 = 
+= 1.6.5 =
  * minor changes

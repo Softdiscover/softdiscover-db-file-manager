@@ -288,7 +288,7 @@ class elFinderPluginWatermark extends elFinderPlugin
             return $result ? true : false;
         } catch (Exception $e) {
             $ermsg = $e->getMessage();
-            $ermsg && trigger_error($ermsg);
+            $ermsg && trigger_error(esc_html($ermsg));
             return false;
         }
     }
@@ -385,7 +385,7 @@ class elFinderPluginWatermark extends elFinderPlugin
         }
 
         if ($ermsg || false === $oSrcImg || false === $oWatermarkImg) {
-            $ermsg && trigger_error($ermsg);
+            $ermsg && trigger_error(esc_html($ermsg));
             return false;
         }
 

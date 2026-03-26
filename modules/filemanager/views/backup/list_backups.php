@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
                 <div class="widget-header">
                     <i class="fa fa-list-alt"></i>
                     <h5>
-                        <?php echo __('Backup manager.', 'FRocket_admin') ?>
+                        <?php esc_html_e('Backup manager.', 'FRocket_admin'); ?>
                     </h5>
 
                 </div>
@@ -38,43 +38,43 @@ if (!defined('ABSPATH')) {
                               enctype="multipart/form-data"
                               id="flmbkp_backup_form">
                             <div class="alert alert-info" role="alert">
-                                <h2><?php echo __('Backup options', 'FRocket_admin'); ?></h2>
+                                <h2><?php esc_html_e('Backup options', 'FRocket_admin'); ?></h2>
                                 <div class="">
                                     <div class="row">
 
                                         <div class="col-sm-4">
                                             <fieldset class="col-md-12">
-                                                <legend><?php echo __('Files', 'FRocket_admin'); ?></legend>
+                                                <legend><?php esc_html_e('Files', 'FRocket_admin'); ?></legend>
 
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <p>
                                                             <label class = "checkbox-inline">
-                                                                <?php echo __('Include your files in the backup', 'FRocket_admin'); ?>
+                                                                <?php esc_html_e('Include your files in the backup', 'FRocket_admin'); ?>
                                                             </label>
                                                         <div class="alert alert-secondary" role="alert">
                                                             <div class="form-check">
                                                                 <input name="flpbkp_opt_plugins" class="" type="checkbox" value="plugins" id="defaultCheck1" checked>
                                                                 <label class="form-check-label" for="defaultCheck1">
-                                                                    <?php echo __('Plugins', 'FRocket_admin'); ?>
+                                                                    <?php esc_html_e('Plugins', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input name="flpbkp_opt_themes" class="" type="checkbox" value="themes" id="defaultCheck2" checked>
                                                                 <label class="form-check-label" for="defaultCheck2">
-                                                                    <?php echo __('Themes', 'FRocket_admin'); ?>
+                                                                    <?php esc_html_e('Themes', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input name="flpbkp_opt_uploads" class="" type="checkbox" value="uploads" id="defaultCheck3" checked>
                                                                 <label class="form-check-label" for="defaultCheck3">
-                                                                    <?php echo __('Uploads', 'FRocket_admin'); ?>
+                                                                    <?php esc_html_e('Uploads', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input name="flpbkp_opt_others" class="" type="checkbox" value="others" id="defaultCheck4" checked>
                                                                 <label class="form-check-label" for="defaultCheck4">
-                                                                    <?php echo __('Any other directories found inside wp-content', 'FRocket_admin'); ?>
+                                                                    <?php esc_html_e('Any other directories found inside wp-content', 'FRocket_admin'); ?>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -87,16 +87,16 @@ if (!defined('ABSPATH')) {
                                         <div class="col-sm-4">
 
                                             <fieldset class="col-md-12">
-                                                <legend><?php echo __('Database', 'FRocket_admin'); ?></legend>
+                                                <legend><?php esc_html_e('Database', 'FRocket_admin'); ?></legend>
 
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <p>
                                                             <label class = "checkbox-inline">
-                                                                <input name="flpbkp_opt_database" type="checkbox" id="databaseCheckbox1" value="database" checked> <?php echo __('Include your database in the backup', 'FRocket_admin'); ?>
+                                                                <input name="flpbkp_opt_database" type="checkbox" id="databaseCheckbox1" value="database" checked> <?php esc_html_e('Include your database in the backup', 'FRocket_admin'); ?>
                                                             </label>
                                                         <div class="alert alert-secondary" role="alert">
-                                                            <?php echo __('All WordPress tables will be backed up.', 'FRocket_admin'); ?>
+                                                            <?php esc_html_e('All WordPress tables will be backed up.', 'FRocket_admin'); ?>
                                                         </div>
                                                         </p>
                                                     </div>
@@ -107,10 +107,10 @@ if (!defined('ABSPATH')) {
                                         </div>
                                         <div class="col-sm-4">
                                             <button type="button" id="flmbkp_backup_btn" class="btn btn-primary btn-lg btn-block text-monospace">
-                                                <?php echo __('Backup Now', 'FRocket_admin'); ?>
+                                                <?php esc_html_e('Backup Now', 'FRocket_admin'); ?>
                                             </button>
                                             <button type="button" id="flmbkp_cancel_btn" class="btn btn-outline-danger btn-lg btn-block text-monospace" style="display:none;">
-                                                <?php echo __('Cancel Backup', 'FRocket_admin'); ?>
+                                                <?php esc_html_e('Cancel Backup', 'FRocket_admin'); ?>
                                             </button>
                                         </div>
                                     </div>
@@ -122,8 +122,8 @@ if (!defined('ABSPATH')) {
 
                     <div id="flmbkp_progress_graph" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
                         <div>
-                            <strong><?php echo __('Backing up now', 'FRocket_admin'); ?></strong>
-                            <?php echo __('Wait until backup is finished', 'FRocket_admin'); ?>
+                            <strong><?php esc_html_e('Backing up now', 'FRocket_admin'); ?></strong>
+                            <?php esc_html_e('Wait until backup is finished', 'FRocket_admin'); ?>
                             <i class="fa fa-spin fa-8x fa-spinner" id="loading-icon"></i>
                         </div>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -131,7 +131,7 @@ if (!defined('ABSPATH')) {
                         </button>
                         <div id="flmbkp_progress_plugins" class="mb-3" style="display:none;">
                             <div class="badge badge-primary text-wrap" style="width: 9rem;">
-                                <?php echo __('Plugins', 'FRocket_admin'); ?>
+                                <?php esc_html_e('Plugins', 'FRocket_admin'); ?>
                             </div>
                             <div id="flmbkp_plugins_progress" class="progress">
                                 <div id="flmbkp_plugins_progress_msg" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 1%">0%</div>
@@ -139,7 +139,7 @@ if (!defined('ABSPATH')) {
                         </div>
                         <div id="flmbkp_progress_themes" class="mb-3" style="display:none;">
                             <div class="badge badge-success text-wrap" style="width: 9rem;">
-                                <?php echo __('Themes', 'FRocket_admin'); ?>
+                                <?php esc_html_e('Themes', 'FRocket_admin'); ?>
                             </div>
                             <div id="flmbkp_themes_progress" class="progress">
                                 <div id="flmbkp_themes_progress_msg" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">25%</div>
@@ -147,7 +147,7 @@ if (!defined('ABSPATH')) {
                         </div>
                         <div id="flmbkp_progress_uploads" class="mb-3" style="display:none;">
                             <div class="badge badge-warning text-wrap" style="width: 9rem;">
-                                <?php echo __('Uploads', 'FRocket_admin'); ?>
+                                <?php esc_html_e('Uploads', 'FRocket_admin'); ?>
                             </div>
                             <div id="flmbkp_uploads_progress" class="progress">
                                 <div id="flmbkp_uploads_progress_msg" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">25%</div>
@@ -155,7 +155,7 @@ if (!defined('ABSPATH')) {
                         </div>
                         <div id="flmbkp_progress_others" class="mb-3" style="display:none;">
                             <div class="badge badge-info text-wrap" style="width: 9rem;">
-                                <?php echo __('Others', 'FRocket_admin'); ?>
+                                <?php esc_html_e('Others', 'FRocket_admin'); ?>
                             </div>
                             <div id="flmbkp_others_progress" class="progress">
                                 <div id="flmbkp_others_progress_msg" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">25%</div>
@@ -163,7 +163,7 @@ if (!defined('ABSPATH')) {
                         </div>
                         <div id="flmbkp_progress_database" class="mb-3" style="display:none;">
                             <div class="badge badge-dark text-wrap" style="width: 9rem;">
-                                <?php echo __('Database', 'FRocket_admin'); ?>
+                                <?php esc_html_e('Database', 'FRocket_admin'); ?>
                             </div>
                             <div id="flmbkp_database_progress" class="progress">
                                 <div id="flmbkp_database_progress_msg" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">25%</div>
@@ -181,42 +181,46 @@ if (!defined('ABSPATH')) {
                             <table class="table table-striped table-bordered dataTable" id="users">
                                 <thead>
                                 <tr>
-                                    <th><?php echo __('File name', 'FRocket_admin'); ?></th>
-                                    <th><?php echo __('Backup Created', 'FRocket_admin'); ?></th>
-                                    <th><?php echo __('Backup Data', 'FRocket_admin'); ?></th>
-                                    <th><?php echo __('Options', 'FRocket_admin'); ?></th>
+                                    <th><?php esc_html_e('File name', 'FRocket_admin'); ?></th>
+                                    <th><?php esc_html_e('Backup Created', 'FRocket_admin'); ?></th>
+                                    <th><?php esc_html_e('Backup Data', 'FRocket_admin'); ?></th>
+                                    <th><?php esc_html_e('Options', 'FRocket_admin'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php if (!empty($query)) { ?>
                                     <?php foreach ($query as $row) : ?>
+                                        <?php
+                                        $bkp_slug = sanitize_file_name($row->bkp_slug);
+                                        $created_date = isset($row->created_date) ? $row->created_date : '';
+                                        ?>
                                         <tr>
-                                            <td><?php echo $row->bkp_slug; ?></td>
-                                            <td><?php echo $row->created_date; ?></td>
+                                            <td><?php echo esc_html($bkp_slug); ?></td>
+                                            <td><?php echo esc_html($created_date); ?></td>
                                             <td>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/backups/'.$row->bkp_slug.'_plugins.zip')) { ?>
-                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug; ?>_plugins.zip')" class="btn btn-warning">
-                                                        <i class="fa fa-download"></i> <?php echo __('Plugins', 'FRocket_admin'); ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR . '/softdiscover/backups/' . $bkp_slug . '_plugins.zip')) { ?>
+                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo esc_js($bkp_slug . '_plugins.zip'); ?>')" class="btn btn-warning">
+                                                        <i class="fa fa-download"></i> <?php esc_html_e('Plugins', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/backups/'.$row->bkp_slug.'_themes.zip')) { ?>
-                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug; ?>_themes.zip')" class="btn btn-warning">
-                                                        <i class="fa fa-download"></i> <?php echo __('Themes', 'FRocket_admin'); ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR . '/softdiscover/backups/' . $bkp_slug . '_themes.zip')) { ?>
+                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo esc_js($bkp_slug . '_themes.zip'); ?>')" class="btn btn-warning">
+                                                        <i class="fa fa-download"></i> <?php esc_html_e('Themes', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/backups/'.$row->bkp_slug.'_uploads.zip')) { ?>
-                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug; ?>_uploads.zip')" class="btn btn-warning">
-                                                        <i class="fa fa-download"></i> <?php echo __('Uploads', 'FRocket_admin'); ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR . '/softdiscover/backups/' . $bkp_slug . '_uploads.zip')) { ?>
+                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo esc_js($bkp_slug . '_uploads.zip'); ?>')" class="btn btn-warning">
+                                                        <i class="fa fa-download"></i> <?php esc_html_e('Uploads', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/backups/'.$row->bkp_slug.'_others.zip')) { ?>
-                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug; ?>_others.zip')" class="btn btn-warning">
-                                                        <i class="fa fa-download"></i> <?php echo __('Others', 'FRocket_admin'); ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR . '/softdiscover/backups/' . $bkp_slug . '_others.zip')) { ?>
+                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo esc_js($bkp_slug . '_others.zip'); ?>')" class="btn btn-warning">
+                                                        <i class="fa fa-download"></i> <?php esc_html_e('Others', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
-                                                <?php if (file_exists(WP_CONTENT_DIR.'/softdiscover/backups/'.$row->bkp_slug.'_database.zip')) { ?>
-                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo $row->bkp_slug; ?>_database.zip')" class="btn btn-warning">
-                                                        <i class="fa fa-download"></i> <?php echo __('Database', 'FRocket_admin'); ?>
+                                                <?php if (file_exists(WP_CONTENT_DIR . '/softdiscover/backups/' . $bkp_slug . '_database.zip')) { ?>
+                                                    <button onclick="flmbkp_back_backup.options_downloadFiles('<?php echo esc_js($bkp_slug . '_database.zip'); ?>')" class="btn btn-warning">
+                                                        <i class="fa fa-download"></i> <?php esc_html_e('Database', 'FRocket_admin'); ?>
                                                     </button>
                                                 <?php } ?>
 
@@ -227,19 +231,19 @@ if (!defined('ABSPATH')) {
                                                         <li>
                                                             <a href="javascript:void(0);"
                                                                class="btn btn-danger uiform-confirmation-func-action"
-                                                               data-dialog-title="<?php echo __('Delete', 'FRocket_admin') ?>"
+                                                               data-dialog-title="<?php echo esc_attr__('Delete', 'FRocket_admin'); ?>"
                                                                data-dialog-callback="flmbkp_back_backup.records_delreg(<?php echo (int) $row->bkp_id; ?>);"
                                                                data-recid="<?php echo (int) $row->bkp_id; ?>">
-                                                                <i class="fa fa-trash-o"></i> <?php echo __('Delete', 'FRocket_admin'); ?>
+                                                                <i class="fa fa-trash-o"></i> <?php esc_html_e('Delete', 'FRocket_admin'); ?>
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <a href="javascript:void(0);"
                                                                class="btn btn-info uiform-confirmation-func-action"
-                                                               data-dialog-title="<?php echo __('Backup', 'FRocket_admin') ?>"
+                                                               data-dialog-title="<?php echo esc_attr__('Backup', 'FRocket_admin'); ?>"
                                                                data-dialog-callback="flmbkp_back_backup.records_restore(<?php echo (int) $row->bkp_id; ?>);"
                                                                data-recid="<?php echo (int) $row->bkp_id; ?>">
-                                                                <i class="fa fa-window-restore"></i> <?php echo __('Restore', 'FRocket_admin'); ?>
+                                                                <i class="fa fa-window-restore"></i> <?php esc_html_e('Restore', 'FRocket_admin'); ?>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -250,7 +254,7 @@ if (!defined('ABSPATH')) {
                                 <?php } else { ?>
                                     <tr>
                                         <td colspan="5">
-                                            <div class="sfdc-alert sfdc-alert-info"><i class="fa fa-exclamation-triangle"></i> <?php echo __('there is not Backups', 'FRocket_admin'); ?></div>
+                                            <div class="sfdc-alert sfdc-alert-info"><i class="fa fa-exclamation-triangle"></i> <?php esc_html_e('there is not Backups', 'FRocket_admin'); ?></div>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -261,7 +265,7 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <center>
-                        <div class="pagination-wrap"><?php echo $pagination; ?></div>
+                        <div class="pagination-wrap"><?php echo wp_kses_post($pagination); ?></div>
                     </center>
                 </div>
             </div>
@@ -269,5 +273,5 @@ if (!defined('ABSPATH')) {
     </div>
 </div>
 <div id="uiform-confirmation-func-action-dialog" style="display: none;">
-    <?php echo __('Are you sure about this?', 'FRocket_admin'); ?>
+    <?php esc_html_e('Are you sure about this?', 'FRocket_admin'); ?>
 </div>

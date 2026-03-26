@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
                 <div class="widget-header">
                     <i class="fa fa-list-alt"></i>
                     <h5>
-                        <?php echo __('Settings', 'FRocket_admin'); ?>
+                        <?php esc_html_e('Settings', 'FRocket_admin'); ?>
                     </h5>
 
                 </div>  
@@ -38,18 +38,18 @@ if (!defined('ABSPATH')) {
                    <!-- form user info -->
             <div class="card card-outline-secondary">
               <div class="card-header">
-                <h3 class="mb-0"><?php echo __('General', 'FRocket_admin'); ?></h3>
+                <h3 class="mb-0"><?php esc_html_e('General', 'FRocket_admin'); ?></h3>
               </div>
               <div class="card-body">
                 
                   <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"><?php echo __('Select User Roles to access this plugin', 'FRocket_admin'); ?></label>
+                    <label class="col-lg-3 col-form-label form-control-label"><?php esc_html_e('Select User Roles to access this plugin', 'FRocket_admin'); ?></label>
                     <div class="col-lg-9">
                         
                        <?php foreach ($roles as $key => $value) { ?>
                             <div class="form-check-inline">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" name="flm_roles[]" value="<?php echo $value['role'];?>" <?php echo ($value['ischecked'])?'checked':''; ?>  <?php echo ($value['primaryrole'])?'disabled':''; ?>  > <?php echo $value['role'];?>
+                                    <input type="checkbox" class="form-check-input" name="flm_roles[]" value="<?php echo esc_attr($value['role']); ?>" <?php checked(!empty($value['ischecked'])); ?> <?php disabled(!empty($value['primaryrole'])); ?>> <?php echo esc_html($value['role']); ?>
                                 </label>
                               </div>
                        <?php } ?> 
@@ -58,7 +58,7 @@ if (!defined('ABSPATH')) {
                     </div>
                   </div>
                   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong><?php echo __('Note', 'FRocket_admin'); ?></strong> <?php echo __("Allow user roles to access this plugin. Once User Role is added, you need to give 'manage_options' capability to those selected User Roles. there are many plugins out there to give 'manage_options' capability. ", 'FRocket_admin'); ?>
+                    <strong><?php esc_html_e('Note', 'FRocket_admin'); ?></strong> <?php echo esc_html(__("Allow user roles to access this plugin. Once User Role is added, you need to give 'manage_options' capability to those selected User Roles. there are many plugins out there to give 'manage_options' capability. ", 'FRocket_admin')); ?>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>

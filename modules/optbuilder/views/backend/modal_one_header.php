@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 ob_start();
 ?>
-  <h4><span class="sfdc-glyphicon sfdc-glyphicon-pencil"></span> <?php echo $name;?></h4>
+  <h4><span class="sfdc-glyphicon sfdc-glyphicon-pencil"></span> <?php echo esc_html($name); ?></h4>
  
 
 <?php
@@ -28,5 +28,5 @@ $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
 $cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
-echo $cntACmp;
+echo wp_kses_post($cntACmp);
 ?>

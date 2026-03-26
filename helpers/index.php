@@ -1,3 +1,5 @@
 <?php
-// forbidden
+if (!defined('ABSPATH')) {
+    exit;
+}
 ?>

@@ -56,6 +56,19 @@ class flmbkp_Filemanager_Controller_Back extends Flmbkp_Base_Module
       //submit header options
         add_action('wp_ajax_flmbkp_header_options', array(&$this, 'ajax_header_options'));
     }
+
+    /**
+     * Ensure only authorized users can execute admin AJAX actions.
+     */
+    private function verify_ajax_permissions()
+    {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(
+                array('message' => __('Insufficient permissions.', 'FRocket_admin')),
+                403
+            );
+        }
+    }
     
     /**
      * receiving header options
@@ -66,29 +79,41 @@ class flmbkp_Filemanager_Controller_Back extends Flmbkp_Base_Module
     {
          
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
-        $tmp_data = (isset($_POST['options']))?urldecode(Flmbkp_Form_Helper::sanitizeInput_html($_POST['options'])):'';
-         
-         
+        $this->verify_ajax_permissions();
+        $tmp_data = (string) filter_input(INPUT_POST, 'options', FILTER_UNSAFE_RAW);
+
         $data = array();
-        foreach (explode('&', $tmp_data) as $value) {
-            $value1 = explode('=', $value);
-            $data[$value1[0]] = Flmbkp_Form_Helper::sanitizeInput($value1[1]);
+        if (is_string($tmp_data) && '' !== $tmp_data) {
+            $parsed_data = array();
+            parse_str($tmp_data, $parsed_data);
+            foreach ($parsed_data as $key => $value) {
+                if (is_scalar($value)) {
+                    $data[sanitize_key($key)] = Flmbkp_Form_Helper::sanitizeInput((string) $value);
+                }
+            }
         }
         
         //language
-        if (isset($data['flmbkp_header_language']) && strval($data['flmbkp_header_language'])!='') {
+        $allowed_languages = array(
+            'en', 'bg', 'ar', 'ca', 'cs', 'da', 'de', 'el', 'es', 'fa', 'fo', 'fr', 'he', 'hr', 'hu', 'id',
+            'it', 'ja', 'ko', 'nl', 'no', 'pl', 'ro', 'ru', 'sl', 'sk', 'sr', 'sv', 'tr', 'zh_CN', 'uk',
+            'vi', 'zh_TW'
+        );
+        if (isset($data['flmbkp_header_language']) && in_array($data['flmbkp_header_language'], $allowed_languages, true)) {
             update_option('flmbkp_opt_lang', $data['flmbkp_header_language']);
         }
         
         //theme
-        if (isset($data['flmbkp_header_theme']) && strval($data['flmbkp_header_theme'])!='') {
+        $allowed_themes = array('default', 'gray', 'light', 'dark');
+        if (isset($data['flmbkp_header_theme']) && in_array($data['flmbkp_header_theme'], $allowed_themes, true)) {
             update_option('flmbkp_opt_theme', $data['flmbkp_header_theme']);
         }
-        $json=array();
-        $json['url']=admin_url('admin.php?page=flmbkp_file_manager');
-        header('Content-Type: application/json');
-        echo json_encode($json);
-        wp_die();
+
+        wp_send_json(
+            array(
+                'url' => admin_url('admin.php?page=flmbkp_file_manager')
+            )
+        );
     }
     
     
@@ -101,9 +126,10 @@ class flmbkp_Filemanager_Controller_Back extends Flmbkp_Base_Module
     {
         
         check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
+        $this->verify_ajax_permissions();
         
-        //$_POST      = array_map( 'stripslashes_deep', $_POST );
-        $_POST['content'] = (isset($_POST['content'])) ? stripslashes_deep($_POST['content']) : '';
+        // elFinder receives raw editor content; only unslash WordPress-added escaping.
+        $_POST['content'] = (string) filter_input(INPUT_POST, 'content', FILTER_UNSAFE_RAW);
             
         // elFinder autoload
         require FLMBKP_DIR.'/libraries/elfinder/php/autoload.php';
@@ -231,7 +257,7 @@ class flmbkp_Filemanager_Controller_Back extends Flmbkp_Base_Module
         $data=array();
         $data['opt_theme']= get_option('flmbkp_opt_theme', 'default');
         $data['opt_lang']= get_option('flmbkp_opt_lang', 'en');
-        echo self::loadPartial('layout.php', 'filemanager/views/backend/load_file_manager.php', $data);
+        self::loadPartial('layout.php', 'filemanager/views/backend/load_file_manager.php', $data);
     }
    
     

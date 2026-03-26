@@ -1,3 +1,12 @@
+version 1.6.5
+[security] - hardened backup AJAX input validation and nonce/capability checks
+[security] - hardened SQL handling in backup/database routines and escaped high-risk outputs
+[security] - fixed SQL injection risk in backup delete/restore record lookup
+[security] - added nonce/capability hardening for admin AJAX endpoints
+-----------------------------------------------------------------------------------------------------------------
+version 1.6.3
+[update] - support wp 6.8.3
+-----------------------------------------------------------------------------------------------------------------
 version 1.5.0
 [fix] - secure download backup
 version 1.4.8

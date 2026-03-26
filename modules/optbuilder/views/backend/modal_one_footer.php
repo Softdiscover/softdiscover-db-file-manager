@@ -16,9 +16,9 @@ if (!defined('ABSPATH')) {
 }
 ob_start();
 ?>
-  <button data-dismiss="modal" class="sfdc-btn sfdc-btn-primary" type="button"><?php echo __('Close', 'zgpbd_admin')?></button> 
+  <button data-dismiss="modal" class="sfdc-btn sfdc-btn-primary" type="button"><?php esc_html_e('Close', 'zgpbd_admin'); ?></button> 
   
-  <?php echo $buttons;?>
+  <?php echo wp_kses_post($buttons); ?>
   
 <?php
 $cntACmp = ob_get_contents();
@@ -29,5 +29,5 @@ $cntACmp = str_replace("//-->", ' ', $cntACmp);
 $cntACmp = str_replace("//<!--", ' ', $cntACmp);
 $cntACmp = preg_replace("/\s+/", " ", $cntACmp);
 ob_end_clean();
-echo $cntACmp;
+echo wp_kses_post($cntACmp);
 ?>

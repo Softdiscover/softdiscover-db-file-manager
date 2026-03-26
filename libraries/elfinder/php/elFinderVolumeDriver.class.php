@@ -6963,7 +6963,7 @@ abstract class elFinderVolumeDriver
                             $comp = function_exists('bccomp') ? 'bccomp' : 'strnatcmp';
                             if (!empty($this->options['maxArcFilesSize'])) {
                                 if ($comp($size, (string)$this->options['maxArcFilesSize']) > 0) {
-                                    throw new Exception(elFinder::ERROR_ARC_MAXSIZE);
+                                    throw new Exception(esc_html(elFinder::ERROR_ARC_MAXSIZE));
                                 }
                             }
                         }

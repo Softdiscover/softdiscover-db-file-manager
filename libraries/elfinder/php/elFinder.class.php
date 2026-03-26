@@ -4205,6 +4205,7 @@ var go = function() {
             header('Cache-Control: private');
             header('Pragma: no-cache');
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Raw HTML callback page with inline script is required here.
             echo $out;
 
         } else {
@@ -5128,7 +5129,7 @@ var go = function() {
 
         if ($result === false) {
             if (curl_errno($curl)) {
-                throw new \Exception('curl_exec() failed: ' . curl_error($curl));
+                throw new \Exception('curl_exec() failed: ' . esc_html(curl_error($curl)));
             } else {
                 throw new \Exception('curl_exec(): empty response');
             }

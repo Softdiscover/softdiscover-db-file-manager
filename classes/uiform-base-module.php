@@ -28,7 +28,7 @@ abstract class Flmbkp_Base_Module
     private static $instances = array();
     public static $_modules = array();
     public static $_models = array();
-     
+    
     
     /*
      * Magic methods
@@ -49,7 +49,7 @@ abstract class Flmbkp_Base_Module
         if (in_array($variable, $module::$readable_properties)) {
             return $this->$variable;
         } else {
-            throw new Exception(__METHOD__ . " error: $" . $variable . " doesn't exist or isn't readable.");
+            throw new Exception(sprintf('%s error: $%s does not exist or is not readable.', __METHOD__, sanitize_key((string) $variable)));
         }
     }
 
@@ -69,10 +69,10 @@ abstract class Flmbkp_Base_Module
             $this->$variable = $value;
 
             if (!$this->is_valid()) {
-                throw new Exception(__METHOD__ . ' error: $' . $value . ' is not valid.');
+                throw new Exception(sprintf('%s error: provided value is not valid.', __METHOD__));
             }
         } else {
-            throw new Exception(__METHOD__ . " error: $" . $variable . " doesn't exist or isn't writable.");
+            throw new Exception(sprintf('%s error: $%s does not exist or is not writable.', __METHOD__, sanitize_key((string) $variable)));
         }
     }
 
@@ -115,7 +115,7 @@ abstract class Flmbkp_Base_Module
      */
     protected static function render_template($default_template_path = false, $variables = array(), $require = 'once')
     {
-               
+        
         $template_path = locate_template(basename($default_template_path));
         
         if (!$template_path) {
@@ -198,7 +198,8 @@ abstract class Flmbkp_Base_Module
         $data['content'] = self::render_template($view, $view_data);
         //$this->set('content', $this->template_data['controller']->load->view($view, $view_data, true));
         // return $this->template_data['controller']->load->view($template, $this->template_data, $return);
-        echo self::render_layout($template, $data);
+        $rendered = self::render_layout($template, $data);
+        echo wp_kses($rendered, Flmbkp_Form_Helper::get_allowed_admin_html());
     }
 
     /*

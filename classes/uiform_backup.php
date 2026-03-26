@@ -48,8 +48,7 @@ class Flmbkp_Backup
              // Disable foreign key checks
             mysqli_query($conn, 'SET foreign_key_checks = 0');
         } catch (Exception $e) {
-            var_dump($e->getMessage());
-            die();
+            return false;
         }
 
         return $conn;
@@ -57,30 +56,51 @@ class Flmbkp_Backup
 
     public function uploadBackupFile()
     {
+        if (function_exists('wp_doing_ajax') && wp_doing_ajax()) {
+            check_ajax_referer('flmbkp_ajax_nonce', 'flmbkp_security');
+            if (!current_user_can('manage_options')) {
+                return false;
+            }
+        }
+
+        if (!isset($_FILES['uifm_bkp_fileupload']) || !is_array($_FILES['uifm_bkp_fileupload'])) {
+            return false;
+        }
+
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Individual keys are validated/sanitized below before use.
+        $upload_file = $_FILES['uifm_bkp_fileupload'];
+        $file_name = isset($upload_file['name']) ? sanitize_file_name((string) $upload_file['name']) : '';
+        if ('' === $file_name) {
+            return false;
+        }
+
         $target_dir = FLMBKP_DIR . '/backups/';
-        $target_file = $target_dir . basename($_FILES["uifm_bkp_fileupload"]["name"]);
+        $target_file = $target_dir . basename($file_name);
         $uploadOk = 1;
-        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         // Check if file already exists
         if (file_exists($target_file)) {
             $uploadOk = 0;
         }
         // Check file size
-        if ($_FILES["uifm_bkp_fileupload"]["size"] > 5048576) {
+        $file_size = isset($upload_file['size']) ? absint($upload_file['size']) : 0;
+        if ($file_size > 5048576 || $file_size < 1) {
             $uploadOk = 0;
         }
         // Allow certain file formats
-        if ($imageFileType != "sql") {
+        if ('sql' !== $imageFileType) {
             $uploadOk = 0;
         }
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk === 0) {
-            // if everything is ok, try to upload file
+            return false;
         } else {
-            if (move_uploaded_file($_FILES["uifm_bkp_fileupload"]["tmp_name"], $target_file)) {
-            } else {
+            $tmp_name = isset($upload_file['tmp_name']) ? (string) $upload_file['tmp_name'] : '';
+            if ('' === $tmp_name || !is_uploaded_file($tmp_name)) {
+                return false;
             }
+            return move_uploaded_file($tmp_name, $target_file);
         }
     }
 
@@ -144,7 +164,7 @@ class Flmbkp_Backup
                 }
             }
         } catch (Exception $e) {
-            var_dump($e->getMessage());
+            $log[] = esc_html($e->getMessage());
             return false;
         }
  
@@ -219,7 +239,7 @@ class Flmbkp_Backup
 
             /* End Begin restore */
         } catch (Exception $exception) {
-            die($exception->getMessage());
+            wp_die(esc_html($exception->getMessage()));
         }
     }
 
@@ -313,16 +333,27 @@ class Flmbkp_Backup
         return $value;
     }
 
+    private function is_valid_table_name($table)
+    {
+        return is_string($table) && preg_match('/^[A-Za-z0-9_]+$/', $table);
+    }
+
     public function dumpTable($table, $flag = false)
     {
 
         // $dump = '';
-        $this->wpdb->query('LOCK TABLES ' . $table . ' WRITE');
+        if (!$this->is_valid_table_name($table)) {
+            return false;
+        }
+        $safe_table = esc_sql($table);
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by is_valid_table_name().
+        $this->wpdb->query("LOCK TABLES `{$safe_table}` WRITE");
 
         // $tables = $this->wpdb->get_col('SHOW TABLES');
         $output = '';
         //foreach($tables as $table) {
-        $result = $this->wpdb->get_results("SELECT * FROM {$table}", ARRAY_N);
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by is_valid_table_name().
+        $result = $this->wpdb->get_results("SELECT * FROM `{$safe_table}`", ARRAY_N);
         if ($flag === true) {
             //verifying the first table has content
             $row = isset($result[0]) ? $result[0] : '';
@@ -331,14 +362,15 @@ class Flmbkp_Backup
             }
         }
         $output .= '-- --------------------------------------------------' . NL;
-        $output .= '# -- Table structure for table `' . $table . '`' . NL;
+        $output .= '# -- Table structure for table `' . $safe_table . '`' . NL;
         $output .= '-- --------------------------------------------------' . NL;
-        $output .= 'DROP TABLE IF EXISTS `' . $table . '`;' . NL;
-        $row2 = $this->wpdb->get_row('SHOW CREATE TABLE ' . $table, ARRAY_N);
+        $output .= 'DROP TABLE IF EXISTS `' . $safe_table . '`;' . NL;
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by is_valid_table_name().
+        $row2 = $this->wpdb->get_row("SHOW CREATE TABLE `{$safe_table}`", ARRAY_N);
         $output .= "\n\n" . $row2[1] . ";\n\n";
         for ($i = 0; $i < count($result); $i++) {
             $row = $result[$i];
-            $output .= 'INSERT INTO ' . $table . ' VALUES(';
+            $output .= 'INSERT INTO `' . $safe_table . '` VALUES(';
             for ($j = 0; $j < count($result[0]); $j++) {
                 $row[$j] = $this->wpdb->_real_escape($row[$j]);
                 $output .= (isset($row[$j])) ? '"' . $row[$j] . '"' : '""';
@@ -357,8 +389,13 @@ class Flmbkp_Backup
 
     public function insert($table)
     {
+        if (!$this->is_valid_table_name($table)) {
+            return false;
+        }
+        $safe_table = esc_sql($table);
         $output = '';
-        if (!$query = $this->wpdb->get_results("SELECT * FROM `" . $table . "`")) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by is_valid_table_name().
+        if (!$query = $this->wpdb->get_results("SELECT * FROM `{$safe_table}`")) {
             return false;
         }
         foreach ($query as $result) {
@@ -374,7 +411,7 @@ class Flmbkp_Backup
                 $values .= '\'' . $value . '\', ';
             }
 
-            $output .= 'INSERT INTO `' . $table . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
+            $output .= 'INSERT INTO `' . $safe_table . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
         }
         return $output;
     }

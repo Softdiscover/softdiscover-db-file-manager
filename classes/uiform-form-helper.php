@@ -31,38 +31,42 @@ class Flmbkp_Form_Helper
 
     public static function getroute()
     {
-        $return = array();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //post
-            $return['module'] = isset($_POST['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_mod']) : '';
-            $return['controller'] = isset($_POST['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_contr']) : '';
-            $return['action'] = isset($_POST['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_POST['flmbkp_action']) : '';
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            //get
-            $return['module'] = isset($_GET['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_mod']) : '';
-            $return['controller'] = isset($_GET['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_contr']) : '';
-            $return['action'] = isset($_GET['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['flmbkp_action']) : '';
+        $return = array(
+            'module' => '',
+            'controller' => '',
+            'action' => ''
+        );
+
+        $request_method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper(sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))) : 'GET';
+
+        if ('POST' === $request_method) {
+            $return['module'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_POST, 'flmbkp_mod', FILTER_UNSAFE_RAW));
+            $return['controller'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_POST, 'flmbkp_contr', FILTER_UNSAFE_RAW));
+            $return['action'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_POST, 'flmbkp_action', FILTER_UNSAFE_RAW));
+        } elseif ('GET' === $request_method) {
+            $return['module'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_mod', FILTER_UNSAFE_RAW));
+            $return['controller'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_contr', FILTER_UNSAFE_RAW));
+            $return['action'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_action', FILTER_UNSAFE_RAW));
         } else {
-            //request
-            $return['module'] = isset($_REQUEST['flmbkp_mod']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_mod']) : '';
-            $return['controller'] = isset($_REQUEST['flmbkp_contr']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_contr']) : '';
-            $return['action'] = isset($_REQUEST['flmbkp_action']) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST['flmbkp_action']) : '';
+            $return['module'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_mod', FILTER_UNSAFE_RAW));
+            $return['controller'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_contr', FILTER_UNSAFE_RAW));
+            $return['action'] = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'flmbkp_action', FILTER_UNSAFE_RAW));
         }
         return $return;
     }
 
     public static function getHttpRequest($var)
     {
-        $var=  strval($var);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //post
-            $value = isset($_POST[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_POST[$var]) :'';
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            //get
-            $value = isset($_GET[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_GET[$var]) :'';
+        $var = strval($var);
+        $value = '';
+        $request_method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper(sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))) : 'GET';
+
+        if ('POST' === $request_method) {
+            $value = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_POST, $var, FILTER_UNSAFE_RAW));
+        } elseif ('GET' === $request_method) {
+            $value = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, $var, FILTER_UNSAFE_RAW));
         } else {
-            //request
-            $value = isset($_REQUEST[$var]) ? Flmbkp_Form_Helper::sanitizeInput($_REQUEST[$var]) :'';
+            $value = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, $var, FILTER_UNSAFE_RAW));
         }
 
         return $value;
@@ -224,77 +228,142 @@ class Flmbkp_Form_Helper
 
     public static function data_encrypt($string, $key)
     {
-        $output = '';
-        /*   if(function_exists("mcrypt_encrypt")) { */
-        if (0) {
-            $output = rtrim(
-                base64_encode(
-                    mcrypt_encrypt(
-                        MCRYPT_RIJNDAEL_256,
-                        $key,
-                        $string,
-                        MCRYPT_MODE_ECB,
-                        mcrypt_create_iv(
-                            mcrypt_get_iv_size(
-                                MCRYPT_RIJNDAEL_256,
-                                MCRYPT_MODE_ECB
-                            ),
-                            MCRYPT_RAND
-                        )
-                    )
-                ),
-                "\0"
-            );
-        } else {
-            $result = '';
-            for ($i = 0; $i < strlen($string); $i++) {
-                $char = substr($string, $i, 1);
-                $keychar = substr($key, ($i % strlen($key)) - 1, 1);
-                $char = chr(ord($char) + ord($keychar));
-                $result .= $char;
-            }
-            $output = base64_encode($result);
+        $string = (string) $string;
+        $key = (string) $key;
+
+        if ('' === $key) {
+            return '';
         }
 
+        if (function_exists('openssl_encrypt') && function_exists('openssl_cipher_iv_length')) {
+            $cipher = 'aes-256-cbc';
+            $iv_length = openssl_cipher_iv_length($cipher);
+            if (is_int($iv_length) && $iv_length > 0) {
+                $iv = false;
+                if (function_exists('random_bytes')) {
+                    try {
+                        $iv = random_bytes($iv_length);
+                    } catch (Exception $exception) {
+                        $iv = false;
+                    }
+                }
+                if (false === $iv && function_exists('openssl_random_pseudo_bytes')) {
+                    $iv = openssl_random_pseudo_bytes($iv_length);
+                }
 
-        return $output;
+                if (is_string($iv) && strlen($iv) === $iv_length) {
+                    $key_material = hash('sha256', $key, true);
+                    $ciphertext = openssl_encrypt($string, $cipher, $key_material, OPENSSL_RAW_DATA, $iv);
+                    if (false !== $ciphertext) {
+                        $mac = hash_hmac('sha256', $iv . $ciphertext, $key_material, true);
+                        return 'v2:' . base64_encode($iv . $mac . $ciphertext);
+                    }
+                }
+            }
+        }
+
+        // Legacy fallback for environments without OpenSSL support.
+        $result = '';
+        $key_length = strlen($key);
+        $string_length = strlen($string);
+        for ($i = 0; $i < $string_length; $i++) {
+            $char = $string[$i];
+            $key_index = ($i % $key_length) - 1;
+            if ($key_index < 0) {
+                $key_index = $key_length - 1;
+            }
+            $keychar = $key[$key_index];
+            $result .= chr((ord($char) + ord($keychar)) % 256);
+        }
+
+        return base64_encode($result);
     }
 
     public static function data_decrypt($string, $key)
     {
-        $output = '';
-        /* if(function_exists("mcrypt_encrypt")) { */
-        if (0) {
-            $output = rtrim(
-                mcrypt_decrypt(
-                    MCRYPT_RIJNDAEL_256,
-                    $key,
-                    base64_decode($string),
-                    MCRYPT_MODE_ECB,
-                    mcrypt_create_iv(
-                        mcrypt_get_iv_size(
-                            MCRYPT_RIJNDAEL_256,
-                            MCRYPT_MODE_ECB
-                        ),
-                        MCRYPT_RAND
-                    )
-                ),
-                "\0"
-            );
-        } else {
-            $result = '';
-            $string = base64_decode($string);
+        $string = (string) $string;
+        $key = (string) $key;
 
-            for ($i = 0; $i < strlen($string); $i++) {
-                $char = substr($string, $i, 1);
-                $keychar = substr($key, ($i % strlen($key)) - 1, 1);
-                $char = chr(ord($char) - ord($keychar));
-                $result .= $char;
-            }
-            $output = $result;
+        if ('' === $key || '' === $string) {
+            return '';
         }
 
-        return $output;
+        if (0 === strpos($string, 'v2:') && function_exists('openssl_decrypt') && function_exists('openssl_cipher_iv_length')) {
+            $payload = base64_decode(substr($string, 3), true);
+            if (false === $payload) {
+                return '';
+            }
+
+            $cipher = 'aes-256-cbc';
+            $iv_length = openssl_cipher_iv_length($cipher);
+            $mac_length = 32; // raw sha256 HMAC length
+
+            if (!is_int($iv_length) || $iv_length <= 0 || strlen($payload) <= ($iv_length + $mac_length)) {
+                return '';
+            }
+
+            $iv = substr($payload, 0, $iv_length);
+            $mac = substr($payload, $iv_length, $mac_length);
+            $ciphertext = substr($payload, $iv_length + $mac_length);
+
+            $key_material = hash('sha256', $key, true);
+            $calc_mac = hash_hmac('sha256', $iv . $ciphertext, $key_material, true);
+            if (!self::timing_safe_equals($mac, $calc_mac)) {
+                return '';
+            }
+
+            $decrypted = openssl_decrypt($ciphertext, $cipher, $key_material, OPENSSL_RAW_DATA, $iv);
+            return (false !== $decrypted) ? $decrypted : '';
+        }
+
+        return self::legacy_data_decrypt($string, $key);
+    }
+
+    private static function timing_safe_equals($known, $user)
+    {
+        if (!is_string($known) || !is_string($user)) {
+            return false;
+        }
+
+        if (function_exists('hash_equals')) {
+            return hash_equals($known, $user);
+        }
+
+        $known_length = strlen($known);
+        if ($known_length !== strlen($user)) {
+            return false;
+        }
+
+        $status = 0;
+        for ($i = 0; $i < $known_length; $i++) {
+            $status |= ord($known[$i]) ^ ord($user[$i]);
+        }
+
+        return (0 === $status);
+    }
+
+    private static function legacy_data_decrypt($string, $key)
+    {
+        $decoded = base64_decode($string, true);
+        if (false === $decoded || '' === $key) {
+            return '';
+        }
+
+        $result = '';
+        $key_length = strlen($key);
+        $decoded_length = strlen($decoded);
+
+        for ($i = 0; $i < $decoded_length; $i++) {
+            $char = $decoded[$i];
+            $key_index = ($i % $key_length) - 1;
+            if ($key_index < 0) {
+                $key_index = $key_length - 1;
+            }
+            $keychar = $key[$key_index];
+            $result .= chr((ord($char) - ord($keychar) + 256) % 256);
+        }
+
+        return $result;
     }
 
     public static function base64url_encode($s)
@@ -344,20 +413,15 @@ class Flmbkp_Form_Helper
 
     public static function is_flmbkp_page()
     {
-        $search=array();
-        if ((isset($_GET['page']))) {
-            $search=Flmbkp_Form_Helper::sanitizeInput($_GET['page']);
-        } elseif ((isset($_POST['page']))) {
-            $search=Flmbkp_Form_Helper::sanitizeInput($_POST['page']);
-        }
+        $search = Flmbkp_Form_Helper::getHttpRequest('page');
 
-        $allow=array('flmbkp_file_manager','flmbkp_page_backups','flmbkp_page_database','flmbkp_page_settings');
+        $allow = array('flmbkp_file_manager', 'flmbkp_page_backups', 'flmbkp_page_database', 'flmbkp_page_settings');
 
-        if (in_array($search, $allow)) {
+        if (in_array($search, $allow, true)) {
             return true;
-        }else {
-            return false;
         }
+
+        return false;
     }
 
     public static function remove_non_tag_space($text)
@@ -437,6 +501,207 @@ class Flmbkp_Form_Helper
         $buffer = preg_replace($search, $replace, $buffer);
 
         return $buffer;
+    }
+
+    /**
+     * Allowed admin HTML for plugin-rendered templates.
+     *
+     * @return array
+     */
+    public static function get_allowed_admin_html()
+    {
+        static $allowed_html = null;
+        static $style_filter_registered = false;
+
+        if (!$style_filter_registered) {
+            add_filter('safe_style_css', array('Flmbkp_Form_Helper', 'allow_admin_safe_style_css'));
+            $style_filter_registered = true;
+        }
+
+        if (null !== $allowed_html) {
+            return $allowed_html;
+        }
+
+        $allowed_html = wp_kses_allowed_html('post');
+
+        $common_attrs = array(
+            'id' => true,
+            'class' => true,
+            'style' => true,
+            'title' => true,
+            'onclick' => true,
+            'role' => true,
+            'aria-label' => true,
+            'aria-hidden' => true,
+            'aria-controls' => true,
+            'aria-expanded' => true,
+            'aria-valuenow' => true,
+            'aria-valuemin' => true,
+            'aria-valuemax' => true,
+            'data-toggle' => true,
+            'data-target' => true,
+            'data-dialog-title' => true,
+            'data-dialog-callback' => true,
+            'data-recid' => true,
+        );
+
+        $common_tags = array(
+            'div',
+            'span',
+            'ul',
+            'ol',
+            'li',
+            'a',
+            'button',
+            'nav',
+            'form',
+            'input',
+            'select',
+            'option',
+            'optgroup',
+            'textarea',
+            'label',
+            'i',
+            'fieldset',
+            'legend',
+            'table',
+            'thead',
+            'tbody',
+            'tfoot',
+            'tr',
+            'th',
+            'td',
+            'center',
+        );
+
+        foreach ($common_tags as $tag) {
+            if (!isset($allowed_html[$tag])) {
+                $allowed_html[$tag] = array();
+            }
+            $allowed_html[$tag] = array_merge($allowed_html[$tag], $common_attrs);
+        }
+
+        $allowed_html['a'] = array_merge(
+            $allowed_html['a'],
+            array(
+                'href' => true,
+                'target' => true,
+                'rel' => true,
+            )
+        );
+
+        $allowed_html['img'] = array_merge(
+            isset($allowed_html['img']) ? $allowed_html['img'] : array(),
+            array(
+                'id' => true,
+                'class' => true,
+                'src' => true,
+                'alt' => true,
+                'title' => true,
+                'width' => true,
+                'height' => true,
+            )
+        );
+
+        $allowed_html['form'] = array_merge(
+            $allowed_html['form'],
+            array(
+                'action' => true,
+                'method' => true,
+                'name' => true,
+                'enctype' => true,
+                'autocomplete' => true,
+                'novalidate' => true,
+            )
+        );
+
+        $allowed_html['input'] = array_merge(
+            $allowed_html['input'],
+            array(
+                'type' => true,
+                'name' => true,
+                'value' => true,
+                'checked' => true,
+                'selected' => true,
+                'placeholder' => true,
+                'disabled' => true,
+                'readonly' => true,
+                'required' => true,
+                'multiple' => true,
+                'size' => true,
+                'min' => true,
+                'max' => true,
+                'step' => true,
+                'autocomplete' => true,
+            )
+        );
+
+        $allowed_html['select'] = array_merge(
+            $allowed_html['select'],
+            array(
+                'name' => true,
+                'multiple' => true,
+                'size' => true,
+                'disabled' => true,
+                'required' => true,
+            )
+        );
+
+        $allowed_html['option'] = array_merge(
+            $allowed_html['option'],
+            array(
+                'value' => true,
+                'selected' => true,
+                'disabled' => true,
+                'label' => true,
+            )
+        );
+
+        $allowed_html['optgroup'] = array_merge(
+            $allowed_html['optgroup'],
+            array(
+                'label' => true,
+                'disabled' => true,
+            )
+        );
+
+        $allowed_html['textarea'] = array_merge(
+            $allowed_html['textarea'],
+            array(
+                'name' => true,
+                'rows' => true,
+                'cols' => true,
+                'disabled' => true,
+                'readonly' => true,
+                'required' => true,
+                'placeholder' => true,
+            )
+        );
+
+        $allowed_html['button'] = array_merge(
+            $allowed_html['button'],
+            array(
+                'type' => true,
+                'name' => true,
+                'value' => true,
+                'disabled' => true,
+            )
+        );
+
+        return $allowed_html;
+    }
+
+    public static function allow_admin_safe_style_css($allowed_attr)
+    {
+        if (!is_array($allowed_attr)) {
+            return $allowed_attr;
+        }
+
+        if (!in_array('display', $allowed_attr, true)) {
+            $allowed_attr[] = 'display';
+        }
+
+        return $allowed_attr;
     }
 
 

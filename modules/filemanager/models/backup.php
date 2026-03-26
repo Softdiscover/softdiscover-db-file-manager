@@ -42,15 +42,36 @@ class flmbkp_Model_Backup
         $this->wpdb = $wpdb;
         $this->table = $wpdb->prefix . "flmbkp_backup";
     }
+
+    private function get_safe_table()
+    {
+        $table = (string) $this->table;
+        if (!preg_match('/^[A-Za-z0-9_]+$/', $table)) {
+            return '';
+        }
+        return esc_sql($table);
+    }
     
     
     public function getinfo($id)
     {
-        $query = sprintf('
-            select bkp_slug
-            from %s c
-            where c.bkp_id=%s
-            ', $this->table, $id);
+        $id = absint($id);
+        if ($id < 1) {
+            return null;
+        }
+
+        $table = $this->get_safe_table();
+        if ('' === $table) {
+            return null;
+        }
+
+        $query = $this->wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by get_safe_table().
+            "SELECT bkp_slug FROM `{$table}` WHERE bkp_id = %d",
+            $id
+        );
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared above and table name is validated.
         return $this->wpdb->get_row($query);
     }
     
@@ -59,31 +80,40 @@ class flmbkp_Model_Backup
      */
     public function getListBackups($per_page = '', $segment = '')
     {
-        $query = sprintf('
-            select *
-            from %s uf
-            ORDER BY uf.created_date desc
-            ', $this->table);
+        $per_page = absint($per_page);
+        $segment = absint($segment);
+        $table   = $this->get_safe_table();
 
-        if ($per_page != '' || $segment != '') {
-            $segment=(!empty($segment))?$segment:0;
-            $query.=sprintf(' limit %s,%s', (int)$segment, (int)$per_page);
+        if ('' === $table) {
+            return array();
         }
+
+        if ($per_page > 0) {
+            $query = $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by get_safe_table().
+                "SELECT * FROM `{$table}` ORDER BY created_date DESC LIMIT %d, %d",
+                $segment,
+                $per_page
+            );
+        } else {
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by get_safe_table().
+            $query = "SELECT * FROM `{$table}` ORDER BY created_date DESC";
+        }
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared above when needed and table name is validated.
         return $this->wpdb->get_results($query);
     }
     
     public function CountRecords()
     {
-        $query = sprintf('
-            select COUNT(*) AS counted
-            from %s c
-            ORDER BY c.created_date desc
-            ', $this->table);
-        $row = $this->wpdb->get_row($query);
-        if (isset($row->counted)) {
-            return $row->counted;
-        } else {
+        $table = $this->get_safe_table();
+        if ('' === $table) {
             return 0;
         }
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is validated by get_safe_table().
+        $query = "SELECT COUNT(*) FROM `{$table}`";
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query uses validated table name above.
+        $counted = (int) $this->wpdb->get_var($query);
+        return ($counted > 0) ? $counted : 0;
     }
 }

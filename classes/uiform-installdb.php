@@ -33,7 +33,7 @@ class Flmbkp_InstallDB
     {
         if ( $networkwide) {
             deactivate_plugins(plugin_basename(UIFORM_ABSFILE));
-            wp_die(__('The plugin can not be network activated. You need to activate the plugin per site.', 'FRocket_admin'));
+            wp_die(esc_html__('The plugin can not be network activated. You need to activate the plugin per site.', 'FRocket_admin'));
         }
         global $wpdb;
         $charset = '';
@@ -46,14 +46,20 @@ class Flmbkp_InstallDB
             }
         }
         //forms
-        $sql = "CREATE  TABLE IF NOT EXISTS $this->backup (
+        $backup_table = preg_replace('/[^A-Za-z0-9_]/', '', (string) $this->backup);
+        if ('' === $backup_table) {
+            return;
+        }
+
+        $sql = "CREATE  TABLE IF NOT EXISTS `{$backup_table}` (
             `bkp_id` INT(10) NOT NULL AUTO_INCREMENT ,
             `bkp_slug` longtext NULL ,
             `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
             `created_ip` VARCHAR(100) NULL ,
             `created_by` VARCHAR(100) NULL ,
             PRIMARY KEY (`bkp_id`) ) " . $charset . ";";
-        $wpdb->query($sql);
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta($sql);
     
         //ajax mode by default
         update_option('flmbkpbuild_version', 1);
@@ -63,6 +69,12 @@ class Flmbkp_InstallDB
     public function uninstall()
     {
         global $wpdb;
-        $wpdb->query('DROP TABLE IF EXISTS '. $this->backup);
+        $backup_table = preg_replace('/[^A-Za-z0-9_]/', '', (string) $this->backup);
+        $backup_table = esc_sql($backup_table);
+        if ('' === $backup_table) {
+            return;
+        }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is validated above and this is uninstall schema cleanup.
+        $wpdb->query("DROP TABLE IF EXISTS `{$backup_table}`");
     }
 }

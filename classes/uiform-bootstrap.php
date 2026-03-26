@@ -89,7 +89,8 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
         add_action('init', array(&$this, 'i18n'));
 
         //call post processing
-        if (isset($_POST['_rockfm_type_submit']) && absint($_POST['_rockfm_type_submit']) === 0) {
+        $rockfm_type_submit = filter_input(INPUT_POST, '_rockfm_type_submit', FILTER_VALIDATE_INT);
+        if (null !== $rockfm_type_submit && false !== $rockfm_type_submit && 0 === absint($rockfm_type_submit)) {
             add_action('plugins_loaded', array(&$this, 'flmbkp_process_form'));
         }
         
@@ -182,8 +183,10 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
     public function handle_api_requests()
     {
         global $wp;
-        if (isset($_GET['flmbkp_action']) && $_GET['flmbkp_action'] == 'uifm_fb_api_handler') {
-            $wp->query_vars['uifm_fbuilder_api_handler'] = $_GET['flmbkp_action'];
+        $flmbkp_action = (string) filter_input(INPUT_GET, 'flmbkp_action', FILTER_UNSAFE_RAW);
+        $flmbkp_action = Flmbkp_Form_Helper::sanitizeInput($flmbkp_action);
+        if ('uifm_fb_api_handler' === $flmbkp_action) {
+            $wp->query_vars['uifm_fbuilder_api_handler'] = $flmbkp_action;
         }
 
         // paypal-ipn-for-wordpress-api endpoint requests
@@ -205,14 +208,13 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
     
     private function route_api_handler()
     {
-      
-        $mode=isset($_GET['uifm_mode']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_mode']) :'';
+        $mode = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'uifm_mode', FILTER_UNSAFE_RAW));
         $return='';
         switch ($mode) {
             case 'lmode':
-                $type_mode=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $type_mode = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'uifm_action', FILTER_UNSAFE_RAW));
                 switch ($type_mode) {
-                    case 1:
+                    case '1':
                         $return='lmode_iframe_handler';
                         break;
                     default:
@@ -220,7 +222,7 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
                 }
                 break;
             case 'pdf':
-                $process=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $process = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'uifm_action', FILTER_UNSAFE_RAW));
                 switch ($process) {
                     case 'show_record':
                         $return='pdf_show_record';
@@ -230,7 +232,7 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
                 };
                 break;
             case 'csv':
-                $process=isset($_GET['uifm_action']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['uifm_action']) :'';
+                $process = Flmbkp_Form_Helper::sanitizeInput((string) filter_input(INPUT_GET, 'uifm_action', FILTER_UNSAFE_RAW));
                 switch ($process) {
                     case 'show_allrecords':
                         $return='csv_show_allrecords';
@@ -254,9 +256,9 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
     
     public function action_csv_show_allrecords()
     {
-       
-        $form_id=isset($_GET['id']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['id']) :'';
-       
+        $form_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $form_id = (false === $form_id || null === $form_id) ? 0 : absint($form_id);
+
         self::$_modules['formbuilder']['records']->csv_showAllForms($form_id);
        
         die();
@@ -265,11 +267,13 @@ class Flmbkp_Bootstrap extends Flmbkp_Base_Module
     
     public function lmode_iframe_handler()
     {
-        $form_id=isset($_GET['id']) ? Flmbkp_Form_Helper::sanitizeInput($_GET['id']) :'';
+        $form_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $form_id = (false === $form_id || null === $form_id) ? 0 : absint($form_id);
         //removing actions
         remove_all_actions('wp_footer');
         remove_all_actions('wp_head');
         
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted internal renderer output.
         echo $this->modules['formbuilder']['frontend']->get_form_iframe($form_id);
         die();
     }
@@ -479,7 +483,14 @@ JS;
      */
     public function get_menu()
     {
-        $current_page = isset($_REQUEST['page']) ? esc_html($_REQUEST['page']) : 'flmbkp_file_manager';
+        $current_page = (string) filter_input(INPUT_GET, 'page', FILTER_UNSAFE_RAW);
+        if ('' === $current_page) {
+            $current_page = (string) filter_input(INPUT_POST, 'page', FILTER_UNSAFE_RAW);
+        }
+        $current_page = sanitize_key($current_page);
+        if ('' === $current_page) {
+            $current_page = 'flmbkp_file_manager';
+        }
                     
         switch ($current_page) {
             case 'flmbkp_file_manager':
